@@ -1,0 +1,21 @@
+#!/bin/bash
+
+
+echo --------- NOW WORKING IN COMPUTE NODE ------------------------
+apt-get install nova-compute sysfsutils -y
+rm -rf /etc/nova/nova.conf
+cp ~/autostack/compute/nova.conf /etc/nova/
+
+
+
+
+egrep -c '(vmx|svm)' /proc/cpuinfo
+service nova-compute restart
+rm -f /var/lib/nova/nova.sqlite
+
+
+reboot
+
+
+
+
