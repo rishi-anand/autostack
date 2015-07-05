@@ -1,0 +1,13 @@
+# Config Variables
+ 
+# Directory and File
+Process_Dir=/var/process/
+Data_Dir=/mnt/
+ 
+# DB User
+DB_Host=localhost
+DB_Name=test
+DB_User=test
+ 
+#EmailIds
+Email_Ids=someone\@example.com

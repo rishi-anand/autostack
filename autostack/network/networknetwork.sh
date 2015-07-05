@@ -1,56 +1,174 @@
 #!/bin/bash
 
+echo ************* INSIDE NETWORK NODE **************
+echo ----******--Welcome to network node--******----
 
-echo -----network configuration of network100---
+linenumber=0
+check=true
+filename=`basename "$0"`
+today=`date +%Y-%m-%d.%H:%M:%S`
 
-
-cp ~/autostack/common/resolv.conf /etc/
-
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y
-apt-get install ubuntu-cloud-keyring
-echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \ "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list
-
-#sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y
-
-apt-get update && apt-get dist-upgrade
+exec 2> >(tee "Error_.$filename._.$today.err")
+exec > >(tee "Log_.$filename._.$today.log")
 
 
-rm -rf  /etc/sysctl.conf
-cp ~/autostack/network/sysctl.conf /etc/
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
 
-sysctl -p
+echo ----- Network Configuration of Network Node ------
+sudo cp ~/autostack/common/resolv.conf /etc/ || check=false
 
-apt-get install neutron-plugin-ml2 neutron-plugin-openvswitch-agent \
-  neutron-l3-agent neutron-dhcp-agent -y
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
 
-rm -rf  /etc/neutron/neutron.conf
-cp ~/autostack/network/neutron.conf /etc/neutron/
-
-rm -rf  /etc/neutron/plugins/ml2/ml2_conf.ini
-cp ~/autostack/network/ml2_conf.ini /etc/neutron/plugins/ml2/
-
-rm -rf /etc/neutron/l3_agent.ini
-cp ~/autostack/network/l3_agent.ini /etc/neutron/
-
-rm -rf /etc/neutron/dhcp_agent.ini
-cp ~/autostack/network/dhcp_agent.ini /etc/neutron/
-
-rm -rf /etc/neutron/dnsmasq-neutron.conf
-cp ~/autostack/network/dnsmasq-neutron.conf /etc/neutron/
-
-pkill dnsmasq
-
-rm -rf /etc/neutron/metadata_agent.ini
-cp ~/autostack/network/metadata_agent.ini /etc/neutron/
-
-echo ------exiting network node--------
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
 
 
+sudo apt-get update || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 2
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
 
 
+sudo apt-get install ubuntu-cloud-keyring || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 3
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+echo ---- adding juno repository -----
+sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \ "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
 
 
+echo -------------------$filename line no : $linenumber------------------------
+#line no 4
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+echo ----- Updating and Upgrading -----
+sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
 
 
+echo -------------------$filename line no : $linenumber------------------------
+#line no 5
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+sudo rm -rf  /etc/sysctl.conf || check=false
+sudo cp ~/autostack/network/sysctl.conf /etc/ || check=false
 
 
+echo -------------------$filename line no : $linenumber------------------------
+#line no 6
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sudo sysctl -p || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 7
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sudo apt-get install neutron-plugin-ml2 neutron-plugin-openvswitch-agent \
+  neutron-l3-agent neutron-dhcp-agent -y || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 8
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+sudo rm -rf  /etc/neutron/neutron.conf || check=false
+sudo cp ~/autostack/network/neutron.conf /etc/neutron/ || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 9
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+sudo rm -rf  /etc/neutron/plugins/ml2/ml2_conf.ini || check=false
+sudo cp ~/autostack/network/ml2_conf.ini /etc/neutron/plugins/ml2/ || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 10
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sudo rm -rf /etc/neutron/l3_agent.ini || check=false
+sudo cp ~/autostack/network/l3_agent.ini /etc/neutron/ || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 11
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sudo rm -rf /etc/neutron/dhcp_agent.ini || check=false
+sudo cp ~/autostack/network/dhcp_agent.ini /etc/neutron/ || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 12
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sudo rm -rf /etc/neutron/dnsmasq-neutron.conf || check=false
+sudo cp ~/autostack/network/dnsmasq-neutron.conf /etc/neutron/ || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 13
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sudo pkill dnsmasq || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 14
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sudo rm -rf /etc/neutron/metadata_agent.ini || check=false
+sudo cp ~/autostack/network/metadata_agent.ini /etc/neutron/ || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 15
+fi
+
+echo *************** RETURNING FROM NETWORK NODE ***************
+
+exit

@@ -3,271 +3,341 @@
 linenumber=0
 check=true
 filename=`basename "$0"`
-today=`date +%Y-%m-%d.%H:%M:%S`
-
-exec 2> >(tee "Error_.$filename._.$today.err")
-exec > >(tee "Log_.$filename._.$today.log")
 
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo rm -rf /etc/resolv.conf || check=false 
+
+
+sudo rm -rf /etc/neutron/neutron.conf || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 70
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sudo cp ~/autostack/controller/neutron.conf /etc/neutron/ || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 71
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sudo rm -rf /etc/neutron/plugins/ml2/ml2_conf.ini || check=false
+
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 72
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+cp ~/autostack/controller/ml2_conf.ini /etc/neutron/plugins/ml2/
+
 echo -------------------$filename line no : $linenumber------------------------
 #line no 1
 fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo cp ~/autostack/common/resolv.conf /etc/ || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 2
-fi
 
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo rm -rf  /etc/hosts || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 3
-fi
 
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo cp ~/autostack/common/hosts /etc/ || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 4
-fi
 
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 5
-fi
+rm -rf /etc/nova/nova.conf
 
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo apt-get install ntp || check=false 
 echo -------------------$filename line no : $linenumber------------------------
-#line no 6
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo rm -rf /etc/ntp.conf || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 7
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo cp ~/autostack/controller/ntp.conf /etc/ || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 8
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo rm -rf  /var/lib/ntp/ntp.conf.dhcp || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 9
+#line no 1
 fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo service ntp restart || check=false 
+cp ~/autostack/controller/network_nova/nova.conf /etc/nova/
+
+
+
 echo -------------------$filename line no : $linenumber------------------------
-#line no 10
+#line no 1
 fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/autostack/network/networkntp.sh" || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 11
-fi
 
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/autostack/compute/computentp.sh" || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 12
-fi
+su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \ --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron
 
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-
-sudo ntpq -c peers || check=false 
 echo -------------------$filename line no : $linenumber------------------------
-#line no 13
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo ntpq -c assoc || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 14
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo ntpq -c peers || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 15
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-echo ntpc -c asoc at Network Node
-#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ntpq -c assoc" || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 16
+#line no 1
 fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo rm -rf /etc/resolv.conf || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 17
-fi
 
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo cp ~/autostack/common/resolv.conf /etc/ || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 18
-fi
 
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo apt-get install ubuntu-cloud-keyring || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 19
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \ "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 20
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 21
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo apt-get install mariadb-server python-mysqldb -y || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 22
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo rm -rf /etc/mysql/my.cnf || check=false 
-echo -------------------$filename line no : $linenumber------------------------
-#line no 23
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo cp ~/autostack/controller/mariadb/my.cnf /etc/mysql/ || check=false
-echo -------------------$filename line no : $linenumber------------------------
-#line no 24
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-#above copy is in controller in /freshcont/my.cnf
-
-sudo service mysql restart || check=false
-echo -------------------$filename line no : $linenumber------------------------
-#line no 25
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-
-sudo apt-get install rabbitmq-server -y || check=false
-echo -------------------$filename line no : $linenumber------------------------
-#line no 26
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-
-sudo rabbitmqctl change_password guest welcome || check=false
-echo -------------------$filename line no : $linenumber------------------------
-#line no 27
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-# welcome is password
-
-echo ------------------------showing status of rabbit mysql------------------
-sudo rabbitmqctl status | grep rabbit || check=false
+service nova-api restart
+service nova-scheduler restart
+service nova-conductor restart
 
 echo -------------------$filename line no : $linenumber------------------------
-#line no 28
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-sudo cp ~/autostack/controller/rabbitmq.config /etc/rabbitmq/ || check=false
-echo -------------------$filename line no : $linenumber------------------------
-#line no 29
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-
-sudo service rabbitmq-server restart || check=false
-echo -------------------$filename line no : $linenumber------------------------
-#line no 30
-fi
-
-if [ "$check" = true ] ; then
-((linenumber=linenumber+1))
-
-echo ==== CREATE DATABASE keystone ====
-echo ==== GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
-  IDENTIFIED BY 'KEYSTONE_DBPASS' ====
-echo ==== GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' \
-  IDENTIFIED BY 'KEYSTONE_DBPASS' ====
-echo ==== exit ====
-mysql -u root -p || check=false
-echo -------------------$filename line no : $linenumber------------------------
-#line no 31
+#line no 1
 fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo apt-get install keystone python-keystoneclient -y || check=false
+service neutron-server restart
+
 echo -------------------$filename line no : $linenumber------------------------
-#line no 32
+#line no 1
 fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-echo ----------- Copy Below Admin Token ----------------------
-openssl rand -hex 10 || check=false
+
+
+cd ~
+
+source admin-openrc.sh
+
 echo -------------------$filename line no : $linenumber------------------------
-#line no 33
+#line no 1
 fi
 
-echo ------ Update ~autostack/controller/keystone.conf, change ADMIN_TOKEN with admin token copied and run 'controllerthird.sh'  -----------------
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
 
 
-exit
+neutron ext-list
+
+
+
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/autostack/network/networknetwork.sh"
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+service nova-api restart
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/autostack/network/networknetworksecond.sh"
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+ source admin-openrc.sh
+
+neutron agent-list
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/autostack/compute/computenetwork.sh"
+
+
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+
+
+
+
+
+source admin-openrc.sh
+
+
+neutron agent-list
+
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+
+
+
+cp ~/autostack/controller/network_nova/nova.conf /etc/nova/
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+echo --------------------------External Network--------------------
+
+source admin-openrc.sh
+
+neutron net-create ext-net --router:external True \
+  --provider:physical_network external --provider:network_type flat
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+neutron subnet-create ext-net --name ext-subnet \
+  --allocation-pool start=192.168.4.210,end=192.168.4.225 \
+  --disable-dhcp --gateway 192.168.4.1 192.168.4.0/24
+
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+source demo-openrc.sh
+
+neutron subnet-create demo-net --name demo-subnet \
+  --gateway 10.25.0.1 10.25.0.0/24
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+neutron router-create demo-router
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+neutron router-interface-add demo-router demo-subnet
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+neutron router-gateway-set demo-router ext-net
+
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+apt-get install openstack-dashboard apache2 libapache2-mod-wsgi memcached python-memcache -y
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+rm -rf /etc/openstack-dashboard/local_settings.py
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+cp ~/autostack/controller/local_settings.py /etc/openstack-dashboard/
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+
+service apache2 restart
+service memcached restart
+
+
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+
+cp ~/autostack/controller/network_nova/nova.conf /etc/nova/
+
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+
+

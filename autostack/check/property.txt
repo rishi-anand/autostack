@@ -1,0 +1,7 @@
+ADMIN: root
+TODO: delete
+
+var=badly_formtatted_line_without_colon
+
+#comment
+FILE: /path/to/file
