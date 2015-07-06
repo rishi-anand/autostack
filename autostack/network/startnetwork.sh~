@@ -75,11 +75,24 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-#sudo rm -rf  /etc/network/interfaces || check=false
-#sudo cp ~/pullstack/autostack/controller/interfaces /etc/network/ || check=false
+sudo rm -rf  /etc/network/interfaces || check=false
+sudo cp ~/pullstack/autostack/controller/interfaces /etc/network/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 7
+fi
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+sudo rm -rf  /etc/hosts || check=false 
+echo -------------------$filename line no : $linenumber------------------------
+#line no 8
+fi
+
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+sudo cp ~/pullstack/autostack/common/hosts /etc/ || check=false 
+echo -------------------$filename line no : $linenumber------------------------
+#line no 9
 fi
 
 if [ "$check" = true ] ; then
@@ -91,7 +104,7 @@ if [ "$check" = true ] ; then
 
 
 echo -------------------$filename line no : $linenumber------------------------
-#line no 1
+#line no 10
 fi
 
 if [ "$check" = true ] ; then
@@ -109,10 +122,10 @@ chmod u+x ~/pullstack/autostack/network/networknetworksecond.sh || echo "Unable 
 chmod u+x ~/pullstack/autostack/compute/networknetwork.sh || echo "Unable to set Permission"
 
 echo -------------------$filename line no : $linenumber------------------------
-#line no 1
+#line no 11
 fi
-echo *************** RETURNING FROM NETWORK NODE ***************
-#reboot
+echo -###################################### REBOOTING NETWORK -######################################
+sudo reboot
 
 
 exit

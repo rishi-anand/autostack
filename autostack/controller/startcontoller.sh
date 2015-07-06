@@ -74,7 +74,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-#sudo rm -rf  /etc/network/interfaces || check=false
+sudo rm -rf  /etc/network/interfaces || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 8
 fi
@@ -83,7 +83,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-#sudo cp ~/pullstack/autostack/controller/interfaces /etc/network/ || check=false
+sudo cp ~/pullstack/autostack/controller/interfaces /etc/network/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 9
 fi
@@ -123,7 +123,7 @@ chmod u+x ~/pullstack/autostack/controller/controllerthird.sh || echo "Unable to
 echo -------------------$filename line no : $linenumber------------------------
 #line no 11
 fi
-
-#reboot
+echo -###################################### REBOOTING CONTROLLER -######################################
+sudo reboot
 
 exit

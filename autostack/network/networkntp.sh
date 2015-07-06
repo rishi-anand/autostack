@@ -14,6 +14,16 @@ exec > >(tee "Log_.$filename._.$today.log")
 
 
 if [ "$check" = true ] ; then
+#((linenumber=linenumber+1))
+
+sudo rm -rf /etc/resolv.conf || check=false
+sudo cp ~/pullstack/autostack/common/resolv.conf /etc/ || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 0
+fi
+
+if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo apt-get update || check=false 

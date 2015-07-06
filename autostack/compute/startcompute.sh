@@ -78,13 +78,25 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-#rm -rf  /etc/network/interfaces || check=false
-#cp ~/pullstack/autostack/controller/interfaces /etc/network/ || check=false
+rm -rf  /etc/network/interfaces || check=false
+cp ~/pullstack/autostack/controller/interfaces /etc/network/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 7
 fi
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+sudo rm -rf  /etc/hosts || check=false 
+echo -------------------$filename line no : $linenumber------------------------
+#line no 8
+fi
 
+if [ "$check" = true ] ; then
+((linenumber=linenumber+1))
+sudo cp ~/pullstack/autostack/common/hosts /etc/ || check=false 
+echo -------------------$filename line no : $linenumber------------------------
+#line no 9
+fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
@@ -93,7 +105,7 @@ if [ "$check" = true ] ; then
 #sudo ifconfig p1p1 up || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
-#line no 8
+#line no 10
 fi
 
 if [ "$check" = true ] ; then
@@ -110,12 +122,11 @@ chmod u+x ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Pe
 chmod u+x ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
 
 echo -------------------$filename line no : $linenumber------------------------
-#line no 9
+#line no 11
 fi
 
+echo -###################################### REBOOTING COMPUTE -######################################
 
-echo *************** RETURNING FROM COMPUTE NODE ***************
-
-#reboot
+sudo reboot
 
 exit
