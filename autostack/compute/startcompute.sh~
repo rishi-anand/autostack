@@ -17,7 +17,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo rm -rf /etc/resolv.conf || check=false
-sudo cp ~/autostack/common/resolv.conf /etc/ || check=false
+sudo cp ~/autostack/autostack/common/resolv.conf /etc/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 1
@@ -79,7 +79,7 @@ if [ "$check" = true ] ; then
 
 
 #rm -rf  /etc/network/interfaces || check=false
-#cp ~/autostack/controller/interfaces /etc/network/ || check=false
+#cp ~/autostack/autostack/controller/interfaces /etc/network/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 7
@@ -99,15 +99,15 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-chown root ~/autostack/compute/computentp.sh || echo "Unable to set Permission"
-chmod 700 ~/autostack/compute/computentp.sh || echo "Unable to set Permission"
-chown root ~/autostack/compute/computenova.sh || echo "Unable to set Permission"
-chmod 700 ~/autostack/compute/computenova.sh || echo "Unable to set Permission"
-chown root ~/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
-chmod 700 ~/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
-chmod u+x ~/autostack/compute/computentp.sh || echo "Unable to set Permission"
-chmod u+x ~/autostack/compute/computenova.sh || echo "Unable to set Permission"
-chmod u+x ~/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
+chown root ~/autostack/autostack/compute/computentp.sh || echo "Unable to set Permission"
+chmod 700 ~/autostack/autostack/compute/computentp.sh || echo "Unable to set Permission"
+chown root ~/autostack/autostack/compute/computenova.sh || echo "Unable to set Permission"
+chmod 700 ~/autostack/autostack/compute/computenova.sh || echo "Unable to set Permission"
+chown root ~/autostack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
+chmod 700 ~/autostack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
+chmod u+x ~/autostack/autostack/compute/computentp.sh || echo "Unable to set Permission"
+chmod u+x ~/autostack/autostack/compute/computenova.sh || echo "Unable to set Permission"
+chmod u+x ~/autostack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 9

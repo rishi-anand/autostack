@@ -7,7 +7,7 @@ apt-get install ntp
 
 rm -rf /etc/ntp.conf
 echo -----------copy----------------------
-cp ~/autostack/network/ntp.conf /etc/
+cp ~/autostack/autostack/network/ntp.conf /etc/
 echo --------------------copy done---------------
 service ntp restart
 

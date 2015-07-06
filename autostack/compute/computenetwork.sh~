@@ -17,7 +17,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo rm -rf /etc/sysctl.conf || check=false
-sudo cp ~/autostack/compute/sysctl.conf /etc/ || check=false
+sudo cp ~/autostack/autostack/compute/sysctl.conf /etc/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 1
 fi
@@ -40,7 +40,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo rm -rf /etc/neutron/neutron.conf || check=false
-sudo cp ~/autostack/compute/neutron.conf /etc/neutron/ || check=false
+sudo cp ~/autostack/autostack/compute/neutron.conf /etc/neutron/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 4
 fi
@@ -48,7 +48,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo rm -rf /etc/neutron/plugins/ml2/ml2_conf.ini || check=false
-sudo cp ~/autostack/compute/ml2_conf.ini /etc/neutron/plugins/ml2/ || check=false
+sudo cp ~/autostack/autostack/compute/ml2_conf.ini /etc/neutron/plugins/ml2/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 5
 fi
@@ -63,7 +63,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo rm -rf /etc/nova/nova.conf || check=false
-sudo cp ~/autostack/compute/computnetwork/nova.conf /etc/nova/ || check=false
+sudo cp ~/autostack/autostack/compute/computnetwork/nova.conf /etc/nova/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 7
 fi

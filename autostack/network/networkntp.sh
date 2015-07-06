@@ -41,7 +41,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 echo -----------copy----------------------
-cp ~/autostack/network/ntp.conf /etc/
+cp ~/autostack/autostack/network/ntp.conf /etc/
 echo --------------------copy done---------------
 
 echo -------------------$filename line no : $linenumber------------------------
