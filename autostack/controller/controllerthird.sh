@@ -631,7 +631,7 @@ if [ "$check" = true ] ; then
 echo -----------------Going to COMPUTE NODE-------------------
 
 
-sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/pullstack/autostack/compute/computenova.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root ./computenova.sh" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 59
@@ -917,7 +917,7 @@ if [ "$check" = true ] ; then
 
 echo ---======---  Installing NETWORK Services - Network Node ---======---
 echo --- Going To Network Node ---
-sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/pullstack/autostack/network/networknetwork.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root ./networknetwork.sh" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 83
@@ -951,7 +951,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/pullstack/autostack/network/networknetworksecond.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root ./networknetworksecond.sh" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 87
@@ -975,7 +975,7 @@ if [ "$check" = true ] ; then
 
 echo ---======---  Installing NETWORK Services - Compute Node ---======---
 echo --- Going To Compute Node ---
-sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/pullstack/autostack/compute/computenetwork.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root ./computenetwork.sh" || check=false
 
 
 

@@ -85,14 +85,14 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/pullstack/autostack/network/networkntp.sh" || check=false 
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root ./networkntp.sh" || check=false 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 11
 fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/pullstack/autostack/compute/computentp.sh" || check=false 
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root ./computentp.sh" || check=false 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 12
 fi
@@ -122,7 +122,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 echo ntpc -c asoc at Network Node
-#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ntpq -c assoc" || check=false 
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ntpq -c assoc" || check=false 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 16
 fi
