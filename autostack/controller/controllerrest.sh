@@ -19,7 +19,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo cp ~/autostack/autostack/controller/neutron.conf /etc/neutron/ || check=false
+sudo cp ~/pullstack/autostack/controller/neutron.conf /etc/neutron/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 73
@@ -39,7 +39,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-sudo cp ~/autostack/autostack/controller/ml2_conf.ini /etc/neutron/plugins/ml2/ || check=false
+sudo cp ~/pullstack/autostack/controller/ml2_conf.ini /etc/neutron/plugins/ml2/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 75
@@ -60,7 +60,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo cp ~/autostack/autostack/controller/network_nova/nova.conf /etc/nova/ || check=false
+sudo cp ~/pullstack/autostack/controller/network_nova/nova.conf /etc/nova/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 77
@@ -124,7 +124,7 @@ if [ "$check" = true ] ; then
 
 echo ---======---  Installing NETWORK Services - Network Node ---======---
 echo --- Going To Network Node ---
-sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/autostack/autostack/network/networknetwork.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/pullstack/autostack/network/networknetwork.sh" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 83
@@ -139,7 +139,7 @@ echo -------------------$filename line no : $linenumber------------------------
 fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo cp ~/autostack/autostack/controller/network_nova/netwotk_network_nova/nova.conf /etc/nova/ || check=false
+sudo cp ~/pullstack/autostack/controller/network_nova/netwotk_network_nova/nova.conf /etc/nova/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 85
 fi
@@ -158,7 +158,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/autostack/autostack/network/networknetworksecond.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/pullstack/autostack/network/networknetworksecond.sh" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 87
@@ -182,7 +182,7 @@ if [ "$check" = true ] ; then
 
 echo ---======---  Installing NETWORK Services - Compute Node ---======---
 echo --- Going To Compute Node ---
-sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/autostack/autostack/compute/computenetwork.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/pullstack/autostack/compute/computenetwork.sh" || check=false
 
 
 
@@ -321,7 +321,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo cp ~/autostack/autostack/controller/local_settings.py /etc/openstack-dashboard/ || check=false
+sudo cp ~/pullstack/autostack/controller/local_settings.py /etc/openstack-dashboard/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 102

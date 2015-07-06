@@ -21,7 +21,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-cp ~/autostack/autostack/common/resolv.conf /etc/ || check=false
+cp ~/pullstack/autostack/common/resolv.conf /etc/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 2
 fi
@@ -83,7 +83,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-#sudo cp ~/autostack/autostack/controller/interfaces /etc/network/ || check=false
+#sudo cp ~/pullstack/autostack/controller/interfaces /etc/network/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 9
 fi
@@ -102,24 +102,24 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-chown root ~/autostack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
-chmod 700 ~/autostack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
 
-chown root ~/autostack/autostack/controller/ || echo "Unable to set Permission"
-chmod 755 ~/autostack/autostack/controller/ || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/controller/ || echo "Unable to set Permission"
+chmod 755 ~/pullstack/autostack/controller/ || echo "Unable to set Permission"
 
-chmod u+x ~/autostack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
 
-chown root ~/autostack/autostack/controller/controllerthird.sh || echo "Unable to set Permission"
-chmod 700 ~/autostack/autostack/controller/controllerthird.sh || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/controller/controllerthird.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/controller/controllerthird.sh || echo "Unable to set Permission"
 
-chmod u+x ~/autostack/autostack/controller/controllerthird.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/controller/controllerthird.sh || echo "Unable to set Permission"
 
-chown root ~/autostack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
-chmod 700 ~/autostack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
 
-chmod u+x ~/autostack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
-chmod u+x ~/autostack/autostack/controller/controllerthird.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/controller/controllersecond.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/controller/controllerthird.sh || echo "Unable to set Permission"
 echo -------------------$filename line no : $linenumber------------------------
 #line no 11
 fi

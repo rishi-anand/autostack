@@ -70,7 +70,7 @@ if [ "$check" = true ] ; then
 
 sudo rm -rf /etc/ntp.conf || check=false
 
-sudo cp ~/autostack/autostack/network/ntp.conf /etc/ || check=false
+sudo cp ~/pullstack/autostack/network/ntp.conf /etc/ || check=false
 echo --------------------copy done---------------
 
 echo -------------------$filename line no : $linenumber------------------------

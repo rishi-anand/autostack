@@ -4,7 +4,7 @@
 echo --------- NOW WORKING IN COMPUTE NODE ------------------------
 apt-get install nova-compute sysfsutils -y
 rm -rf /etc/nova/nova.conf
-cp ~/autostack/autostack/compute/nova.conf /etc/nova/
+cp ~/pullstack/autostack/compute/nova.conf /etc/nova/
 
 
 

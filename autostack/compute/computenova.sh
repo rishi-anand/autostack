@@ -17,7 +17,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo rm -rf /etc/resolv.conf || check=false
-sudo cp ~/autostack/autostack/common/resolv.conf /etc || check=false
+sudo cp ~/pullstack/autostack/common/resolv.conf /etc || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 1
 fi
@@ -65,7 +65,7 @@ if [ "$check" = true ] ; then
 
 
 sudo rm -rf /etc/nova/nova.conf || check=false
-sudo cp ~/autostack/autostack/compute/computenetwork/nova.conf /etc/nova/ || check=false
+sudo cp ~/pullstack/autostack/compute/computenetwork/nova.conf /etc/nova/ || check=false
 
 
 

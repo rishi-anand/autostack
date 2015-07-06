@@ -18,7 +18,7 @@ fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo cp ~/autostack/autostack/common/resolv.conf /etc/ || check=false 
+sudo cp ~/pullstack/autostack/common/resolv.conf /etc/ || check=false 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 2
 fi
@@ -32,7 +32,7 @@ fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo cp ~/autostack/autostack/common/hosts /etc/ || check=false 
+sudo cp ~/pullstack/autostack/common/hosts /etc/ || check=false 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 4
 fi
@@ -60,7 +60,7 @@ fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo cp ~/autostack/autostack/controller/ntp.conf /etc/ || check=false 
+sudo cp ~/pullstack/autostack/controller/ntp.conf /etc/ || check=false 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 8
 fi
@@ -85,14 +85,14 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/autostack/autostack/network/networkntp.sh" || check=false 
+#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/pullstack/autostack/network/networkntp.sh" || check=false 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 11
 fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/autostack/autostack/compute/computentp.sh" || check=false 
+#sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/pullstack/autostack/compute/computentp.sh" || check=false 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 12
 fi
@@ -138,7 +138,7 @@ fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo cp ~/autostack/autostack/common/resolv.conf /etc/ || check=false 
+sudo cp ~/pullstack/autostack/common/resolv.conf /etc/ || check=false 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 18
 fi
@@ -180,7 +180,7 @@ fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo cp ~/autostack/autostack/controller/mariadb/my.cnf /etc/mysql/ || check=false
+sudo cp ~/pullstack/autostack/controller/mariadb/my.cnf /etc/mysql/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 24
 fi
@@ -223,7 +223,7 @@ fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo cp ~/autostack/autostack/controller/rabbitmq.config /etc/rabbitmq/ || check=false
+sudo cp ~/pullstack/autostack/controller/rabbitmq.config /etc/rabbitmq/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 29
 fi

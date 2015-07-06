@@ -16,7 +16,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 echo ----- Network Configuration of Network Node ------
-sudo cp ~/autostack/autostack/common/resolv.conf /etc/ || check=false
+sudo cp ~/pullstack/autostack/common/resolv.conf /etc/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 1
@@ -68,7 +68,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo rm -rf  /etc/sysctl.conf || check=false
-sudo cp ~/autostack/autostack/network/sysctl.conf /etc/ || check=false
+sudo cp ~/pullstack/autostack/network/sysctl.conf /etc/ || check=false
 
 
 echo -------------------$filename line no : $linenumber------------------------
@@ -100,7 +100,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo rm -rf  /etc/neutron/neutron.conf || check=false
-sudo cp ~/autostack/autostack/network/neutron.conf /etc/neutron/ || check=false
+sudo cp ~/pullstack/autostack/network/neutron.conf /etc/neutron/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 9
@@ -109,7 +109,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 sudo rm -rf  /etc/neutron/plugins/ml2/ml2_conf.ini || check=false
-sudo cp ~/autostack/autostack/network/ml2_conf.ini /etc/neutron/plugins/ml2/ || check=false
+sudo cp ~/pullstack/autostack/network/ml2_conf.ini /etc/neutron/plugins/ml2/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 10
@@ -120,7 +120,7 @@ if [ "$check" = true ] ; then
 
 
 sudo rm -rf /etc/neutron/l3_agent.ini || check=false
-sudo cp ~/autostack/autostack/network/l3_agent.ini /etc/neutron/ || check=false
+sudo cp ~/pullstack/autostack/network/l3_agent.ini /etc/neutron/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 11
@@ -131,7 +131,7 @@ if [ "$check" = true ] ; then
 
 
 sudo rm -rf /etc/neutron/dhcp_agent.ini || check=false
-sudo cp ~/autostack/autostack/network/dhcp_agent.ini /etc/neutron/ || check=false
+sudo cp ~/pullstack/autostack/network/dhcp_agent.ini /etc/neutron/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 12
@@ -142,7 +142,7 @@ if [ "$check" = true ] ; then
 
 
 sudo rm -rf /etc/neutron/dnsmasq-neutron.conf || check=false
-sudo cp ~/autostack/autostack/network/dnsmasq-neutron.conf /etc/neutron/ || check=false
+sudo cp ~/pullstack/autostack/network/dnsmasq-neutron.conf /etc/neutron/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 13
@@ -163,7 +163,7 @@ if [ "$check" = true ] ; then
 
 
 sudo rm -rf /etc/neutron/metadata_agent.ini || check=false
-sudo cp ~/autostack/autostack/network/metadata_agent.ini /etc/neutron/ || check=false
+sudo cp ~/pullstack/autostack/network/metadata_agent.ini /etc/neutron/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 15

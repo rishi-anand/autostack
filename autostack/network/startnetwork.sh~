@@ -16,7 +16,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 sudo rm -rf /etc/resolv.conf || check=false
-sudo cp ~/autostack/autostack/common/resolv.conf /etc/ || check=false
+sudo cp ~/pullstack/autostack/common/resolv.conf /etc/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 1
@@ -76,7 +76,7 @@ if [ "$check" = true ] ; then
 
 
 #sudo rm -rf  /etc/network/interfaces || check=false
-#sudo cp ~/autostack/autostack/controller/interfaces /etc/network/ || check=false
+#sudo cp ~/pullstack/autostack/controller/interfaces /etc/network/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 7
@@ -98,15 +98,15 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-chown root ~/autostack/autostack/network/networkntp.sh || echo "Unable to set Permission"
-chmod 700 ~/autostack/autostack/network/networkntp.sh || echo "Unable to set Permission"
-chown root ~/autostack/autostack/network/networknetworksecond.sh || echo "Unable to set Permission"
-chmod 700 ~/autostack/autostack/network/networknetworksecond.sh || echo "Unable to set Permission"
-chown root ~/autostack/autostack/network/networknetwork.sh || echo "Unable to set Permission"
-chmod 700 ~/autostack/autostack/network/networknetwork.sh || echo "Unable to set Permission"
-chmod u+x ~/autostack/autostack/network/networkntp.sh || echo "Unable to set Permission"
-chmod u+x ~/autostack/autostack/network/networknetworksecond.sh || echo "Unable to set Permission"
-chmod u+x ~/autostack/autostack/compute/networknetwork.sh || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/network/networkntp.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/network/networkntp.sh || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/network/networknetworksecond.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/network/networknetworksecond.sh || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/network/networknetwork.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/network/networknetwork.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/network/networkntp.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/network/networknetworksecond.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/compute/networknetwork.sh || echo "Unable to set Permission"
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 1
