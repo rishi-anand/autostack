@@ -11,7 +11,7 @@ exec > >(tee "Log_.$filename._.$today.log")
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo rm -rf /etc/keystone/keystone.conf || check=false
+#sudo rm -rf /etc/keystone/keystone.conf || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 1
 fi
@@ -19,14 +19,14 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-sudo cp ~/pullstack/autostack/controller/keystone.conf /etc/keystone/ || check=false
+#sudo cp ~/pullstack/autostack/controller/keystone.conf /etc/keystone/ || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 2
 fi
 
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
-sudo su -s /bin/sh -c "keystone-manage db_sync" keystone || check=false
+#su -s /bin/sh -c "keystone-manage db_sync" keystone || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 3
 fi
@@ -34,7 +34,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-sudo service keystone restart || check=false
+#sudo service keystone restart || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 4
 fi
@@ -42,7 +42,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-rm -rf /var/lib/keystone/keystone.db || check=false
+#rm -rf /var/lib/keystone/keystone.db || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 5
 fi
@@ -51,9 +51,9 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo (crontab -l -u keystone 2>&1 | grep -q token_flush) || \
-  echo '@hourly /usr/bin/keystone-manage token_flush >/var/log/keystone/keystone-tokenflush.log 2>&1' \
-  >> /var/spool/cron/crontabs/keystone || check=false
+#(crontab -l -u keystone 2>&1 | grep -q token_flush) || \
+ # echo '@hourly /usr/bin/keystone-manage token_flush >/var/log/keystone/keystone-tokenflush.log 2>&1' \
+ # >> /var/spool/cron/crontabs/keystone || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 6
@@ -64,8 +64,8 @@ if [ "$check" = true ] ; then
 
 
 echo --- !!!!!  Enter previously copied ADMIN TOKEN  !!!!! -----
-read ADMIN_TOKEN
-export OS_SERVICE_TOKEN=$ADMIN_TOKEN || check=false
+#read ADMIN_TOKEN
+#export OS_SERVICE_TOKEN=$ADMIN_TOKEN || check=false
 export OS_SERVICE_ENDPOINT=http://controller10:35357/v2.0 || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
@@ -75,7 +75,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-keystone tenant-create --name admin --description "Admin Tenant" || check=false
+#keystone tenant-create --name admin --description "Admin Tenant" || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 8
 fi
@@ -84,11 +84,11 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 echo ---- ??? Enter Admin Password ??? -----
-read ADMIN_PASS
+#read ADMIN_PASS
 echo ---- ??? Enter Admin Email Id ??? -----
 read EMAIL_ADDRESS
 
-keystone user-create --name admin --pass $ADMIN_PASS --email $EMAIL_ADDRESS || check=false
+#keystone user-create --name admin --pass $ADMIN_PASS --email $EMAIL_ADDRESS || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 9
 fi
@@ -96,7 +96,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-keystone role-create --name admin || check=false
+#keystone role-create --name admin || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 10
 fi
@@ -104,7 +104,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-keystone user-role-add --user admin --tenant admin --role admin || check=false
+#keystone user-role-add --user admin --tenant admin --role admin || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 11
 fi
@@ -112,7 +112,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-keystone tenant-create --name demo --description "Demo Tenant" || check=false
+#keystone tenant-create --name demo --description "Demo Tenant" || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 12
 fi
@@ -120,7 +120,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-keystone user-create --name demo --tenant demo --pass $ADMIN_PASS --email $EMAIL_ADDRESS || check=false
+#keystone user-create --name demo --tenant demo --pass $ADMIN_PASS --email $EMAIL_ADDRESS || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 13
 fi
@@ -128,7 +128,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-keystone tenant-create --name service --description "Service Tenant" || check=false
+#keystone tenant-create --name service --description "Service Tenant" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 14
@@ -137,8 +137,8 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-keystone service-create --name keystone --type identity \
-  --description "OpenStack Identity" || check=false
+#keystone service-create --name keystone --type identity \
+ # --description "OpenStack Identity" || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 15
 fi
@@ -146,15 +146,15 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-export OS_SERVICE_TOKEN=$ADMIN_TOKEN
+export OS_SERVICE_TOKEN=98b64ff61c6dd2a31464
 export OS_SERVICE_ENDPOINT=http://controller10:35357/v2.0
 
-keystone endpoint-create \
-  --service-id $(keystone service-list | awk '/ identity / {print $2}') \
-  --publicurl http://controller10:5000/v2.0 \
-  --internalurl http://controller10:5000/v2.0 \ source admin-openrc.sh
-  --adminurl http://controller10:35357/v2.0 \
-  --region regionOne || check=false
+#keystone endpoint-create \
+ # --service-id $(keystone service-list | awk '/ identity / {print $2}') \
+ # --publicurl http://controller10:5000/v2.0 \
+ # --internalurl http://controller10:5000/v2.0 \
+ # --adminurl http://controller10:35357/v2.0 \
+ # --region regionOne
 echo -------------------$filename line no : $linenumber------------------------
 #line no 16
 fi
@@ -186,7 +186,7 @@ keystone --os-tenant-name admin --os-username admin --os-password welcome \
 echo -------------------$filename line no : $linenumber------------------------
 #line no 18
 fi
-
+ADMIN_PASS="welcome"
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
@@ -223,8 +223,9 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-echo ---- If output is [
-You are not authorized to perform the requested action, admin_required. (HTTP 403)]---- it is successful----
+#echo ---- If output is [
+#You are not authorized to perform the requested action, admin_required. (HTTP 403)]---- it is successful----
+
 keystone --os-tenant-name demo --os-username demo --os-password welcome \
   --os-auth-url http://controller10:35357/v2.0 user-list || check=false
 
@@ -274,7 +275,7 @@ if [ "$check" = true ] ; then
 
 
 
-cd ~/ || check=false
+#cd ~/ || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 26
@@ -304,7 +305,8 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-keystone service-create --name glance --type image \ --description "OpenStack Image Service" || check=false
+keystone service-create --name glance --type image \ 
+  --description "OpenStack Image Service" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 30
@@ -319,7 +321,7 @@ keystone endpoint-create \
   --publicurl http://controller10:9292 \
   --internalurl http://controller10:9292 \
   --adminurl http://controller10:9292 \
-  --region regionOne || check=false
+  --region regionOne
 
 
 echo -------------------$filename line no : $linenumber------------------------
@@ -382,7 +384,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo su -s /bin/sh -c "glance-manage db_sync" glance || check=false
+su -s /bin/sh -c "glance-manage db_sync" glance || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 37
@@ -491,7 +493,7 @@ echo ====== GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'localhost' \ IDENTIFIED BY
 echo ====== GRANT ALL PRIVILEGES ON nova.* TO 'nova'@'%' \ IDENTIFIED BY 'NOVA_DBPASS' ======
 echo ====== exit ======
 
-mysql -u root -p  || check=false
+echo ----  mysql -u root -p   ----
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 47
@@ -547,7 +549,7 @@ keystone endpoint-create \
   --publicurl http://controller10:8774/v2/%\(tenant_id\)s \
   --internalurl http://controller10:8774/v2/%\(tenant_id\)s \
   --adminurl http://controller10:8774/v2/%\(tenant_id\)s \
-  --region regionOne || check=false
+  --region regionOne
 
 
 echo -------------------$filename line no : $linenumber------------------------
@@ -591,7 +593,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 echo @@@@@@  Populate the Compute database  @@@@@@
-sudo su -s /bin/sh -c "nova-manage db sync" nova || check=false
+su -s /bin/sh -c "nova-manage db sync" nova || check=false
 
 
 echo -------------------$filename line no : $linenumber------------------------
@@ -745,7 +747,7 @@ keystone endpoint-create \
   --publicurl http://controller10:9696 \
   --adminurl http://controller10:9696 \
   --internalurl http://controller10:9696 \
-  --region regionOne || check=false
+  --region regionOne
 
 
 
@@ -864,7 +866,7 @@ if [ "$check" = true ] ; then
 
 
 
-sudo su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \ --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron || check=false
+su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \ --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 78

@@ -65,8 +65,8 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
-
+#sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
+sudo apt-get update && sudo apt-get dist-upgrade -y
 echo -------------------$filename line no : $linenumber------------------------
 #line no 6
 fi

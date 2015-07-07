@@ -19,6 +19,9 @@ if [ "$check" = true ] ; then
 sudo rm -rf /etc/resolv.conf || check=false
 sudo cp ~/pullstack/autostack/common/resolv.conf /etc/ || check=false
 
+sudo rm -rf /etc/hosts || check=false
+sudo cp ~/pullstack/autostack/common/hosts /etc/ || check=false
+
 echo -------------------$filename line no : $linenumber------------------------
 #line no 1
 fi
@@ -68,8 +71,8 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
-
+#sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
+sudo apt-get update && sudo apt-get dist-upgrade -y
 echo -------------------$filename line no : $linenumber------------------------
 #line no 6
 fi
