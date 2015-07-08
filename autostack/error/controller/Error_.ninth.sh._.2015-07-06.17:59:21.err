@@ -1,0 +1,3 @@
+Unable to create the flat network. Physical network external is in use. (HTTP 409) (Request-ID: req-fb8d05b9-8da2-4c56-bd40-dc1fa59d73fb)
+./ninth.sh: line 64: syntax error near unexpected token `c785a7126f594bdfa22b0082b03318fe'
+./ninth.sh: line 64: `((linenumber=linenumber+1))c785a7126f594bdfa22b0082b03318fe'

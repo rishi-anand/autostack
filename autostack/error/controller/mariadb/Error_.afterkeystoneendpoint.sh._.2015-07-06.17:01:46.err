@@ -1,0 +1,14 @@
+usage: keystone [--version] [--debug] [--os-username <auth-user-name>]
+                [--os-password <auth-password>]
+                [--os-tenant-name <auth-tenant-name>]
+                [--os-tenant-id <tenant-id>] [--os-auth-url <auth-url>]
+                [--os-region-name <region-name>]
+                [--os-identity-api-version <identity-api-version>]
+                [--os-token <service-token>]
+                [--os-endpoint <service-endpoint>] [--os-cache]
+                [--force-new-token] [--stale-duration <seconds>] [--insecure]
+                [--os-cacert <ca-certificate>] [--os-cert <certificate>]
+                [--os-key <key>] [--timeout <seconds>]
+                <subcommand> ...
+keystone: error: unrecognized arguments:  
+./afterkeystoneendpoint.sh: line 315: --description: command not found

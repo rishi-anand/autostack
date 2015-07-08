@@ -1,0 +1,18 @@
+openvswitch-switch stop/waiting
+openvswitch-switch start/running
+-------------------networknetworksecond.sh line no : 1------------------------
+-------------------networknetworksecond.sh line no : 2------------------------
+-------------------networknetworksecond.sh line no : 3------------------------
+neutron-plugin-openvswitch-agent stop/waiting
+neutron-plugin-openvswitch-agent start/running, process 5847
+-------------------networknetworksecond.sh line no : 4------------------------
+neutron-l3-agent stop/waiting
+neutron-l3-agent start/running, process 5869
+-------------------networknetworksecond.sh line no : 5------------------------
+neutron-dhcp-agent stop/waiting
+neutron-dhcp-agent start/running, process 5893
+-------------------networknetworksecond.sh line no : 6------------------------
+neutron-metadata-agent stop/waiting
+neutron-metadata-agent start/running, process 5944
+-------------------networknetworksecond.sh line no : 7------------------------
+dhcp_agent.ini dnsmasq-neutron.conf Error_.networknetworksecond.sh._.2015-07-06.17:39:57.err Error_.networknetwork.sh._.2015-07-06.17:36:44.err Error_.networkntp.sh._.2015-07-06.15:34:03.err Error_.networkntp.sh._.2015-07-06.15:38:10.err interfaces interfaces~ l3_agent.ini Log_.networknetworksecond.sh._.2015-07-06.17:39:57.log Log_.networknetwork.sh._.2015-07-06.17:36:44.log Log_.networkntp.sh._.2015-07-06.15:34:03.log Log_.networkntp.sh._.2015-07-06.15:38:10.log metadata_agent.ini ml2_conf.ini networkconf.zip networknetworksecond.sh networknetworksecond.sh~ networknetwork.sh networknetwork.sh~ networkntp.sh networkntp.sh~ network.sh~ neutron.conf ntp~ ntp.conf ntp.conf~ pullstack startnetwork.sh startnetwork.sh~ start.sh~ sysctl.conf test.sh RETURNING FROM NETWORK NODE dhcp_agent.ini dnsmasq-neutron.conf Error_.networknetworksecond.sh._.2015-07-06.17:39:57.err Error_.networknetwork.sh._.2015-07-06.17:36:44.err Error_.networkntp.sh._.2015-07-06.15:34:03.err Error_.networkntp.sh._.2015-07-06.15:38:10.err interfaces interfaces~ l3_agent.ini Log_.networknetworksecond.sh._.2015-07-06.17:39:57.log Log_.networknetwork.sh._.2015-07-06.17:36:44.log Log_.networkntp.sh._.2015-07-06.15:34:03.log Log_.networkntp.sh._.2015-07-06.15:38:10.log metadata_agent.ini ml2_conf.ini networkconf.zip networknetworksecond.sh networknetworksecond.sh~ networknetwork.sh networknetwork.sh~ networkntp.sh networkntp.sh~ network.sh~ neutron.conf ntp~ ntp.conf ntp.conf~ pullstack startnetwork.sh startnetwork.sh~ start.sh~ sysctl.conf test.sh

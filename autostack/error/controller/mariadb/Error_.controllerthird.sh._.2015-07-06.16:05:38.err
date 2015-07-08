@@ -1,0 +1,2 @@
+./controllerthird.sh: line 54: syntax error near unexpected token `crontab'
+./controllerthird.sh: line 54: `sudo (crontab -l -u keystone 2>&1 | grep -q token_flush) || \'

@@ -1,0 +1,68 @@
+-------------------afterkeystoneendpoint.sh line no : 1------------------------
+-------------------afterkeystoneendpoint.sh line no : 2------------------------
+-------------------afterkeystoneendpoint.sh line no : 3------------------------
+-------------------afterkeystoneendpoint.sh line no : 4------------------------
+-------------------afterkeystoneendpoint.sh line no : 5------------------------
+-------------------afterkeystoneendpoint.sh line no : 6------------------------
+--- !!!!! Enter previously copied ADMIN TOKEN !!!!! -----
+-------------------afterkeystoneendpoint.sh line no : 7------------------------
+-------------------afterkeystoneendpoint.sh line no : 8------------------------
+---- ??? Enter Admin Password ??? -----
+---- ??? Enter Admin Email Id ??? -----
+-------------------afterkeystoneendpoint.sh line no : 9------------------------
+-------------------afterkeystoneendpoint.sh line no : 10------------------------
+-------------------afterkeystoneendpoint.sh line no : 11------------------------
+-------------------afterkeystoneendpoint.sh line no : 12------------------------
+-------------------afterkeystoneendpoint.sh line no : 13------------------------
+-------------------afterkeystoneendpoint.sh line no : 14------------------------
+-------------------afterkeystoneendpoint.sh line no : 15------------------------
+-------------------afterkeystoneendpoint.sh line no : 16------------------------
+------%%%%%%%%%%%%%%%%%%------ Verifying Operation - IDENTITY SERVICE ------%%%%%%%%%%%%%%%%%%------
++-----------+----------------------------------+
+|  Property |              Value               |
++-----------+----------------------------------+
+|  expires  |       2015-07-06T12:06:44Z       |
+|     id    | 8ec7f8536dce41f289ae2d0094260b7c |
+| tenant_id | 9ea1c359d9db46b9a61ec60a0e25c70b |
+|  user_id  | 16682dcac7614d99a3fbb0d18adac2ff |
++-----------+----------------------------------+
+-------------------afterkeystoneendpoint.sh line no : 17------------------------
++----------------------------------+---------+---------+
+|                id                |   name  | enabled |
++----------------------------------+---------+---------+
+| 9ea1c359d9db46b9a61ec60a0e25c70b |  admin  |   True  |
+| 5c2cd0e34ab749e98a8d42bd41cd6598 |   demo  |   True  |
+| c785a7126f594bdfa22b0082b03318fe | service |   True  |
++----------------------------------+---------+---------+
+-------------------afterkeystoneendpoint.sh line no : 18------------------------
++----------------------------------+-------+---------+-----------------+
+|                id                |  name | enabled |      email      |
++----------------------------------+-------+---------+-----------------+
+| 16682dcac7614d99a3fbb0d18adac2ff | admin |   True  | rishi@cliqr.com |
+| 9d73cef6e61e405ca72c6a07a6e6887e |  demo |   True  | rishi@cliqr.com |
++----------------------------------+-------+---------+-----------------+
+-------------------afterkeystoneendpoint.sh line no : 19------------------------
++----------------------------------+----------+
+|                id                |   name   |
++----------------------------------+----------+
+| 9fe2ff9ee4384b1894a90878d3e92bab | _member_ |
+| 6deb23aee7d348a88938eb646812fb2a |  admin   |
++----------------------------------+----------+
+-------------------afterkeystoneendpoint.sh line no : 20------------------------
++-----------+----------------------------------+
+|  Property |              Value               |
++-----------+----------------------------------+
+|  expires  |       2015-07-06T12:06:45Z       |
+|     id    | 3d7d1094b2564f24bffdc9cba08a8891 |
+| tenant_id | 5c2cd0e34ab749e98a8d42bd41cd6598 |
+|  user_id  | 9d73cef6e61e405ca72c6a07a6e6887e |
++-----------+----------------------------------+
+-------------------afterkeystoneendpoint.sh line no : 21------------------------
+-------------------afterkeystoneendpoint.sh line no : 22------------------------
+-------------------afterkeystoneendpoint.sh line no : 23------------------------
+-------------------afterkeystoneendpoint.sh line no : 24------------------------
+---=== Copy These Lines and paste as it is by editing password ===---
+====== CREATE DATABASE glance ======
+====== GRANT ALL PRIVILEGES ON glance.* TO glance@localhost  IDENTIFIED BY GLANCE_DBPASS ======
+====== GRANT ALL PRIVILEGES ON glance.* TO glance@%  IDENTIFIED BY GLANCE_DBPASS======
+====== exit ======

@@ -1,0 +1,7 @@
+-------------------controllerthird.sh line no : 1------------------------
+-------------------controllerthird.sh line no : 2------------------------
+-------------------controllerthird.sh line no : 3------------------------
+keystone stop/waiting
+keystone start/running, process 8200
+-------------------controllerthird.sh line no : 4------------------------
+-------------------controllerthird.sh line no : 5------------------------

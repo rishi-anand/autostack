@@ -1,0 +1,14 @@
+-------------------seventh.sh line no : 78------------------------
+nova-api stop/waiting
+nova-api start/running, process 20879
+nova-scheduler stop/waiting
+nova-scheduler start/running, process 20897
+nova-conductor stop/waiting
+nova-conductor start/running, process 20913
+-------------------seventh.sh line no : 79------------------------
+neutron-server stop/waiting
+neutron-server start/running, process 20929
+-------------------seventh.sh line no : 80------------------------
+------%%%%%%%%%%%%%%%%%%------ Verifying Operation - NETWORK [Controller] SERVICE ------%%%%%%%%%%%%%%%%%%------
+-------------------seventh.sh line no : 81------------------------
+-------------------seventh.sh line no : 82------------------------

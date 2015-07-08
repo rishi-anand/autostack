@@ -1,0 +1,6 @@
+./tenth.sh: line 24: -------------------eight.sh: command not found
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 192.168.4.201. Set the 'ServerName' directive globally to suppress this message
+apache2_invoke: Enable module wsgi
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 192.168.4.201. Set the 'ServerName' directive globally to suppress this message
+apache2_invoke: Enable configuration openstack-dashboard.conf
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 192.168.4.201. Set the 'ServerName' directive globally to suppress this message

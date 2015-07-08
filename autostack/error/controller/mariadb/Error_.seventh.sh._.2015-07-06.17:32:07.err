@@ -1,0 +1,80 @@
+INFO  [alembic.migration] Context impl MySQLImpl.
+INFO  [alembic.migration] Will assume non-transactional DDL.
+INFO  [alembic.migration] Running upgrade None -> havana, havana_initial
+INFO  [alembic.migration] Running upgrade havana -> e197124d4b9, add unique constraint to members
+INFO  [alembic.migration] Running upgrade e197124d4b9 -> 1fcfc149aca4, Add a unique constraint on (agent_type, host) columns to prevent a race
+condition when an agent entry is 'upserted'.
+INFO  [alembic.migration] Running upgrade 1fcfc149aca4 -> 50e86cb2637a, nsx_mappings
+INFO  [alembic.migration] Running upgrade 50e86cb2637a -> 1421183d533f, NSX DHCP/metadata support
+INFO  [alembic.migration] Running upgrade 1421183d533f -> 3d3cb89d84ee, nsx_switch_mappings
+INFO  [alembic.migration] Running upgrade 3d3cb89d84ee -> 4ca36cfc898c, nsx_router_mappings
+INFO  [alembic.migration] Running upgrade 4ca36cfc898c -> 27cc183af192, ml2_vnic_type
+INFO  [alembic.migration] Running upgrade 27cc183af192 -> 50d5ba354c23, ml2 binding:vif_details
+INFO  [alembic.migration] Running upgrade 50d5ba354c23 -> 157a5d299379, ml2 binding:profile
+INFO  [alembic.migration] Running upgrade 157a5d299379 -> 3d2585038b95, VMware NSX rebranding
+INFO  [alembic.migration] Running upgrade 3d2585038b95 -> abc88c33f74f, lb stats
+INFO  [alembic.migration] Running upgrade abc88c33f74f -> 1b2580001654, nsx_sec_group_mapping
+INFO  [alembic.migration] Running upgrade 1b2580001654 -> e766b19a3bb, nuage_initial
+INFO  [alembic.migration] Running upgrade e766b19a3bb -> 2eeaf963a447, floatingip_status
+INFO  [alembic.migration] Running upgrade 2eeaf963a447 -> 492a106273f8, Brocade ML2 Mech. Driver
+INFO  [alembic.migration] Running upgrade 492a106273f8 -> 24c7ea5160d7, Cisco CSR VPNaaS
+INFO  [alembic.migration] Running upgrade 24c7ea5160d7 -> 81c553f3776c, bsn_consistencyhashes
+INFO  [alembic.migration] Running upgrade 81c553f3776c -> 117643811bca, nec: delete old ofc mapping tables
+INFO  [alembic.migration] Running upgrade 117643811bca -> 19180cf98af6, nsx_gw_devices
+INFO  [alembic.migration] Running upgrade 19180cf98af6 -> 33dd0a9fa487, embrane_lbaas_driver
+INFO  [alembic.migration] Running upgrade 33dd0a9fa487 -> 2447ad0e9585, Add IPv6 Subnet properties
+INFO  [alembic.migration] Running upgrade 2447ad0e9585 -> 538732fa21e1, NEC Rename quantum_id to neutron_id
+INFO  [alembic.migration] Running upgrade 538732fa21e1 -> 5ac1c354a051, n1kv segment allocs for cisco n1kv plugin
+INFO  [alembic.migration] Running upgrade 5ac1c354a051 -> icehouse, icehouse
+INFO  [alembic.migration] Running upgrade icehouse -> 54f7549a0e5f, set_not_null_peer_address
+INFO  [alembic.migration] Running upgrade 54f7549a0e5f -> 1e5dd1d09b22, set_not_null_fields_lb_stats
+INFO  [alembic.migration] Running upgrade 1e5dd1d09b22 -> b65aa907aec, set_length_of_protocol_field
+INFO  [alembic.migration] Running upgrade b65aa907aec -> 33c3db036fe4, set_length_of_description_field_metering
+INFO  [alembic.migration] Running upgrade 33c3db036fe4 -> 4eca4a84f08a, Remove ML2 Cisco Credentials DB
+INFO  [alembic.migration] Running upgrade 4eca4a84f08a -> d06e871c0d5, set_admin_state_up_not_null_ml2
+INFO  [alembic.migration] Running upgrade d06e871c0d5 -> 6be312499f9, set_not_null_vlan_id_cisco
+INFO  [alembic.migration] Running upgrade 6be312499f9 -> 1b837a7125a9, Cisco APIC Mechanism Driver
+INFO  [alembic.migration] Running upgrade 1b837a7125a9 -> 10cd28e692e9, nuage_extraroute
+INFO  [alembic.migration] Running upgrade 10cd28e692e9 -> 2db5203cb7a9, nuage_floatingip
+INFO  [alembic.migration] Running upgrade 2db5203cb7a9 -> 5446f2a45467, set_server_default
+INFO  [alembic.migration] Running upgrade 5446f2a45467 -> db_healing, Include all tables and make migrations unconditional.
+INFO  [alembic.migration] Context impl MySQLImpl.
+INFO  [alembic.migration] Will assume non-transactional DDL.
+INFO  [alembic.autogenerate.compare] Detected server default on column 'cisco_ml2_apic_epgs.provider'
+INFO  [alembic.autogenerate.compare] Detected removed index 'cisco_n1kv_vlan_allocations_ibfk_1' on 'cisco_n1kv_vlan_allocations'
+INFO  [alembic.autogenerate.compare] Detected server default on column 'cisco_n1kv_vxlan_allocations.allocated'
+INFO  [alembic.autogenerate.compare] Detected removed index 'cisco_n1kv_vxlan_allocations_ibfk_1' on 'cisco_n1kv_vxlan_allocations'
+INFO  [alembic.autogenerate.compare] Detected removed index 'embrane_pool_port_ibfk_2' on 'embrane_pool_port'
+INFO  [alembic.autogenerate.compare] Detected removed index 'firewall_rules_ibfk_1' on 'firewall_rules'
+INFO  [alembic.autogenerate.compare] Detected removed index 'firewalls_ibfk_1' on 'firewalls'
+INFO  [alembic.autogenerate.compare] Detected server default on column 'meteringlabelrules.excluded'
+INFO  [alembic.autogenerate.compare] Detected server default on column 'ml2_port_bindings.host'
+INFO  [alembic.autogenerate.compare] Detected added column 'nuage_routerroutes_mapping.destination'
+INFO  [alembic.autogenerate.compare] Detected added column 'nuage_routerroutes_mapping.nexthop'
+INFO  [alembic.autogenerate.compare] Detected server default on column 'poolmonitorassociations.status'
+INFO  [alembic.autogenerate.compare] Detected added index 'ix_quotas_tenant_id' on '['tenant_id']'
+INFO  [alembic.autogenerate.compare] Detected NULL on column 'tz_network_bindings.phy_uuid'
+INFO  [alembic.autogenerate.compare] Detected NULL on column 'tz_network_bindings.vlan_id'
+INFO  [neutron.db.migration.alembic_migrations.heal_script] Detected removed foreign key u'nuage_floatingip_pool_mapping_ibfk_2' on table u'nuage_floatingip_pool_mapping'
+INFO  [alembic.migration] Running upgrade db_healing -> 3927f7f7c456, L3 extension distributed mode
+INFO  [alembic.migration] Running upgrade 3927f7f7c456 -> 2026156eab2f, L2 models to support DVR
+INFO  [alembic.migration] Running upgrade 2026156eab2f -> 37f322991f59, removing_mapping_tables
+INFO  [alembic.migration] Running upgrade 37f322991f59 -> 31d7f831a591, add constraint for routerid
+INFO  [alembic.migration] Running upgrade 31d7f831a591 -> 5589aa32bf80, L3 scheduler additions to support DVR
+INFO  [alembic.migration] Running upgrade 5589aa32bf80 -> 884573acbf1c, Drop NSX table in favor of the extra_attributes one
+INFO  [alembic.migration] Running upgrade 884573acbf1c -> 4eba2f05c2f4, correct Vxlan Endpoint primary key
+INFO  [alembic.migration] Running upgrade 4eba2f05c2f4 -> 327ee5fde2c7, set_innodb_engine
+INFO  [alembic.migration] Running upgrade 327ee5fde2c7 -> 3b85b693a95f, Drop unused servicedefinitions and servicetypes tables.
+INFO  [alembic.migration] Running upgrade 3b85b693a95f -> aae5706a396, nuage_provider_networks
+INFO  [alembic.migration] Running upgrade aae5706a396 -> 32f3915891fd, cisco_apic_driver_update
+INFO  [alembic.migration] Running upgrade 32f3915891fd -> 58fe87a01143, cisco_csr_routing
+INFO  [alembic.migration] Running upgrade 58fe87a01143 -> 236b90af57ab, ml2_type_driver_refactor_dynamic_segments
+INFO  [alembic.migration] Running upgrade 236b90af57ab -> 86d6d9776e2b, Cisco APIC Mechanism Driver
+INFO  [alembic.migration] Running upgrade 86d6d9776e2b -> 16a27a58e093, ext_l3_ha_mode
+INFO  [alembic.migration] Running upgrade 16a27a58e093 -> 3c346828361e, metering_label_shared
+INFO  [alembic.migration] Running upgrade 3c346828361e -> 1680e1f0c4dc, Remove Cisco Nexus Monolithic Plugin
+INFO  [alembic.migration] Running upgrade 1680e1f0c4dc -> 544673ac99ab, add router port relationship
+INFO  [alembic.migration] Running upgrade 544673ac99ab -> juno, juno
+Unable to establish connection to http://controller10:9696/v2.0/extensions.json
+./seventh.sh: line 169: syntax error near unexpected token `c785a7126f594bdfa22b0082b03318fe'
+./seventh.sh: line 169: `((linenumber=linenumber+1))c785a7126f594bdfa22b0082b03318fe'

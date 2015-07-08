@@ -1,0 +1,163 @@
+#!/bin/bash
+
+linenumber=0
+check=true
+filename=`basename "$0"`
+today=`date +%Y-%m-%d.%H:%M:%S`
+linecounter=1
+
+. ~/openautostack.properties
+
+exec 2> >(tee "Error_.$filename._.$today.err")
+exec > >(tee "Log_.$filename._.$today.log")
+echo Default answer is 1 
+echo Enter line number you want to start
+read linecounter
+
+if [ "$check" = true ] && [ $linecounter -eq 1 ]; then
+((linenumber=linenumber+1))
+
+if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
+#rm -rf /etc/resolv.conf || check=false
+fi
+echo -------------------$filename line no : $linenumber------------------------
+#line no 1
+fi
+((linecounter=linecounter+1))
+if [ "$check" = true ] && [ $linecounter -eq 2 ]; then
+((linenumber=linenumber+1))
+
+if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
+#cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || check=false
+fi
+echo -------------------$filename line no : $linenumber------------------------
+#line no 2
+fi
+((linecounter=linecounter+1))
+if [ "$check" = true ] && [ $linecounter -eq 3 ]; then
+((linenumber=linenumber+1))
+
+
+sudo apt-get update || check=false
+echo -------------------$filename line no : $linenumber------------------------
+#line no 3
+fi
+((linecounter=linecounter+1))
+if [ "$check" = true ] && [ $linecounter -eq 4 ]; then
+((linenumber=linenumber+1))
+
+echo -------- installing openssh server ----------
+sudo apt-get install openssh-server -y || check=false
+echo -------- installing ssh-pass -----------
+sudo apt-get install sshpass -y || check=false
+echo -------------------$filename line no : $linenumber------------------------
+#line no 4
+fi
+((linecounter=linecounter+1))
+if [ "$check" = true ] && [ $linecounter -eq 5 ]; then
+((linenumber=linenumber+1))
+
+
+sudo apt-get install ubuntu-cloud-keyring || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 5
+fi
+((linecounter=linecounter+1))
+if [ "$check" = true ] && [ $linecounter -eq 6 ]; then
+((linenumber=linenumber+1))
+
+sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
+  "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
+echo -------------------$filename line no : $linenumber------------------------
+#line no 6
+fi
+((linecounter=linecounter+1))
+if [ "$check" = true ] && [ $linecounter -eq 7 ]; then
+((linenumber=linenumber+1))
+sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
+sudo apt-get install mariadb-server python-mysqldb -y || check=false
+echo -------------------$filename line no : $linenumber------------------------
+#line no 7
+fi
+((linecounter=linecounter+1))
+
+
+
+if [ "$check" = true ] && [ $linecounter -eq 8 ]; then
+((linenumber=linenumber+1))
+echo -------------- REPLACING ALL PARAMETERS -----------------------------------------------------------------
+( exec "./replacecontroller.sh" )
+echo -------------------$filename line no : $linenumber------------------------
+#line no 8
+fi
+((linecounter=linecounter+1))
+
+
+if [ "$check" = true ] && [ $linecounter -eq 9 ]; then
+((linenumber=linenumber+1))
+
+if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
+sudo rm -rf  /etc/network/interfaces || check=false
+else 
+echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
+fi
+echo -------------------$filename line no : $linenumber------------------------
+#line no 9
+fi
+((linecounter=linecounter+1))
+if [ "$check" = true ] && [ $linecounter -eq 10 ]; then
+((linenumber=linenumber+1))
+
+if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
+sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=false
+else 
+echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
+fi
+
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 10
+fi
+((linecounter=linecounter+1))
+if [ "$check" = true ] && [ $linecounter -eq 11 ]; then
+((linenumber=linenumber+1))
+
+
+
+#sudo ifconfig p1p2 up || check=false
+#sudo ifconfig p1p1 up || check=false
+
+echo -------------------$filename line no : $linenumber------------------------
+#line no 11
+fi
+((linecounter=linecounter+1))
+if [ "$check" = true ] && [ $linecounter -eq 12 ]; then
+((linenumber=linenumber+1))
+
+
+#chown root ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
+
+#chown root ~/pullstack/autostack/conf/controller/ || echo "Unable to set Permission"
+chmod 755 ~/pullstack/autostack/conf/controller/ || echo "Unable to set Permission"
+
+chmod u+x ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
+
+#chown root ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
+
+chmod u+x ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
+
+#chown root ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
+
+chmod u+x ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
+echo -------------------$filename line no : $linenumber------------------------
+#line no 12
+fi
+echo -###################################### REBOOTING CONTROLLER -######################################
+sudo reboot
+
+exit

@@ -17,23 +17,30 @@ today=`date +%Y-%m-%d.%H:%M:%S`
 #chmod 660 *.gz 2>>$mylog
 #exec > >(tee "somefile.$today.log")
 
+#. ~/open/autostack.properties
 
-exec 2> >(tee "somefile.$today.err")
-exec > >(tee "somefile.$today.log")
+#exec 2> >(tee "somefile.$today.err")
+#exec > >(tee "somefile.$today.log")
 
-
+count=100
 linenumber=0
 check=true
 filename=`basename "$0"`
+#echo $KEYSTONE_DBPASS
 
+
+#Calling one shell script from another script
+( exec "./test.sh" )
 echo --- Press[y/n] to continue- or n to skip------
-read next
-if [ "$next" = "y" ] ; then
-if [ "$check" = true ] ; then
+#read next
+if [ "$next" = "y" ]; then
+if [ "$check" = true ] && [ $count -eq 100 ] ; then
 ((linenumber=linenumber+1))
-
-apt-get update || check=false
-
+if [ -s ~/autostack/check/checkif.sh ]; then
+sudo mkdir /rishiislive || check=false
+fi
+cd || check=false
+#apt-get update || check=false
 echo -------------------$filename line no : $linenumber------------------------
 fi
 #while true; do sleep 0.25 && echo -ne "\rActivity: \\" && sleep 0.25 && echo -ne "\rActivity: |" && sleep 0.25 && echo -ne "\rActivity: /" && sleep 0.25 && echo -ne "\rActivity: -"; done;

@@ -1,0 +1,67 @@
+Traceback (most recent call last):
+  File "/usr/bin/neutron-db-manage", line 10, in <module>
+    sys.exit(main())
+  File "/usr/lib/python2.7/dist-packages/neutron/db/migration/cli.py", line 173, in main
+    CONF.command.func(config, CONF.command.name)
+  File "/usr/lib/python2.7/dist-packages/neutron/db/migration/cli.py", line 83, in do_upgrade_downgrade
+    do_alembic_command(config, cmd, revision, sql=CONF.command.sql)
+  File "/usr/lib/python2.7/dist-packages/neutron/db/migration/cli.py", line 61, in do_alembic_command
+    getattr(alembic_command, cmd)(config, *args, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/alembic/command.py", line 125, in upgrade
+    script.run_env()
+  File "/usr/lib/python2.7/dist-packages/alembic/script.py", line 203, in run_env
+    util.load_python_file(self.dir, 'env.py')
+  File "/usr/lib/python2.7/dist-packages/alembic/util.py", line 212, in load_python_file
+    module = load_module_py(module_id, path)
+  File "/usr/lib/python2.7/dist-packages/alembic/compat.py", line 58, in load_module_py
+    mod = imp.load_source(module_id, path, fp)
+  File "/usr/lib/python2.7/dist-packages/neutron/db/migration/alembic_migrations/env.py", line 108, in <module>
+    run_migrations_online()
+  File "/usr/lib/python2.7/dist-packages/neutron/db/migration/alembic_migrations/env.py", line 90, in run_migrations_online
+    engine = session.create_engine(neutron_config.database.connection)
+  File "/usr/lib/python2.7/dist-packages/oslo/db/sqlalchemy/session.py", line 386, in create_engine
+    connection_trace=connection_trace
+  File "/usr/lib/python2.7/dist-packages/oslo/db/sqlalchemy/utils.py", line 890, in __call__
+    self._url_from_target(target), target, arg, kw)
+  File "/usr/lib/python2.7/dist-packages/oslo/db/sqlalchemy/utils.py", line 927, in _dispatch_on
+    return self._dispatch_on_db_driver(dbname, driver, arg, kw)
+  File "/usr/lib/python2.7/dist-packages/oslo/db/sqlalchemy/utils.py", line 981, in _dispatch_on_db_driver
+    if self._invoke_fn(fn, arg, kw) is not None:
+  File "/usr/lib/python2.7/dist-packages/oslo/db/sqlalchemy/utils.py", line 930, in _invoke_fn
+    return fn(*arg, **kw)
+  File "/usr/lib/python2.7/dist-packages/oslo/db/sqlalchemy/session.py", line 456, in _init_events
+    realmode = engine.execute("SHOW VARIABLES LIKE 'sql_mode'").fetchone()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1751, in execute
+    connection = self.contextual_connect(close_with_result=True)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/base.py", line 1799, in contextual_connect
+    self.pool.connect(),
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/pool.py", line 338, in connect
+    return _ConnectionFairy._checkout(self)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/pool.py", line 641, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/pool.py", line 440, in checkout
+    rec = pool._do_get()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/pool.py", line 961, in _do_get
+    return self._create_connection()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/pool.py", line 285, in _create_connection
+    return _ConnectionRecord(self)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/pool.py", line 411, in __init__
+    self.connection = self.__connect()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/pool.py", line 537, in __connect
+    connection = self.__pool._creator()
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/strategies.py", line 96, in connect
+    connection_invalidated=invalidated
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/util/compat.py", line 199, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/strategies.py", line 90, in connect
+    return dialect.connect(*cargs, **cparams)
+  File "/usr/lib/python2.7/dist-packages/sqlalchemy/engine/default.py", line 377, in connect
+    return self.dbapi.connect(*cargs, **cparams)
+  File "/usr/lib/python2.7/dist-packages/MySQLdb/__init__.py", line 81, in Connect
+    return Connection(*args, **kwargs)
+  File "/usr/lib/python2.7/dist-packages/MySQLdb/connections.py", line 187, in __init__
+    super(Connection, self).__init__(*args, **kwargs2)
+sqlalchemy.exc.OperationalError: (OperationalError) (1045, "Access denied for user 'neutron'@'controller10' (using password: YES)") None None
+Unable to establish connection to http://controller10:9696/v2.0/extensions.json
+./seventh.sh: line 169: syntax error near unexpected token `c785a7126f594bdfa22b0082b03318fe'
+./seventh.sh: line 169: `((linenumber=linenumber+1))c785a7126f594bdfa22b0082b03318fe'
