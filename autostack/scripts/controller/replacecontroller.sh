@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. ~/open/autostack.properties
+. autostack.properties
 
 filename=`basename "$0"`
 today=`date +%Y-%m-%d.%H:%M:%S`

@@ -180,68 +180,43 @@ fi
 
 if [ "$check" = true ] && [ $controllerone -eq 9 ]; then
 
+chmod 700 ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
 
-if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
-sudo rm -rf  /etc/network/interfaces || check=false
-else 
-echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
-fi
+#chown root ~/pullstack/autostack/conf/controller/ || echo "Unable to set Permission"
+chmod 755 ~/pullstack/autostack/conf/controller/ || echo "Unable to set Permission"
+
+chmod u+x ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
+
+#chown root ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
+
+chmod u+x ~~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
+
+#chown root ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
+
+chmod u+x ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
+
 echo -------------------$filename line no : $controllerone------------------------
 #line no 9
 ((controllerone=controllerone+1))
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 10 ]; then
+       if [ -s ~/pullstack/autostack/conf/controller/conf/interfaces ]; then
+       sudo rm -rf  /etc/network/interfaces || check=false
+       sudo cp ~/pullstack/autostack/conf/controller/conf/interfaces /etc/network/ || check=false
 
-
-if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
-sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=false
-else 
-echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
-fi
+       echo -###################################### REBOOTING CONTROLLER -######################################
+       sudo reboot
+       else 
+       echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
+       fi
 echo -------------------$filename line no : $controllerone------------------------
 #line no 10
 ((controllerone=controllerone+1))
 fi
-
-if [ "$check" = true ] && [ $controllerone -eq 11 ]; then
-#sudo ifconfig p1p2 up || check=false
-#sudo ifconfig p1p1 up || check=false
-echo -------------------$filename line no : $controllerone------------------------
-#line no 11
-((controllerone=controllerone+1))
-fi
-
-if [ "$check" = true ] && [ $controllerone -eq 12 ]; then
-
-
-
-#chown root ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
-
-#chown root ~/pullstack/autostack/conf/controller/ || echo "Unable to set Permission"
-chmod 755 ~/pullstack/autostack/conf/controller/ || echo "Unable to set Permission"
-
-chmod u+x ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
-
-#chown root ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
-
-chmod u+x ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
-
-#chown root ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
-
-chmod u+x ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
-chmod u+x ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
-echo -------------------$filename line no : $controllerone------------------------
-#line no 12
-((controllerone=controllerone+1))
-sudo reboot
-fi
-echo -###################################### REBOOTING CONTROLLER -######################################
-
-
 
 fi
 
