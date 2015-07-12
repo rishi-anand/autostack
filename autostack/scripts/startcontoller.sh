@@ -2,7 +2,7 @@
 
 . ~/pullstack/autostack/linecounterfiles/controller.properties
 
-. ~/open/autostack.properties
+. autostack.properties
 
 check=true
 filename=`basename "$0"`
@@ -101,6 +101,7 @@ if [ "$check" = true ] && [ $controllerone -eq 1 ]; then
         fi
 echo -------------------$filename line no : $controllerone------------------------
 #line no 1
+((controllerone=controllerone+1))
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 2 ]; then
@@ -110,6 +111,7 @@ if [ "$check" = true ] && [ $controllerone -eq 2 ]; then
        fi
 echo -------------------$filename line no : $controllerone------------------------
 #line no 2
+((controllerone=controllerone+1))
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 3 ]; then
@@ -119,6 +121,7 @@ if [ "$check" = true ] && [ $controllerone -eq 3 ]; then
 sudo apt-get update || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 3
+((controllerone=controllerone+1))
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 4 ]; then
@@ -130,6 +133,7 @@ echo -------- installing ssh-pass -----------
 sudo apt-get install sshpass -y || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 4
+((controllerone=controllerone+1))
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 5 ]; then
@@ -140,6 +144,7 @@ sudo apt-get install ubuntu-cloud-keyring || check=false
 
 echo -------------------$filename line no : $controllerone------------------------
 #line no 5
+((controllerone=controllerone+1))
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 6 ]; then
@@ -149,6 +154,7 @@ sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
   "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 6
+((controllerone=controllerone+1))
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 7 ]; then
@@ -157,6 +163,7 @@ sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade
 sudo apt-get install mariadb-server python-mysqldb -y || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 7
+((controllerone=controllerone+1))
 fi
 
 
@@ -166,6 +173,7 @@ echo -------------- REPLACING ALL PARAMETERS -----------------------------------
 ( exec "./replacecontroller.sh" )
 echo -------------------$filename line no : $controllerone------------------------
 #line no 8
+((controllerone=controllerone+1))
 fi
 
 
@@ -180,6 +188,7 @@ echo --- Network Interfaces was not found at pullstack repository, Leaving it un
 fi
 echo -------------------$filename line no : $controllerone------------------------
 #line no 9
+((controllerone=controllerone+1))
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 10 ]; then
@@ -190,24 +199,19 @@ sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=
 else 
 echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
 fi
-
-
 echo -------------------$filename line no : $controllerone------------------------
 #line no 10
+((controllerone=controllerone+1))
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 11 ]; then
-
-
-
-
 #sudo ifconfig p1p2 up || check=false
 #sudo ifconfig p1p1 up || check=false
-
 echo -------------------$filename line no : $controllerone------------------------
 #line no 11
-fi
 ((controllerone=controllerone+1))
+fi
+
 if [ "$check" = true ] && [ $controllerone -eq 12 ]; then
 
 
@@ -232,9 +236,11 @@ chmod u+x ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Una
 chmod u+x ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
 echo -------------------$filename line no : $controllerone------------------------
 #line no 12
+((controllerone=controllerone+1))
+sudo reboot
 fi
 echo -###################################### REBOOTING CONTROLLER -######################################
-sudo reboot
+
 
 
 fi
