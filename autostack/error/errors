@@ -1,7 +1,0 @@
-/compute/computnetwork/nova.conf
-/compute/sysctl.conf’
-
-
-
-keystone --os-tenant-name admin --os-username admin --os-password welcome \
-  --os-auth-url http://controller10:35357/v2.0 token-get

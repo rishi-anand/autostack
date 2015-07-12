@@ -1,9 +1,0 @@
-debconf: unable to initialize frontend: Dialog
-debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)
-debconf: falling back to frontend: Readline
-debconf: unable to initialize frontend: Readline
-debconf: (This frontend requires a controlling tty.)
-debconf: falling back to frontend: Teletype
-dpkg-preconfigure: unable to re-open stdin: 
-dpkg-statoverride: warning: --update given but /var/run/radvd does not exist
-update-rc.d: warning: default stop runlevel arguments (0 1 6) do not match keepalived Default-Stop values (1)

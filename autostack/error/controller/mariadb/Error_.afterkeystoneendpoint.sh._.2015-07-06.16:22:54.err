@@ -1,2 +1,0 @@
-./afterkeystoneendpoint.sh: line 227: syntax error near unexpected token `('
-./afterkeystoneendpoint.sh: line 227: `You are not authorized to perform the requested action, admin_required. (HTTP 403)]---- it is successful----'

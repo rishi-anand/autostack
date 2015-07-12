@@ -1,2 +1,0 @@
-./tenth.sh: line 15: syntax error near unexpected token `c785a7126f594bdfa22b0082b03318fe'
-./tenth.sh: line 15: `((linenumber=linenumber+1))c785a7126f594bdfa22b0082b03318fe'

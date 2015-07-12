@@ -1,8 +1,0 @@
-usage: neutron-db-manage [-h] [--config-dir DIR] [--config-file PATH]
-                         [--core_plugin CORE_PLUGIN]
-                         [--service_plugins SERVICE_PLUGINS] [--version]
-                         [--database-connection DATABASE_CONNECTION]
-                         [--database-engine DATABASE_ENGINE]
-                         {current,history,branches,check_migration,upgrade,downgrade,stamp,revision}
-                         ...
-neutron-db-manage: error: argument command: invalid choice: ' --config-file' (choose from 'current', 'history', 'branches', 'check_migration', 'upgrade', 'downgrade', 'stamp', 'revision')

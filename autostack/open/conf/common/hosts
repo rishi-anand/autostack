@@ -1,6 +1,0 @@
-# controller
-172.16.5.1       controller
-# network
-172.16.5.2       compute1
-# compute1
-172.16.5.3       network1

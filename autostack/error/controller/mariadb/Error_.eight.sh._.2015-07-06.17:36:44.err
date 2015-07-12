@@ -1,2 +1,0 @@
-./eight.sh: line 117: syntax error near unexpected token `c785a7126f594bdfa22b0082b03318fe'
-./eight.sh: line 117: `((linenumber=linenumber+1))c785a7126f594bdfa22b0082b03318fe'

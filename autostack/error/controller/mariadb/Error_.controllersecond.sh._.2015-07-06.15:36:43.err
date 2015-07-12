@@ -1,12 +1,0 @@
-sudo: unable to resolve host controller10
-Warning: Permanently added '192.168.4.204' (ECDSA) to the list of known hosts.
- * Stopping MariaDB database server mysqld
-   ...done.
-chown: cannot access ‘/var/run/mysqld’: No such file or directory
-150706 15:40:54 [Note] /usr/sbin/mysqld (mysqld 5.5.44-MariaDB-1ubuntu0.14.04.1) starting as process 3578 ...
- * Starting MariaDB database server mysqld
-   ...done.
- * Checking for corrupt, not cleanly closed and upgrade needing tables.
-ERROR 2002 (HY000): Can't connect to local MySQL server through socket '/var/run/mysqld/mysqld.sock' (2)
-Extracting templates from packages: 96%Extracting templates from packages: 100%
-cp: cannot stat ‘/root/pullstack/autostack/controller/rabbitmq.config’: No such file or directory
