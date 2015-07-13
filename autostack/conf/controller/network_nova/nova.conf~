@@ -11,10 +11,9 @@ ec2_private_dns_show_ip=True
 api_paste_config=/etc/nova/api-paste.ini
 enabled_apis=ec2,osapi_compute,metadata
 
-
 rpc_backend = rabbit
 rabbit_host = CONTROLLER_NODE_HOSTNAME
-rabbit_password = welcome
+rabbit_password = RABBIT_PASS
 
 auth_strategy = keystone
 
@@ -24,25 +23,26 @@ vncserver_listen = CONTROLLER_NODE_PUBLIC_IP
 vncserver_proxyclient_address = CONTROLLER_NODE_PUBLIC_IP
 
 
-
-
 network_api_class = nova.network.neutronv2.api.API
 security_group_api = neutron
 linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 
+
+
+
 [database]
 
 connection = mysql://nova:welcome@CONTROLLER_NODE_HOSTNAME/nova
 
-
 [keystone_authtoken]
+
 auth_uri = http://CONTROLLER_NODE_HOSTNAME:5000/v2.0
 identity_uri = http://CONTROLLER_NODE_HOSTNAME:35357
 admin_tenant_name = service
 admin_user = nova
-admin_password = welcome
+admin_password = NOVA_PASS
 
 
 [glance]
@@ -50,13 +50,13 @@ admin_password = welcome
 host = CONTROLLER_NODE_HOSTNAME
 
 
-
 [neutron]
+
 url = http://CONTROLLER_NODE_HOSTNAME:9696
 auth_strategy = keystone
 admin_auth_url = http://CONTROLLER_NODE_HOSTNAME:35357/v2.0
 admin_tenant_name = service
-admin_username = neutron
+admin_username = NEUTRON_PASS
 admin_password = welcome
 
 
