@@ -7,7 +7,7 @@
 check=true
 filename=`basename "$0"`
 today=`date +%Y-%m-%d.%H:%M:%S`
-
+controllerfirst=1
 
 exec 2> >(tee "Error_.$filename._.$today.err")
 exec > >(tee "Log_.$filename._.$today.log")
