@@ -205,7 +205,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-sudo rabbitmqctl change_password guest welcome || check=false
+sudo rabbitmqctl change_password RABBIT_PASS welcome || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 27
 fi

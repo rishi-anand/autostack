@@ -13,15 +13,15 @@ enabled_apis=ec2,osapi_compute,metadata
 
 
 rpc_backend = rabbit
-rabbit_host = controller10
+rabbit_host = CONTROLLER_NODE_HOSTNAME
 rabbit_password = welcome
 
 auth_strategy = keystone
 
-my_ip = 192.168.4.201
+my_ip = CONTROLLER_NODE_PUBLIC_IP
 
-vncserver_listen = 192.168.4.201
-vncserver_proxyclient_address = 192.168.4.201
+vncserver_listen = CONTROLLER_NODE_PUBLIC_IP
+vncserver_proxyclient_address = CONTROLLER_NODE_PUBLIC_IP
 
 
 
@@ -34,12 +34,12 @@ firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 [database]
 
-connection = mysql://nova:welcome@controller10/nova
+connection = mysql://nova:welcome@CONTROLLER_NODE_HOSTNAME/nova
 
 
 [keystone_authtoken]
-auth_uri = http://controller10:5000/v2.0
-identity_uri = http://controller10:35357
+auth_uri = http://CONTROLLER_NODE_HOSTNAME:5000/v2.0
+identity_uri = http://CONTROLLER_NODE_HOSTNAME:35357
 admin_tenant_name = service
 admin_user = nova
 admin_password = welcome
@@ -47,5 +47,5 @@ admin_password = welcome
 
 [glance]
 
-host = controller10
+host = CONTROLLER_NODE_HOSTNAME
 

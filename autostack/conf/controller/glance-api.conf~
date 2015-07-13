@@ -220,8 +220,8 @@ registry_client_protocol = http
 rabbit_host = localhost
 rabbit_port = 5672
 rabbit_use_ssl = false
-rabbit_userid = guest
-rabbit_password = guest
+rabbit_userid = RABBIT_PASS
+rabbit_password = RABBIT_PASS
 rabbit_virtual_host = /
 rabbit_notification_exchange = glance
 rabbit_notification_topic = notifications
@@ -287,7 +287,7 @@ image_cache_dir = /var/lib/glance/image-cache/
 [database]
 # The file name to use with SQLite (string value)
 sqlite_db = /var/lib/glance/glance.sqlite
-connection = mysql://glance:welcome@controller10/glance
+connection = mysql://glance:welcome@CONTROLLER_NODE_HOSTNAME/glance
 # If True, SQLite uses synchronous mode (boolean value)
 #sqlite_synchronous = True
 
@@ -388,8 +388,8 @@ backend = sqlalchemy
 
 
 
-auth_uri = http://controller10:5000/v2.0
-identity_uri = http://controller10:35357
+auth_uri = http://CONTROLLER_NODE_HOSTNAME:5000/v2.0
+identity_uri = http://CONTROLLER_NODE_HOSTNAME:35357
 admin_tenant_name = service
 admin_user = glance
 admin_password = welcome

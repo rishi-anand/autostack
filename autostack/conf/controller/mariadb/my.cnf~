@@ -33,7 +33,7 @@ nice		= 0
 # * Basic Settings
 #
 
-bind-address = 192.168.4.201
+bind-address = CONTROLLER_NODE_PUBLIC_IP
 
 
 

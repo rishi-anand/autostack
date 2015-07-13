@@ -13,7 +13,7 @@ TEMPLATE_DEBUG = DEBUG
 # For more information see:
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 #ALLOWED_HOSTS = ['horizon.example.com', ]
-
+OPENSTACK_HOST = "CONTROLLER_NODE_HOSTNAME"
 # Set SSL proxy settings:
 # For Django 1.4+ pass this header from the proxy after terminating the SSL,
 # and don't forget to strip it from the client's request.
@@ -100,13 +100,18 @@ SECRET_KEY = secret_key.generate_or_read_from_file('/var/lib/openstack-dashboard
 # We recommend you use memcached for development; otherwise after every reload
 # of the django development server, you will have to login again. To use
 # memcached set CACHES to something like
+#CACHES = {
+#   'default': {
+#       'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#       'LOCATION': '127.0.0.1:11211',
+#   }
+#}
 CACHES = {
-   'default': {
-       'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-       'LOCATION': '127.0.0.1:11211',
-   }
+'default': {
+'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+'LOCATION': '127.0.0.1:11211',
 }
-
+}
 #CACHES = {
 #    'default': {
 #        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
@@ -130,7 +135,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #     ('http://cluster2.example.com:5000/v2.0', 'cluster2'),
 # ]
 
-OPENSTACK_HOST = controller10
+OPENSTACK_HOST = "127.0.0.1"
 OPENSTACK_KEYSTONE_URL = "http://%s:5000/v2.0" % OPENSTACK_HOST
 OPENSTACK_KEYSTONE_DEFAULT_ROLE = "_member_"
 
@@ -554,7 +559,7 @@ LOGIN_REDIRECT_URL='/horizon'
 # By default, validation of the HTTP Host header is disabled.  Production
 # installations should have this set accordingly.  For more information
 # see https://docs.djangoproject.com/en/dev/ref/settings/.
+#ALLOWED_HOSTS = '*'
 ALLOWED_HOSTS = ['*']
-
 # Compress all assets offline as part of packaging installation
 COMPRESS_OFFLINE = True

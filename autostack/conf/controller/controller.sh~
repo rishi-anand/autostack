@@ -7,13 +7,13 @@ cp ~/autostack/common/hosts /etc/
 
 sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y
 #in=192.168.4.202
-#un= network100
+#un= NETWORK_NODE_HOSTNAME
 #pn=welcome
 #icp=192.168.4.204
-#ucp=compute100
+#ucp=COMPUTE_NODE_HOSTNAME
 #pcp=welcome
-#ic=192.168.4.201
-#uc=controller10
+#ic=CONTROLLER_NODE_PUBLIC_IP
+#uc=CONTROLLER_NODE_HOSTNAME
 #pc=welcome
 apt-get install ntp
 rm -rf /etc/ntp.conf
@@ -46,7 +46,7 @@ service mysql restart
 
 apt-get install rabbitmq-server -y
 
-rabbitmqctl change_password guest welcome
+rabbitmqctl change_password RABBIT_PASS welcome
 # welcome is password
 
 echo ------------------------showing status of rabbit mysql------------------

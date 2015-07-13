@@ -19,7 +19,7 @@ line_counter_increment () {
    sed "s/controllerone=.*/controllerone=$count/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
    
-   ((controllerone=controllerone+1))
+   
    return $controllerone
 }
 
@@ -96,7 +96,7 @@ if [ "$choice" = "y" ]; then
 
 if [ "$check" = true ] && [ $controllerone -eq 1 ]; then
         if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
-        #rm -rf /etc/resolv.conf || check=false
+        #sudo rm -rf /etc/resolv.conf || (check=false && line_counter_increment 1 )
         pwd
         fi
 echo -------------------$filename line no : $controllerone------------------------
@@ -106,7 +106,7 @@ fi
 
 if [ "$check" = true ] && [ $controllerone -eq 2 ]; then
        if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
-       #cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || check=false
+       #sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || (check=false && line_counter_increment 2 )
        pwd
        fi
 echo -------------------$filename line no : $controllerone------------------------
@@ -118,7 +118,7 @@ if [ "$check" = true ] && [ $controllerone -eq 3 ]; then
 
 
 
-sudo apt-get update || check=false
+sudo apt-get update || (check=false && line_counter_increment 3 )
 echo -------------------$filename line no : $controllerone------------------------
 #line no 3
 ((controllerone=controllerone+1))
@@ -128,9 +128,9 @@ if [ "$check" = true ] && [ $controllerone -eq 4 ]; then
 
 
 echo -------- installing openssh server ----------
-sudo apt-get install openssh-server -y || check=false
+sudo apt-get install openssh-server -y || (check=false && line_counter_increment 4 )
 echo -------- installing ssh-pass -----------
-sudo apt-get install sshpass -y || check=false
+sudo apt-get install sshpass -y || (check=false && line_counter_increment 4 )
 echo -------------------$filename line no : $controllerone------------------------
 #line no 4
 ((controllerone=controllerone+1))
@@ -140,7 +140,7 @@ if [ "$check" = true ] && [ $controllerone -eq 5 ]; then
 
 
 
-sudo apt-get install ubuntu-cloud-keyring || check=false
+sudo apt-get install ubuntu-cloud-keyring || (check=false && line_counter_increment 5 )
 
 echo -------------------$filename line no : $controllerone------------------------
 #line no 5
@@ -151,7 +151,7 @@ if [ "$check" = true ] && [ $controllerone -eq 6 ]; then
 
 
 sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
-  "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
+  "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || (check=false && line_counter_increment 6 )
 echo -------------------$filename line no : $controllerone------------------------
 #line no 6
 ((controllerone=controllerone+1))
@@ -159,8 +159,8 @@ fi
 
 if [ "$check" = true ] && [ $controllerone -eq 7 ]; then
 
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
-sudo apt-get install mariadb-server python-mysqldb -y || check=false
+sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || (check=false && line_counter_increment 7 )
+sudo apt-get install mariadb-server python-mysqldb -y || (check=false && line_counter_increment 7 )
 echo -------------------$filename line no : $controllerone------------------------
 #line no 7
 ((controllerone=controllerone+1))
@@ -170,7 +170,8 @@ fi
 if [ "$check" = true ] && [ $controllerone -eq 8 ]; then
 
 echo -------------- REPLACING ALL PARAMETERS -----------------------------------------------------------------
-( exec "./replacecontroller.sh" )
+sudo chmod 755 replacecontroller.sh
+( exec "./replacecontroller.sh" ) || (check=false && line_counter_increment 8 )
 echo -------------------$filename line no : $controllerone------------------------
 #line no 8
 ((controllerone=controllerone+1))
@@ -180,42 +181,31 @@ fi
 
 if [ "$check" = true ] && [ $controllerone -eq 9 ]; then
 
-chmod 700 ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
+sudo chmod 700 ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
 
 #chown root ~/pullstack/autostack/conf/controller/ || echo "Unable to set Permission"
-chmod 755 ~/pullstack/autostack/conf/controller/ || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/conf/controller/ || echo "Unable to set Permission"
 
-chmod u+x ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
+sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
 
 #chown root ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
+sudo chmod 700 ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
 
-chmod u+x ~~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
+sudo chmod u+x ~~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
 
 #chown root ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
+sudo chmod 700 ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
 
-chmod u+x ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
-chmod u+x ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
+sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
+sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
 
 echo -------------------$filename line no : $controllerone------------------------
 #line no 9
 ((controllerone=controllerone+1))
-fi
 
-if [ "$check" = true ] && [ $controllerone -eq 10 ]; then
-       if [ -s ~/pullstack/autostack/conf/controller/conf/interfaces ]; then
-       sudo rm -rf  /etc/network/interfaces || check=false
-       sudo cp ~/pullstack/autostack/conf/controller/conf/interfaces /etc/network/ || check=false
+sudo chmod 755 controllerfirst.sh
+echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
-       echo -###################################### REBOOTING CONTROLLER -######################################
-       sudo reboot
-       else 
-       echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
-       fi
-echo -------------------$filename line no : $controllerone------------------------
-#line no 10
-((controllerone=controllerone+1))
 fi
 
 fi

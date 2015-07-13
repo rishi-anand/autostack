@@ -75,9 +75,9 @@ if [ "$check" = true ] ; then
 
 keystone endpoint-create \
   --service-id $(keystone service-list | awk '/ compute / {print $2}') \
-  --publicurl http://controller10:8774/v2/%\(tenant_id\)s \
-  --internalurl http://controller10:8774/v2/%\(tenant_id\)s \
-  --adminurl http://controller10:8774/v2/%\(tenant_id\)s \
+  --publicurl http://CONTROLLER_NODE_HOSTNAME:8774/v2/%\(tenant_id\)s \
+  --internalurl http://CONTROLLER_NODE_HOSTNAME:8774/v2/%\(tenant_id\)s \
+  --adminurl http://CONTROLLER_NODE_HOSTNAME:8774/v2/%\(tenant_id\)s \
   --region regionOne
 
 
@@ -273,9 +273,9 @@ if [ "$check" = true ] ; then
 
 keystone endpoint-create \
   --service-id $(keystone service-list | awk '/ network / {print $2}') \
-  --publicurl http://controller10:9696 \
-  --adminurl http://controller10:9696 \
-  --internalurl http://controller10:9696 \
+  --publicurl http://CONTROLLER_NODE_HOSTNAME:9696 \
+  --adminurl http://CONTROLLER_NODE_HOSTNAME:9696 \
+  --internalurl http://CONTROLLER_NODE_HOSTNAME:9696 \
   --region regionOne
 
 
