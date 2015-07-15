@@ -1,7 +1,7 @@
 #!/bin/bash
 
-. ~/pullstack/autostack/linecounterfiles/controller.properties
-
+#. ~/pullstack/autostack/linecounterfiles/controller.properties
+. ~/open/linecounterfiles/controller.properties
 . autostack.properties
 
 check=true
@@ -16,8 +16,8 @@ exec > >(tee "Log_.$filename._.$today.log")
 
 # Define your function here
 line_counter_increment () {
-   sed "s/controllerone=.*/controllerone=$count/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
+   sed "s/controllerone=.*/controllerone=$count/g" ~/open/linecounterfiles/controller.properties > tmp
+   mv tmp ~/open/linecounterfiles/controller.properties
    
    
    return $controllerone
@@ -59,6 +59,7 @@ echo NETWORK_GATEWAY_PRIVATE_INTERFACE = $NETWORK_GATEWAY_PRIVATE_INTERFACE
 
 echo NETWORK_EXTERNAL_INTERFACE_NAME = $NETWORK_EXTERNAL_INTERFACE_NAME
 
+echo DATABASE_PASSWORD = $DATABASE_PASSWORD
 echo RABBIT_PASS = $RABBIT_PASS
 echo KEYSTONE_DBPASS = $KEYSTONE_DBPASS
 echo DEMO_PASS = $DEMO_PASS
@@ -83,7 +84,7 @@ echo TROVE_PASS = $TROVE_PASS
 
 
 
-
+echo ======= Counter Value is $controllerone =============
 
 echo ---- If above information is correct then- Press y to continue------
 echo ---- otherwise add configurations in- ~/pullstack/autostack/autostack.properties -----
@@ -115,10 +116,11 @@ echo -------------------$filename line no : $controllerone----------------------
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 3 ]; then
-
-
-
-sudo apt-get update || (check=false && line_counter_increment 3 )
+ apt-get update || check=false
+           if [ "$check" = false ]; then
+           line_counter_increment 3
+           fi
+#(check=false && line_counter_increment 3 )
 echo -------------------$filename line no : $controllerone------------------------
 #line no 3
 ((controllerone=controllerone+1))
