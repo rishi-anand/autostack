@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #. ~/pullstack/autostack/linecounterfiles/controller.properties
-. ~/open/linecounterfiles/controller.properties
+. controller.properties
 . autostack.properties
 
 check=true
@@ -117,9 +117,9 @@ fi
 
 if [ "$check" = true ] && [ $controllerone -eq 3 ]; then
  apt-get update || check=false
-           if [ "$check" = false ]; then
-           line_counter_increment 3
-           fi
+          # if [ "$check" = false ]; then
+          # line_counter_increment 3
+          # fi
 #(check=false && line_counter_increment 3 )
 echo -------------------$filename line no : $controllerone------------------------
 #line no 3
@@ -209,6 +209,10 @@ sudo chmod 755 controllerfirst.sh
 echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
 fi
+
+((controllerone=controllerone-1))
+sed "s/controllerone=.*/controllerone=$controllerone/g" controller.properties > tmp
+   mv tmp controller.properties
 
 fi
 

@@ -354,7 +354,11 @@ SQL="${Q1}${Q2}${Q3}${Q4}"
 #  exit $E_BADARGS
 #fi
  
-$MYSQL -uroot -p$DATABASE_PASSWORD -e "$SQL"
+$MYSQL -uroot -p$DATABASE_PASSWORD -e "$SQL" || check=false
+
+if [ "$check" = true ]; then
+echo ------- Keystone Database is Created -------
+fi
 
 ############################## keystone database created ##################################
 #mysql -u root -p || check=false
