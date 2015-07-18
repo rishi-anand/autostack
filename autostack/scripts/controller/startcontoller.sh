@@ -1,10 +1,126 @@
 #!/bin/bash
 
-#. ~/pullstack/autostack/linecounterfiles/controller.properties
-. controller.properties
-. autostack.properties
+
+if [ ! -d ~/pullstack/autostack/linecounterfiles/ ]; then
+  # Control will enter here if $DIRECTORY doesn't exist.
+   mkdir ~/pullstack/autostack/linecounterfiles/
+   sudo chmod 775 /opt/lampp/htdocs
+   cd ~/pullstack/autostack/linecounterfiles/
+  
+   touch controller.properties
+   sudo chmod 765 controller.properties
+   touch compute.properties
+   sudo chmod 765 compute.properties
+   touch network.properties
+   sudo chmod 765 network.properties
+
+   echo controllerone=1 >> controller.properties
+   echo controllertwo=1 >> controller.properties
+   echo controllerthree=1 >> controller.properties
+   echo controllerfour=1 >> controller.properties
+   
+   echo computeone=1 >> compute.properties
+   echo computetwo=1 >> compute.properties
+   echo computethree=1 >> compute.properties
+   echo computefour=1 >> compute.properties
+   
+   echo networkone=1 >> network.properties
+   echo networktwo=1 >> network.properties
+   echo networkthree=1 >> network.properties
+   echo networkfour=1 >> network.properties
+  
+else
+ 
+   if [ ! -f ~/pullstack/autostack/linecounterfiles/controller.properties ]; then
+       
+   cd ~/pullstack/autostack/linecounterfiles/
+   touch controller.properties
+   sudo chmod 765 controller.properties
+
+   echo controllerone=1 >> controller.properties
+   echo controllertwo=1 >> controller.properties
+   echo controllerthree=1 >> controller.properties
+   echo controllerfour=1 >> controller.properties
+   
+   fi
+
+   if [ ! -f ~/pullstack/autostack/linecounterfiles/compute.properties ]; then
+
+   cd ~/pullstack/autostack/linecounterfiles/
+   touch compute.properties
+   sudo chmod 765 compute.properties
+
+   echo computeone=1 >> compute.properties
+   echo computetwo=1 >> compute.properties
+   echo computethree=1 >> compute.properties
+   echo computefour=1 >> compute.properties
+   
+   fi
+
+   if [ ! -f ~/pullstack/autostack/linecounterfiles/network.properties ]; then
+
+   cd ~/pullstack/autostack/linecounterfiles/
+   touch network.properties
+   sudo chmod 765 network.properties
+
+   echo networkone=1 >> network.properties
+   echo networktwo=1 >> network.properties
+   echo networkthree=1 >> network.properties
+   echo networkfour=1 >> network.properties
+   
+   fi
+   
+
+fi
+
+
+if [ ! -f ~/pullstack/autostack/autostack.properties ]; then
+       
+   cd ~/pullstack/autostack/
+   touch controller.properties
+   sudo chmod 765 controller.properties
+
+   #echo controllerone=1 >> controller.properties
+   #echo controllertwo=1 >> controller.properties
+   #echo controllerthree=1 >> controller.properties
+   #echo controllerfour=1 >> controller.properties
+   pwd
+fi
+
+
+. ~/pullstack/autostack/linecounterfiles/controller.properties
+. ~/pullstack/autostack/autostack.properties
+
+
+#-------------- Check if script is already executed [ START ] ---------------------------------
+if [ $controllerone -eq 10 ]; then
+
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo \|   This Shell Script is Executed Successfully.
+echo ---------------------------------------------------------------------------------------------------------------------------------------------
+
+echo If you Want to execute it again Press [y/n] to Execute it.
+read userchoice
+     if [ "$userchoice" = "y" ]; then
+     echo Enter Line Number you want to continue: [Valid 1 - 8] 
+     echo And Execute it again.
+     read againlinenumber
+
+    sed "s/computeone=.*/computeone=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties 
+fi
+
+exit
+else
+
+echo Starting $filename
+fi
+
+
+#-------------- Check if script is already executed [ ENDS ] ---------------------------------
 
 check=true
+usercreate=true
 filename=`basename "$0"`
 today=`date +%Y-%m-%d.%H:%M:%S`
 
@@ -23,14 +139,6 @@ line_counter_increment () {
    return $controllerone
 }
 
-
-
-
-
-
-
-echo ACCOUNT_USERNAME = $ACCOUNT_USERNAME
-echo ACCOUNT_PASSWORD = $ACCOUNT_PASSWORD
 
 echo CONTROLLER_NODE_HOSTNAME = $CONTROLLER_NODE_HOSTNAME
 echo CONTROLLER_NODE_PUBLIC_IP = $CONTROLLER_NODE_PUBLIC_IP
@@ -56,33 +164,7 @@ echo NETWORK_NETMASK_PRIVATE_INTERFACE = $NETWORK_NETMASK_PRIVATE_INTERFACE
 echo NETWORK_NETWORK_PRIVATE_INTERFACE = $NETWORK_NETWORK_PRIVATE_INTERFACE
 echo NETWORK_BROADCAST_PRIVATE_INTERFACE = $NETWORK_BROADCAST_PRIVATE_INTERFACE
 echo NETWORK_GATEWAY_PRIVATE_INTERFACE = $NETWORK_GATEWAY_PRIVATE_INTERFACE
-
 echo NETWORK_EXTERNAL_INTERFACE_NAME = $NETWORK_EXTERNAL_INTERFACE_NAME
-
-echo DATABASE_PASSWORD = $DATABASE_PASSWORD
-echo RABBIT_PASS = $RABBIT_PASS
-echo KEYSTONE_DBPASS = $KEYSTONE_DBPASS
-echo DEMO_PASS = $DEMO_PASS
-echo ADMIN_PASS = $ADMIN_PASS
-echo GLANCE_DBPASS = $GLANCE_DBPASS
-echo GLANCE_PASS = $GLANCE_PASS
-echo NOVA_DBPASS = $NOVA_DBPASS
-echo NOVA_PASS= $NOVA_PASS
-echo DASH_DBPASS = $DASH_DBPASS
-echo CINDER_DBPASS = $CINDER_DBPASS
-echo CINDER_PASS = $CINDER_PASS
-echo NEUTRON_DBPASS = $NEUTRON_DBPASS
-echo NEUTRON_PASS = $NEUTRON_PASS
-echo HEAT_DBPASS = $HEAT_DBPASS
-echo HEAT_PASS = $HEAT_PASS
-echo CEILOMETER_DBPASS = $CEILOMETER_DBPASS
-echo CEILOMETER_PASS = $CEILOMETER_PASS
-echo TROVE_DBPASS = $TROVE_DBPASS
-echo TROVE_PASS = $TROVE_PASS
-
-
-
-
 
 echo ======= Counter Value is $controllerone =============
 
@@ -92,7 +174,45 @@ echo ---- otherwise add configurations in- ~/pullstack/autostack/autostack.prope
 echo --- Press[y/n] to continue- or to skip------
 
 read choice
-if [ "$choice" = "y" ]; then
+if [ "$choice" = "y" ] && [ "$check" = true ]; then
+user=$(cut -d: -f1 /etc/passwd | grep autostack)
+
+if [ -z "$user" ]
+then
+sudo useradd -m -p autostack autostack
+echo -e 'autostack\nautostack\n' | sudo passwd autostack || usercreate=false
+if [ -s ~/pullstack/autostack/conf/common/autostack ]; then
+        sudo cp ~/pullstack/autostack/conf/common/autostack /etc/sudoers.d/     
+        fi
+if [ "$usercreate" = true ]; then
+printf Created a new super-user [ autostack ]\n Password : [ autostack ] \n
+fi
+fi
+
+
+#-------------------- Check if Internet is working if not working then updating Nameserver [STARTS]-----------------------------------
+internet_working=true
+is_resolv=true
+ping -c 3 www.google.com || internet_working=false
+if [ "$internet_working" = false ] ; then
+    
+    name_server=$(cat /etc/resolv.conf | grep $NAMESERVER_IP )
+        if [ -z "$name_server" ]
+        then
+             sudo echo nameserver $NAMESERVER_IP >> /etc/resolv.conf || is_resolv=false
+             if [ "$is_resolv" = false ] ; then
+                      if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
+                               sudo rm -rf /etc/resolv.conf
+                               sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/
+                      fi
+
+             fi
+
+        fi
+fi
+#-------------------- Check if Internet is working if not working then updating Nameserver [ENDS] -------------------------------------------
+
+
 
 
 if [ "$check" = true ] && [ $controllerone -eq 1 ]; then
@@ -116,7 +236,7 @@ echo -------------------$filename line no : $controllerone----------------------
 fi
 
 if [ "$check" = true ] && [ $controllerone -eq 3 ]; then
- apt-get update || check=false
+  sudo apt-get update || check=false
           # if [ "$check" = false ]; then
           # line_counter_increment 3
           # fi
@@ -130,9 +250,9 @@ if [ "$check" = true ] && [ $controllerone -eq 4 ]; then
 
 
 echo -------- installing openssh server ----------
-sudo apt-get install openssh-server -y || (check=false && line_counter_increment 4 )
+sudo apt-get install openssh-server -y || check=false
 echo -------- installing ssh-pass -----------
-sudo apt-get install sshpass -y || (check=false && line_counter_increment 4 )
+sudo apt-get install sshpass -y || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 4
 ((controllerone=controllerone+1))
@@ -142,7 +262,7 @@ if [ "$check" = true ] && [ $controllerone -eq 5 ]; then
 
 
 
-sudo apt-get install ubuntu-cloud-keyring || (check=false && line_counter_increment 5 )
+sudo apt-get install ubuntu-cloud-keyring || check=false
 
 echo -------------------$filename line no : $controllerone------------------------
 #line no 5
@@ -153,7 +273,7 @@ if [ "$check" = true ] && [ $controllerone -eq 6 ]; then
 
 
 sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
-  "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || (check=false && line_counter_increment 6 )
+  "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 6
 ((controllerone=controllerone+1))
@@ -161,8 +281,8 @@ fi
 
 if [ "$check" = true ] && [ $controllerone -eq 7 ]; then
 
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || (check=false && line_counter_increment 7 )
-sudo apt-get install mariadb-server python-mysqldb -y || (check=false && line_counter_increment 7 )
+sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
+sudo apt-get install mariadb-server python-mysqldb -y || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 7
 ((controllerone=controllerone+1))
@@ -172,8 +292,8 @@ fi
 if [ "$check" = true ] && [ $controllerone -eq 8 ]; then
 
 echo -------------- REPLACING ALL PARAMETERS -----------------------------------------------------------------
-sudo chmod 755 replacecontroller.sh
-( exec "./replacecontroller.sh" ) || (check=false && line_counter_increment 8 )
+sudo chmod 755 replace.sh
+( exec "./replace.sh" ) || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 8
 ((controllerone=controllerone+1))
@@ -203,16 +323,39 @@ sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllerthird.sh || ec
 
 echo -------------------$filename line no : $controllerone------------------------
 #line no 9
-((controllerone=controllerone+1))
 
 sudo chmod 755 controllerfirst.sh
 echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
+((controllerone=controllerone+1))
+sed "s/controllerone=.*/controllerone=$controllerone/g" controller.properties > tmp
+   mv tmp controller.properties
+
+
+if [ "$replacemsg" = true ]; then
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+fi
+
+
+
+exit
+
 fi
 
 ((controllerone=controllerone-1))
-sed "s/controllerone=.*/controllerone=$controllerone/g" controller.properties > tmp
-   mv tmp controller.properties
+sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+   mv ~/pullstack/autostack/linecounterfiles/controller.properties
+
+
+if [ "$replacemsg" = true ]; then
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+fi
+
+
 
 fi
 

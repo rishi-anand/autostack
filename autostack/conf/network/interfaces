@@ -7,8 +7,6 @@ iface lo inet loopback
 #iface eth0 inet dhcp
 
 
-
-
 auto NETWORK_PRIVATE_INTERFACE_NAME
 iface NETWORK_PRIVATE_INTERFACE_NAME inet static
         address NETWORK_NODE_PRIVATE_IP

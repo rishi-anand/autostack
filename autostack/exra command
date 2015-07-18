@@ -1,1 +1,0 @@
-replace "abc" "XYZ" -- file.txt file2.txt
