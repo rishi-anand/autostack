@@ -95,9 +95,9 @@ fi
 #-------------- Check if script is already executed [ START ] ---------------------------------
 if [ $controllerone -eq 10 ]; then
 
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo \|   This Shell Script is Executed Successfully.
-echo ---------------------------------------------------------------------------------------------------------------------------------------------
+echo -----------------------------------------------------
+echo \|   This Shell Script has been Executed Successfully. \|
+echo -----------------------------------------------------
 
 echo If you Want to execute it again Press [y/n] to Execute it.
 read userchoice
@@ -185,7 +185,10 @@ if [ -s ~/pullstack/autostack/conf/common/autostack ]; then
         sudo cp ~/pullstack/autostack/conf/common/autostack /etc/sudoers.d/     
         fi
 if [ "$usercreate" = true ]; then
-printf Created a new super-user [ autostack ]\n Password : [ autostack ] \n
+echo ----------------------------------------
+echo \|   Created a new super-user : autostack \|
+echo \|   Password of autostack  : autostack . \|
+echo ----------------------------------------
 fi
 fi
 
@@ -204,6 +207,12 @@ if [ "$internet_working" = false ] ; then
                       if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
                                sudo rm -rf /etc/resolv.conf
                                sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/
+                       else
+echo ---------------------------------------------------------
+echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
+echo ---------------------------------------------------------
+
+
                       fi
 
              fi
@@ -292,8 +301,10 @@ fi
 if [ "$check" = true ] && [ $controllerone -eq 8 ]; then
 
 echo -------------- REPLACING ALL PARAMETERS -----------------------------------------------------------------
-sudo chmod 755 replace.sh
-( exec "./replace.sh" ) || check=false
+
+sudo chmod 755 ~/pullstack/autostack/scripts/controller/replace.sh
+( exec "~/pullstack/autostack/scripts/controller/./replace.sh" ) || check=false
+replacemsg=true
 echo -------------------$filename line no : $controllerone------------------------
 #line no 8
 ((controllerone=controllerone+1))

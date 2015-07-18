@@ -106,7 +106,10 @@ echo ----******--Welcome to $hostname--******----
 
 if [ $computeone -eq 9 ]; then
 
-echo This Shell Script is Executed Successfully. 
+echo -----------------------------------------------------
+echo \|   This Shell Script has been Executed Successfully. \|
+echo -----------------------------------------------------
+
 echo If you Want to execute it again Press [y/n] to Execute it.
 read userchoice
      if [ "$userchoice" = "y" ]; then

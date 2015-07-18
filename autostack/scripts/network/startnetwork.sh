@@ -104,9 +104,12 @@ echo ----******--Welcome to $hostname--******----
 . ~/pullstack/autostack/linecounterfiles/compute.properties
 . ~/pullstack/autostack/autostack.properties
 
-if [ $networkone -eq 8 ]; then
+if [ $networkone -eq 9 ]; then
 
-echo This Shell Script is Executed Successfully. 
+echo -----------------------------------------------------
+echo \|   This Shell Script has been Executed Successfully. \|
+echo -----------------------------------------------------
+
 echo If you Want to execute it again Press [y/n] to Execute it.
 read userchoice
      if [ "$userchoice" = "y" ]; then
@@ -127,17 +130,16 @@ fi
 
 # Define your function here
 line_counter_increment () {
-   sed "s/networkone=.*/networkone=$count/g" ~/pullstack/autostack/linecounterfiles/compute.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/compute.properties
+   sed "s/networkone=.*/networkone=$count/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
    return $networkone
 }
 
 
 
-
-echo COMPUTE_NODE_HOSTNAME = $COMPUTE_NODE_HOSTNAME
-echo COMPUTE_NODE_PUBLIC_IP = $COMPUTE_NODE_PUBLIC_IP
-echo COMPUTE_NODE_PRIVATE_IP = $COMPUTE_NODE_PRIVATE_IP
+echo NETWORK_NODE_HOSTNAME = $NETWORK_NODE_HOSTNAME
+echo NETWORK_NODE_PUBLIC_IP = $NETWORK_NODE_PUBLIC_IP
+echo NETWORK_NODE_PRIVATE_IP = $NETWORK_NODE_PRIVATE_IP
 
 
 echo ======= Counter Value is $networkone =============
@@ -159,7 +161,10 @@ if [ "$choice" = "y" ] && [ "$check" = true ]; then
                sudo cp ~/pullstack/autostack/conf/common/autostack /etc/sudoers.d/     
            fi
            if [ "$usercreate" = true ]; then
-               printf Created a new super-user [ autostack ]\n Password : [ autostack ] \n
+               echo ----------------------------------------
+               echo \|   Created a new super-user : autostack \|
+               echo \|   Password of autostack  : autostack . \|
+               echo ----------------------------------------
            fi
       fi
 
@@ -284,8 +289,8 @@ fi
 
 
    ((networkone=networkone-1))
-   sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/compute.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/compute.properties
+   sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
 
 if [ "$replacemsg" = true ]; then
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
