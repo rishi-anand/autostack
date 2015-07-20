@@ -175,6 +175,8 @@ echo   -------------------------------------------------------------------------
 echo
 echo
 
+sudo chmod 755 computentp.sh
+sudo chmod 755 computenova.sh
 
 fi
 

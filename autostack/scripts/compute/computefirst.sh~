@@ -40,6 +40,10 @@ if [ "$check" = true ] && [ $computefirst -eq 1 ]; then
                  sudo rm -rf  /etc/network/interfaces || check=false
                  sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=false
                  echo -###################################### REBOOTING CONTROLLER -######################################
+                 hostname=$(hostname)
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ Static IP is configured. New IP of $hostname = $COMPUTE_NODE_PUBLIC_IP ] \|
+                 echo   ---------------------------------------------------------------------------
                  sudo reboot
                  fi
     
@@ -47,7 +51,7 @@ if [ "$check" = true ] && [ $computefirst -eq 1 ]; then
         else 
         echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
         fi
-echo -------------------$filename line no : $controllerfirst------------------------
+echo -------------------$filename line no : $computefirst------------------------
 #line no 1
 fi
 

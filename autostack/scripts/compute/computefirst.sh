@@ -40,6 +40,10 @@ if [ "$check" = true ] && [ $computefirst -eq 1 ]; then
                  sudo rm -rf  /etc/network/interfaces || check=false
                  sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=false
                  echo -###################################### REBOOTING CONTROLLER -######################################
+                 hostname=$(hostname)
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ Static IP is configured. New IP of $hostname = $COMPUTE_NODE_PUBLIC_IP ] \|
+                 echo   ---------------------------------------------------------------------------
                  sudo reboot
                  fi
     

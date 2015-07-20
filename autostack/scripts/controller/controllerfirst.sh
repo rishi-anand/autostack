@@ -64,7 +64,15 @@ if [ "$check" = true ] && [ $controllerfirst -eq 1 ]; then
                  sudo rm -rf  /etc/network/interfaces || check=false
                  sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=false
                  echo -###################################### REBOOTING CONTROLLER -######################################
-                 sudo reboot
+                 hostname=$(hostname)
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ Static IP is configured. New IP of $hostname = $CONTROLLER_NODE_PUBLIC_IP ] \|
+                 echo   ---------------------------------------------------------------------------
+                 sudo chmod 755 controllersecond.sh
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ NOTE : Execute controllersecond.sh after booting up to proceed further] \|
+                 echo   ---------------------------------------------------------------------------
+                sudo reboot
                  fi
     
     
