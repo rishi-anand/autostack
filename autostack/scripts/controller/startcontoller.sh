@@ -350,7 +350,7 @@ echo ------------------ Now Execute controllerfirst.sh -------------------------
 
 ((controllerone=controllerone+1))
 sed "s/controllerone=.*/controllerone=$controllerone/g" controller.properties > tmp
-
+   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
 if [ "$replacemsg" = true ]; then
@@ -367,7 +367,7 @@ fi
 
 ((controllerone=controllerone-1))
 sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
-   mv ~/pullstack/autostack/linecounterfiles/controller.properties
+   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
 if [ "$replacemsg" = true ]; then
