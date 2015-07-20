@@ -104,7 +104,8 @@ echo ----******--Welcome to $hostname--******----
 . ~/pullstack/autostack/linecounterfiles/compute.properties
 . ~/pullstack/autostack/autostack.properties
 
-if [ $networkone -eq 9 ]; then
+if [ "$networkone" -eq 9 ]
+then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
