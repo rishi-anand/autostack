@@ -163,6 +163,20 @@ sudo replace "TROVE_DBPASS" $TROVE_DBPASS -- ~/pullstack/autostack/conf/* ~/pull
 
 sudo replace "TROVE_PASS" $TROVE_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
 
+
+echo
+echo
+echo   ------------------------------------------------
+echo \|  [ NOTE : Do Not bother about ==  Errcode: 21 ] \|
+echo   ------------------------------------------------
+echo
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo
+echo
+
+
 fi
 
 

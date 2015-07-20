@@ -206,6 +206,10 @@ echo ---------------------------------------------------------
              fi
 
         fi
+else
+echo --------------------------------
+echo \|   Internet is working properly \|
+echo --------------------------------
 fi
 #-------------------- Check if Internet is working if not working then updating Nameserver [ENDS] -------------------------------------------
 

@@ -4,13 +4,13 @@
 
 filename=`basename "$0"`
 today=`date +%Y-%m-%d.%H:%M:%S`
-check=true
+
 
 exec 2> >(tee "Error_.$filename._.$today.err")
 exec > >(tee "Log_.$filename._.$today.log")
 
 echo -----------------############### NOW IN REPLACE CONTROLLER.SH FILE -###############-----------------
-if [ "$check" = true ];then
+
 echo NAMESERVER_IP = $NAMESERVER_IP
 echo CONTROLLER_NODE_HOSTNAME = $CONTROLLER_NODE_HOSTNAME
 echo CONTROLLER_NODE_PUBLIC_IP = $CONTROLLER_NODE_PUBLIC_IP
@@ -162,6 +162,20 @@ sudo replace "CEILOMETER_PASS" $CEILOMETER_PASS -- ~/pullstack/autostack/conf/* 
 sudo replace "TROVE_DBPASS" $TROVE_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
 
 sudo replace "TROVE_PASS" $TROVE_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+
+
+echo
+echo
+echo   ------------------------------------------------
+echo \|  [ NOTE : Do Not bother about ==  Errcode: 21 ] \|
+echo   ------------------------------------------------
+echo
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo
+echo
+
 
 fi
 
