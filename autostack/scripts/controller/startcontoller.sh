@@ -205,8 +205,18 @@ if [ "$internet_working" = false ] ; then
              sudo echo nameserver $NAMESERVER_IP >> /etc/resolv.conf || is_resolv=false
              if [ "$is_resolv" = false ] ; then
                       if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
+                              
+                               sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/common/*
+                               updatednameserverip=$(cat ~/pullstack/autostack/conf/common/resolv.conf | grep $NAMESERVER_IP)
+                               if [ ! -z "$updatednameserverip" ]; then
                                sudo rm -rf /etc/resolv.conf
                                sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/
+                                                      else
+                                                      echo ---------------------------------------------------------
+                                                      echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
+                                                      echo ---------------------------------------------------------
+
+                               fi
                        else
 echo ---------------------------------------------------------
 echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
@@ -340,7 +350,7 @@ echo ------------------ Now Execute controllerfirst.sh -------------------------
 
 ((controllerone=controllerone+1))
 sed "s/controllerone=.*/controllerone=$controllerone/g" controller.properties > tmp
-   mv tmp controller.properties
+
 
 
 if [ "$replacemsg" = true ]; then

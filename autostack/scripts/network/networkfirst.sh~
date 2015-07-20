@@ -14,6 +14,50 @@ exec > >(tee "Log_.$filename._.$today.log")
 
 
 
+
+
+#-------------------- Check if Internet is working if not working then updating Nameserver [STARTS]-----------------------------------
+internet_working=true
+is_resolv=true
+ping -c 3 www.google.com || internet_working=false
+if [ "$internet_working" = false ] ; then
+    
+    name_server=$(cat /etc/resolv.conf | grep $NAMESERVER_IP )
+        if [ -z "$name_server" ]
+        then
+             sudo echo nameserver $NAMESERVER_IP >> /etc/resolv.conf || is_resolv=false
+             if [ "$is_resolv" = false ] ; then
+                      if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
+                              
+                               sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/common/*
+                               updatednameserverip=$(cat ~/pullstack/autostack/conf/common/resolv.conf | grep $NAMESERVER_IP)
+                               if [ ! -z "$updatednameserverip" ]; then
+                               sudo rm -rf /etc/resolv.conf
+                               sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/
+                                                      else
+                                                      echo ---------------------------------------------------------
+                                                      echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
+                                                      echo ---------------------------------------------------------
+
+                               fi
+                       else
+                          echo ---------------------------------------------------------
+                          echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
+                          echo ---------------------------------------------------------
+
+
+                      fi
+
+             fi
+
+        fi
+fi
+#-------------------- Check if Internet is working if not working then updating Nameserver [ENDS] -------------------------------------------
+
+
+
+
+
 # Define your function here
 line_counter_increment () {
    sed "s/controllerfirst=.*/controllerfirst=$count/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
