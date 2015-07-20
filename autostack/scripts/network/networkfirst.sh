@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#. ~/pullstack/autostack/linecounterfiles/controller.properties
+. ~/pullstack/autostack/linecounterfiles/network.properties
 
-~/pullstack/autostack/autostack.properties
+. ~/pullstack/autostack/autostack.properties
 
 check=true
 filename=`basename "$0"`

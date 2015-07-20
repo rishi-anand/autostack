@@ -153,22 +153,24 @@ echo --- Press[y/n] to continue- or to skip------
 read choice
 if [ "$choice" = "y" ] && [ "$check" = true ]; then
 
-#-------------------- Creating User ------------------------ [ STARTS ] -----------------------------------------------------
-    user=$(cut -d: -f1 /etc/passwd | grep autostack)
-     if [ -z "$user" ]
-     then
-     sudo useradd -m -p autostack autostack
-      echo -e 'autostack\nautostack\n' | sudo passwd autostack || usercreate=false
-          if [ -s ~/pullstack/autostack/conf/common/autostack ]; then
-               sudo cp ~/pullstack/autostack/conf/common/autostack /etc/sudoers.d/     
-           fi
-           if [ "$usercreate" = true ]; then
-               printf Created a new super-user [ autostack ]\n Password : [ autostack ] \n
-           fi
-      fi
+#---------------------- Create User [ START ] ---------------------------------------------
+user=$(cut -d: -f1 /etc/passwd | grep autostack)
 
-#-------------------- Creating User ------------------------ [ ENDS ] -----------------------------------------------------
-
+if [ -z "$user" ]
+then
+sudo useradd -m -p autostack autostack
+echo -e 'autostack\nautostack\n' | sudo passwd autostack || usercreate=false
+if [ -s ~/pullstack/autostack/conf/common/autostack ]; then
+        sudo cp ~/pullstack/autostack/conf/common/autostack /etc/sudoers.d/     
+        fi
+if [ "$usercreate" = true ]; then
+echo ----------------------------------------
+echo \|   Created a new super-user : autostack \|
+echo \|   Password of autostack  : autostack . \|
+echo ----------------------------------------
+fi
+fi
+#---------------------- Create User [ ENDS ] ---------------------------------------------
 
 
 #-------------------- Check if Internet is working if not working then updating Nameserver [STARTS]-----------------------------------
@@ -278,21 +280,12 @@ echo -------------------$filename line no : "$computeone"-----------------------
 fi
 
 if [ "$check" = true ] && [ "$computeone" -eq 8 ]; then
-sudo chown root ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
-sudo chmod 700 ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
-sudo chown root ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
-sudo chmod 700 ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
-sudo chown root ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
-sudo chmod 700 ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
-sudo chmod u+x ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
-sudo chmod u+x ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
-sudo chmod u+x ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
 
-sudo chmod 755 ~/pullstack/autostack/compute/computefirst.sh || echo "Unable to set Permission"
-sudo chmod 755 ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
-sudo chmod 755 ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
-sudo chmod 755 ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
-sudo chmod 755 ~/pullstack/autostack/compute/replace.sh || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/scripts/compute/computefirst.sh || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/scripts/compute/computentp.sh || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/scripts/compute/computenetwork.sh || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/scripts/compute/computenova.sh || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/scripts/compute/replace.sh || echo "Unable to set Permission"
 
 echo -------------------$filename line no : "$computeone"------------------------
 #line no 8

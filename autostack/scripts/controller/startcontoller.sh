@@ -175,6 +175,8 @@ echo --- Press[y/n] to continue- or to skip------
 
 read choice
 if [ "$choice" = "y" ] && [ "$check" = true ]; then
+
+#---------------------- Create User [ START ] ---------------------------------------------
 user=$(cut -d: -f1 /etc/passwd | grep autostack)
 
 if [ -z "$user" ]
@@ -191,7 +193,7 @@ echo \|   Password of autostack  : autostack . \|
 echo ----------------------------------------
 fi
 fi
-
+#---------------------- Create User [ ENDS ] ---------------------------------------------
 
 #-------------------- Check if Internet is working if not working then updating Nameserver [STARTS]-----------------------------------
 internet_working=true
