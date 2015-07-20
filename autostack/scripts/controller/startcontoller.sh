@@ -228,6 +228,10 @@ echo ---------------------------------------------------------
              fi
 
         fi
+else
+echo --------------------------------
+echo \|   Internet is working properly \|
+echo --------------------------------
 fi
 #-------------------- Check if Internet is working if not working then updating Nameserver [ENDS] -------------------------------------------
 
@@ -349,14 +353,22 @@ sudo chmod 755 controllerfirst.sh
 echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
 ((controllerone=controllerone+1))
-sed "s/controllerone=.*/controllerone=$controllerone/g" controller.properties > tmp
+sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
 if [ "$replacemsg" = true ]; then
+echo
+echo
+echo   ------------------------------------------------
+echo \|  [ NOTE : Do Not bother about ==  Errcode: 21 ] \|
+echo   ------------------------------------------------
+echo
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo
+echo
 fi
 
 
@@ -371,9 +383,17 @@ sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/li
 
 
 if [ "$replacemsg" = true ]; then
+echo
+echo
+echo   ------------------------------------------------
+echo \|  [ NOTE : Do Not bother about ==  Errcode: 21 ] \|
+echo   ------------------------------------------------
+echo
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo
+echo
 fi
 
 

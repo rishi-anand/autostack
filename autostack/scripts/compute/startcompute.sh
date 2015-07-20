@@ -153,6 +153,7 @@ echo --- Press[y/n] to continue- or to skip------
 read choice
 if [ "$choice" = "y" ] && [ "$check" = true ]; then
 
+#-------------------- Creating User ------------------------ [ STARTS ] -----------------------------------------------------
     user=$(cut -d: -f1 /etc/passwd | grep autostack)
      if [ -z "$user" ]
      then
@@ -166,9 +167,11 @@ if [ "$choice" = "y" ] && [ "$check" = true ]; then
            fi
       fi
 
+#-------------------- Creating User ------------------------ [ ENDS ] -----------------------------------------------------
 
 
-#-------------------- Check if Internet is working and then updating Nameserver [STARTS]-------------------------------------------
+
+#-------------------- Check if Internet is working if not working then updating Nameserver [STARTS]-----------------------------------
 internet_working=true
 is_resolv=true
 ping -c 3 www.google.com || internet_working=false
@@ -180,15 +183,31 @@ if [ "$internet_working" = false ] ; then
              sudo echo nameserver $NAMESERVER_IP >> /etc/resolv.conf || is_resolv=false
              if [ "$is_resolv" = false ] ; then
                       if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
+                              
+                               sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/common/*
+                               updatednameserverip=$(cat ~/pullstack/autostack/conf/common/resolv.conf | grep $NAMESERVER_IP)
+                               if [ ! -z "$updatednameserverip" ]; then
                                sudo rm -rf /etc/resolv.conf
                                sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/
+                                                      else
+                                                      echo ---------------------------------------------------------
+                                                      echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
+                                                      echo ---------------------------------------------------------
+
+                               fi
+                       else
+echo ---------------------------------------------------------
+echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
+echo ---------------------------------------------------------
+
+
                       fi
 
              fi
 
         fi
 fi
-#-------------------- Check if Internet is working and then updating Nameserver [ENDS] -------------------------------------------
+#-------------------- Check if Internet is working if not working then updating Nameserver [ENDS] -------------------------------------------
 
 
 
