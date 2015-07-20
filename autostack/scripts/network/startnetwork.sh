@@ -133,7 +133,7 @@ fi
 line_counter_increment () {
    sed "s/networkone=.*/networkone=$count/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
-   return $networkone
+   return "$networkone"
 }
 
 
@@ -143,7 +143,7 @@ echo NETWORK_NODE_PUBLIC_IP = $NETWORK_NODE_PUBLIC_IP
 echo NETWORK_NODE_PRIVATE_IP = $NETWORK_NODE_PRIVATE_IP
 
 
-echo ======= Counter Value is $networkone =============
+echo ======= Counter Value is "$networkone" =============
 
 echo ---- If above information is correct then- Press y to continue- or n to exit------
 echo ---- otherwise add configurations in- ~/pullstack/autostack/autostack.properties -----
@@ -215,71 +215,71 @@ fi
 
 
 
-if [ "$check" = true ] && [ $networkone -eq 1 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 1 ]; then
 pwd || check=false
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 1
 ((networkone=networkone+1))
 fi
 
 
-if [ "$check" = true ] && [ $networkone -eq 2 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 2 ]; then
 
 sudo apt-get update || check=false
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 2
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 3 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 3 ]; then
 
 echo -------- installing openssh server ----------
 sudo apt-get install openssh-server -y || check=false
 echo -------- installing ssh-pass -----------
 sudo apt-get install sshpass -y || check=false
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 3
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 4 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 4 ]; then
 sudo apt-get install ubuntu-cloud-keyring || check=false
 
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 4
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 5 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 5 ]; then
 sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
   "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
 
 
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 5
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 6 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 6 ]; then
 
 sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
 sudo apt-get install mariadb-server python-mysqldb -y || check=false
 
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 6
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 7 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 7 ]; then
 sudo chmod 755 replace.sh
 ( exec "./replace.sh" ) || check=false
 replacemsg=true
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 7
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 8 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 8 ]; then
 chown root ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
 chmod 700 ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
 chown root ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
@@ -290,7 +290,7 @@ chmod u+x ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Per
 chmod u+x ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
 chmod u+x ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
 
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 8
 ((networkone=networkone+1))
 
