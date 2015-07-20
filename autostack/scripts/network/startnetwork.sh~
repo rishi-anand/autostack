@@ -18,8 +18,8 @@ if [ ! -d ~/pullstack/autostack/linecounterfiles/ ]; then
   
    touch controller.properties
    sudo chmod 765 controller.properties
-   touch compute.properties
-   sudo chmod 765 compute.properties
+   touch network.properties
+   sudo chmod 765 network.properties
    touch network.properties
    sudo chmod 765 network.properties
 
@@ -28,10 +28,10 @@ if [ ! -d ~/pullstack/autostack/linecounterfiles/ ]; then
    echo controllerthree=1 >> controller.properties
    echo controllerfour=1 >> controller.properties
    
-   echo computeone=1 >> compute.properties
-   echo computetwo=1 >> compute.properties
-   echo computethree=1 >> compute.properties
-   echo computefour=1 >> compute.properties
+   echo networkone=1 >> network.properties
+   echo networktwo=1 >> network.properties
+   echo networkthree=1 >> network.properties
+   echo networkfour=1 >> network.properties
    
    echo networkone=1 >> network.properties
    echo networktwo=1 >> network.properties
@@ -53,16 +53,16 @@ else
    
    fi
 
-   if [ ! -f ~/pullstack/autostack/linecounterfiles/compute.properties ]; then
+   if [ ! -f ~/pullstack/autostack/linecounterfiles/network.properties ]; then
 
    cd ~/pullstack/autostack/linecounterfiles/
-   touch compute.properties
-   sudo chmod 765 compute.properties
+   touch network.properties
+   sudo chmod 765 network.properties
 
-   echo computeone=1 >> compute.properties
-   echo computetwo=1 >> compute.properties
-   echo computethree=1 >> compute.properties
-   echo computefour=1 >> compute.properties
+   echo networkone=1 >> network.properties
+   echo networktwo=1 >> network.properties
+   echo networkthree=1 >> network.properties
+   echo networkfour=1 >> network.properties
    
    fi
 
@@ -101,7 +101,7 @@ fi
 hostname=$(hostname)
 echo ----******--Welcome to $hostname--******----
 
-. ~/pullstack/autostack/linecounterfiles/compute.properties
+. ~/pullstack/autostack/linecounterfiles/network.properties
 . ~/pullstack/autostack/autostack.properties
 
 if [ "$networkone" -eq 9 ]
@@ -118,8 +118,8 @@ read userchoice
      echo And Execute it again.
      read againlinenumber
 
-    sed "s/networkone=.*/networkone=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/compute.properties > tmp
-    mv tmp ~/pullstack/autostack/linecounterfiles/compute.properties 
+    sed "s/networkone=.*/networkone=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
+    mv tmp ~/pullstack/autostack/linecounterfiles/network.properties 
 fi
 
 exit
@@ -280,22 +280,24 @@ echo -------------------$filename line no : "$networkone"-----------------------
 fi
 
 if [ "$check" = true ] && [ "$networkone" -eq 8 ]; then
-chown root ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
-chown root ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
-chown root ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
-chmod u+x ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
-chmod u+x ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
-chmod u+x ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/scripts/network/networkfirst.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/scripts/network/networkfirst.sh || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/scripts/network/networknetwork.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/scripts/network/networknetwork.sh || echo "Unable to set Permission"
+chown root ~/pullstack/autostack/scripts/network/networknetworksecond.sh || echo "Unable to set Permission"
+chmod 700 ~/pullstack/autostack/scripts/network/networknetworksecond.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/scripts/network/networkntp.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/scripts/network/networknova.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/scripts/network/networknetwork.sh || echo "Unable to set Permission"
+chmod u+x ~/pullstack/autostack/scripts/network/networknetworksecond.sh || echo "Unable to set Permission"
+chmod 755 ~/pullstack/autostack/scripts/network/replace.sh || echo "Unable to set Permission"
 
 echo -------------------$filename line no : "$networkone"------------------------
 #line no 8
 ((networkone=networkone+1))
 
-sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/compute.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/compute.properties
+sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
 
 if [ "$replacemsg" = true ]; then
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------

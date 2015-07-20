@@ -104,7 +104,7 @@ echo ----******--Welcome to $hostname--******----
 . ~/pullstack/autostack/linecounterfiles/compute.properties
 . ~/pullstack/autostack/autostack.properties
 
-if [ $computeone -eq 9 ]; then
+if [ "$computeone" -eq 9 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -132,7 +132,7 @@ fi
 line_counter_increment () {
    sed "s/computeone=.*/computeone=$count/g" ~/pullstack/autostack/linecounterfiles/compute.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/compute.properties
-   return $computeone
+   return "$computeone"
 }
 
 
@@ -143,7 +143,7 @@ echo COMPUTE_NODE_PUBLIC_IP = $COMPUTE_NODE_PUBLIC_IP
 echo COMPUTE_NODE_PRIVATE_IP = $COMPUTE_NODE_PRIVATE_IP
 
 
-echo ======= Counter Value is $computeone =============
+echo ======= Counter Value is "$computeone" =============
 
 echo ---- If above information is correct then- Press y to continue- or n to exit------
 echo ---- otherwise add configurations in- ~/pullstack/autostack/autostack.properties -----
@@ -215,69 +215,69 @@ fi
 
 
 
-if [ "$check" = true ] && [ $computeone -eq 1 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 1 ]; then
 pwd || check=false
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 1
 ((computeone=computeone+1))
 fi
 
 
-if [ "$check" = true ] && [ $computeone -eq 2 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 2 ]; then
 
 sudo apt-get update || check=false
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 2
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 3 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 3 ]; then
 
 echo -------- installing openssh server ----------
 sudo apt-get install openssh-server -y || check=false
 echo -------- installing ssh-pass -----------
 sudo apt-get install sshpass -y || check=false
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 3
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 4 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 4 ]; then
 sudo apt-get install ubuntu-cloud-keyring || check=false
 
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 4
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 5 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 5 ]; then
 sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
   "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
 
 
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 5
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 6 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 6 ]; then
 sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
 sudo apt-get install mariadb-server python-mysqldb -y || check=false
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 6
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 7 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 7 ]; then
 sudo chmod 755 replace.sh
 ( exec "./replace.sh" ) || check=false
 replacemsg=true
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 7
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 8 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 8 ]; then
 sudo chown root ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
 sudo chmod 700 ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
 sudo chown root ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
@@ -288,7 +288,13 @@ sudo chmod u+x ~/pullstack/autostack/compute/computentp.sh || echo "Unable to se
 sudo chmod u+x ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
 sudo chmod u+x ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
 
-echo -------------------$filename line no : $computeone------------------------
+sudo chmod 755 ~/pullstack/autostack/compute/computefirst.sh || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/compute/computentp.sh || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/compute/computenetwork.sh || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/compute/computenova.sh || echo "Unable to set Permission"
+sudo chmod 755 ~/pullstack/autostack/compute/replace.sh || echo "Unable to set Permission"
+
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 8
 ((computeone=computeone+1))
 
