@@ -1,9 +1,0 @@
-If any data is not filled in autostack.properties then using default configuration
-
-controller.properties auto create
-
-autostack.properties auto create
-
-before running any script checking work done by previous script
-
-checking all files and folders before starting any job
