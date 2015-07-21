@@ -46,7 +46,7 @@ fi
 
 
 #-------------- Check if PRESENT script is already executed [ START ] ---------------------------------
-if [ "$controllertwo" -eq 34 ]; then
+if [ "$controllertwo" -eq 58 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -55,7 +55,7 @@ echo -----------------------------------------------------
 echo If you Want to execute it again Press [y/n] to Execute it.
 read userchoice
      if [ "$userchoice" = "y" ]; then
-     echo Enter Line Number you want to continue: [Valid 1 - 8] 
+     echo Enter Line Number you want to continue: [Valid 1 - 58] 
      echo And Execute it again.
      read againlinenumber
 
@@ -118,7 +118,8 @@ if [ "$internet_working" = false ] ; then
              if [ "$is_resolv" = false ] ; then
                       if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
                               
-                               sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/common/*
+                               #sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/common/*
+                               sudo sed -i -e "s/NAMESERVER_IP/$NAMESERVER_IP/g" ~/pullstack/autostack/conf/common/*
                                updatednameserverip=$(cat ~/pullstack/autostack/conf/common/resolv.conf | grep $NAMESERVER_IP)
                                if [ ! -z "$updatednameserverip" ]; then
                                sudo rm -rf /etc/resolv.conf
@@ -423,7 +424,7 @@ echo ====== Creating it automatically ========
 
 MYSQL=`which mysql`
  
-Q1="CREATE DATABASE IF NOT EXISTS keystonerishi;"
+Q1="CREATE DATABASE IF NOT EXISTS keystone;"
 
 Q2="GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
   IDENTIFIED BY '$KEYSTONE_DBPASS';"
@@ -457,22 +458,223 @@ fi
 if [ "$check" = true ] && [ "$controllertwo" -eq 33 ]; then
 echo ----------- Copy Below Admin Token ----------------------
 ADMIN_TOKEN=$(openssl rand -hex 10) || check=false
-replace "ADMIN_TOKEN" $ADMIN_TOKEN -- ~/pullstack/autostack/conf/controller/keystone.conf || check=false
+#replace "ADMIN_TOKEN" $ADMIN_TOKEN -- ~/pullstack/autostack/conf/controller/keystone.conf || check=false
+
+sudo sed -i -e "s/ADMIN_TOKEN/$ADMIN_TOKEN/g" ~/pullstack/autostack/conf/controller/keystone.conf || check=false
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 33
+((controllertwo=controllertwo+1))
+
+fi
+
+###########################################################################################################33
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 34 ]; then
+ if [ -s ~/pullstack/autostack/controller/keystone.conf ]; then
+sudo rm -rf /etc/keystone/keystone.conf || check=false
+sudo cp ~/pullstack/autostack/controller/keystone.conf /etc/keystone/ || check=false
+fi
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 34
+((controllertwo=controllertwo+1))
+fi
+
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 35 ]; then
+sudo su -s /bin/sh -c "keystone-manage db_sync" keystone || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 35
+((controllertwo=controllertwo+1))
+fi
+
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 36 ]; then
+sudo service keystone restart || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 36
+((controllertwo=controllertwo+1))
+fi
+
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 37 ]; then
+sudo rm -f /var/lib/keystone/keystone.db || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 37
+((controllertwo=controllertwo+1))
+fi
+
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 38 ]; then
+(crontab -l -u keystone 2>&1 | grep -q token_flush) || \
+  echo '@hourly /usr/bin/keystone-manage token_flush >/var/log/keystone/keystone-tokenflush.log 2>&1' \
+  >> /var/spool/cron/crontabs/keystone || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 38
+((controllertwo=controllertwo+1))
+fi
+
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 39 ]; then
+export OS_SERVICE_TOKEN=$ADMIN_TOKEN || check=false
+export OS_SERVICE_ENDPOINT=http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 39
+((controllertwo=controllertwo+1))
+fi
+
+
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 40 ]; then
+sudo keystone tenant-create --name admin --description "Admin Tenant" || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 40
+((controllertwo=controllertwo+1))
+fi
+
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 41 ]; then
+sudo keystone user-create --name admin --pass $ADMIN_PASS --email $ADMIN_EMAIL_ADDRESS || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 41
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 42 ]; then
+keystone role-create --name admin || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 42
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 43 ]; then
+keystone user-role-add --user admin --tenant admin --role admin || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 43
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 44 ]; then
+keystone tenant-create --name demo --description "Demo Tenant" || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 44
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 45 ]; then
+sudo keystone user-create --name demo --tenant demo --pass $DEMO_PASS --email $DEMO_EMAIL_ADDRESS || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 45
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 46 ]; then
+sudo keystone tenant-create --name service --description "Service Tenant" || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 46
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 47 ]; then
+export OS_SERVICE_TOKEN=$ADMIN_TOKEN || check=false
+export OS_SERVICE_ENDPOINT=http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 || check=false || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 47
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 48 ]; then
+sudo keystone service-create --name keystone --type identity \
+  --description "OpenStack Identity" || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 48
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 49 ]; then
+keystone endpoint-create \
+  --service-id $(keystone service-list | awk '/ identity / {print $2}') \
+  --publicurl http://$CONTROLLER_NODE_HOSTNAME:5000/v2.0 \
+  --internalurl http://$CONTROLLER_NODE_HOSTNAME:5000/v2.0 \ source admin-openrc.sh
+  --adminurl http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 \
+  --region regionOne || check=false || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 49
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 50 ]; then
+echo -------------------------------------------------------------------------------------------------------------------------------
+echo ------------------------------------------  VERIFYING  IDENTITY  SERVICE  -----------------------------------------------------
+echo -------------------------------------------------------------------------------------------------------------------------------
+unset OS_SERVICE_TOKEN OS_SERVICE_ENDPOINT || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 51
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 52 ]; then
+keystone --os-tenant-name admin --os-username admin --os-password $ADMIN_PASS \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 token-get || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 52
+((controllertwo=controllertwo+1))
+fi
+
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 53 ]; then
+keystone --os-tenant-name admin --os-username admin --os-password $ADMIN_PASS \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 tenant-list || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 53
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 54 ]; then
+keystone --os-tenant-name admin --os-username admin --os-password $ADMIN_PASS \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 user-list || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 54
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 55 ]; then
+keystone --os-tenant-name admin --os-username admin --os-password $ADMIN_PASS \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 role-list || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 55
+((controllertwo=controllertwo+1))
+fi
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 56 ]; then
+keystone --os-tenant-name demo --os-username demo --os-password $DEMO_PASS \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 token-get || check=false
+echo -------------------$filename line no : "$controllertwo"------------------------
+#line no 56
+((controllertwo=controllertwo+1))
+fi
+
+
+if [ "$check" = true ] && [ "$controllertwo" -eq 57 ]; then
+keystone --os-tenant-name demo --os-username demo --os-password $DEMO_PASS \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 user-list
+echo -------------------$filename line no : "$controllertwo"------------------------
+
+
 ((controllertwo=controllertwo+1))
 
 
 sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
-
 echo   -----------------------------------------------
 echo \|  [ NOTE : This shell script executed Successfully . ] \|
 echo   -----------------------------------------------
 
 
 exit
+#line no 57
+((controllertwo=controllertwo+1))
 fi
+######################################################################################################
 
 
 ((controllertwo=controllertwo-1))

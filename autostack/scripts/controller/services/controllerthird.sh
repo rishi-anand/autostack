@@ -4,7 +4,7 @@
 . ~/pullstack/autostack/linecounterfiles/controller.properties
 . ~/pullstack/autostack/autostack.properties
 
-
+echo ------------------ GLANCE INSTALLATION  ---------------------------------------------
 
 #-------------- Check if PREVIOUS script is executed successfully or not [ STARTS ] ---------------------------------
 checklastshellscriptexecution=$(cat /etc/network/interfaces | grep $NETWORK_NETMASK_PUBLIC_INTERFACE)
@@ -46,7 +46,7 @@ fi
 
 
 #-------------- Check if PRESENT script is already executed [ START ] ---------------------------------
-if [ "$controllertwo" -eq 34 ]; then
+if [ "$controllertwo" -eq 19 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -55,7 +55,7 @@ echo -----------------------------------------------------
 echo If you Want to execute it again Press [y/n] to Execute it.
 read userchoice
      if [ "$userchoice" = "y" ]; then
-     echo Enter Line Number you want to continue: [Valid 1 - 8] 
+     echo Enter Line Number you want to continue: [Valid 1 - 19] 
      echo And Execute it again.
      read againlinenumber
 
@@ -118,7 +118,8 @@ if [ "$internet_working" = false ] ; then
              if [ "$is_resolv" = false ] ; then
                       if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
                               
-                               sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/common/*
+                               #sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/common/*
+                               sudo sed -i -e "s/NAMESERVER_IP/$NAMESERVER_IP/g" ~/pullstack/autostack/conf/common/*
                                updatednameserverip=$(cat ~/pullstack/autostack/conf/common/resolv.conf | grep $NAMESERVER_IP)
                                if [ ! -z "$updatednameserverip" ]; then
                                sudo rm -rf /etc/resolv.conf
@@ -150,10 +151,28 @@ fi
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 1 ]; then
 
-        if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
-        sudo rm -rf /etc/resolv.conf || check=false
-        fi
+####################################################################################
+
+MYSQL=`which mysql`
  
+Q1="CREATE DATABASE IF NOT EXISTS glance;"
+
+Q2="GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'localhost' \
+  IDENTIFIED BY '$GLANCE_DBPASS';"
+Q3="GRANT ALL PRIVILEGES ON glance.* TO 'glance'@'%' \
+  IDENTIFIED BY '$GLANCE_DBPASS';"
+Q4="FLUSH PRIVILEGES;"
+SQL="${Q1}${Q2}${Q3}${Q4}"
+ 
+
+$MYSQL -uroot -p$DATABASE_PASSWORD -e "$SQL" || check=false
+
+if [ "$check" = true ]; then
+echo ------- Glance Database is Created -------
+fi
+
+############################## keystone database created ##################################
+
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 1
 ((controllertwo=controllertwo+1))
@@ -161,9 +180,7 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 2 ]; then
-              if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
-              sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || check=false
-              fi
+source admin-openrc.sh || check=false 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 2
 ((controllertwo=controllertwo+1))
@@ -171,9 +188,7 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
-if [ -s ~/pullstack/autostack/conf/common/hosts ]; then
-sudo rm -rf  /etc/hosts || check=false 
-fi
+keystone user-create --name glance --pass $GLANCE_PASS || check=false 
 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 3
@@ -182,9 +197,8 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 4 ]; then
-if [ -s ~/pullstack/autostack/conf/common/hosts ]; then
-sudo cp ~/pullstack/autostack/conf/common/hosts /etc/ || check=false 
-fi
+keystone user-role-add --user glance --tenant service --role admin || check=false
+
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 4
 ((controllertwo=controllertwo+1))
@@ -192,7 +206,8 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 5 ]; then
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false 
+keystone service-create --name glance --type image \
+  --description "OpenStack Image Service" || check=false 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 5
 ((controllertwo=controllertwo+1))
@@ -200,16 +215,19 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 6 ]; then
-sudo apt-get install ntp -y || check=false 
+keystone endpoint-create \
+  --service-id $(keystone service-list | awk '/ image / {print $2}') \
+  --publicurl http://$CONTROLLER_NODE_HOSTNAME:9292 \
+  --internalurl http://$CONTROLLER_NODE_HOSTNAME:9292 \
+  --adminurl http://$CONTROLLER_NODE_HOSTNAME:9292 \
+  --region regionOne || check=false 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 6
 ((controllertwo=controllertwo+1))
 fi
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 7 ]; then
-if [ -s ~/pullstack/autostack/conf/controller/ntp.conf ]; then
-sudo rm -rf /etc/ntp.conf || check=false 
-fi
+sudo apt-get install glance python-glanceclient -y || check=false
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 7
 ((controllertwo=controllertwo+1))
@@ -217,8 +235,13 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 8 ]; then
-if [ -s ~/pullstack/autostack/conf/controller/ntp.conf ]; then
-sudo cp ~/pullstack/autostack/conf/controller/ntp.conf /etc/ || check=false 
+if [ -s ~/pullstack/autostack/conf/controller/glance-api.conf ]; then
+sudo rm -rf /etc/glance/glance-api.conf
+sudo cp ~/pullstack/autostack/conf/controller/glance-api.conf /etc/glance/ || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- GLANCE API : /etc/glance/glance-api.conf  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
 fi
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 8
@@ -227,7 +250,15 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 9 ]; then
-sudo rm -rf /var/lib/ntp/ntp.conf.dhcp || check=false 
+
+if [ -s ~/pullstack/autostack/conf/controller/glance-registry.conf ]; then
+sudo rm -rf /etc/glance/glance-registry.conf || check=false
+sudo cp ~/pullstack/autostack/conf/controller/glance-registry.conf /etc/glance/ || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- GLANCE REGISTRY : /etc/glance/glance-registry.conf  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
+fi 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 9
 ((controllertwo=controllertwo+1))
@@ -235,23 +266,22 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 10 ]; then
-sudo service ntp restart || check=false 
+sudo su -s /bin/sh -c "glance-manage db_sync" glance || check=false
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 10
 ((controllertwo=controllertwo+1))
 fi
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 11 ]; then
-#sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root ./networkntp.sh" || check=false 
-
-pwd
+sudo service glance-registry restart || check=false
+sudo service glance-api restart || check=false
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 11
 ((controllertwo=controllertwo+1))
 fi
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 12 ]; then
-#sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root ./computentp.sh" || check=false 
+sudo rm -f /var/lib/glance/glance.sqlite || check=false 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 12
 ((controllertwo=controllertwo+1))
@@ -259,15 +289,15 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 13 ]; then
-
-sudo ntpq -c peers || check=false 
+echo ----------- VERIFYING  GLANCE ------------------------------
+mkdir /tmp/images || check=false 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 13
 ((controllertwo=controllertwo+1))
 fi
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 14 ]; then
-sudo ntpq -c assoc || check=false 
+wget -P /tmp/images http://download.cirros-cloud.net/0.3.3/cirros-0.3.3-x86_64-disk.img || check=false 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 14
 ((controllertwo=controllertwo+1))
@@ -275,23 +305,22 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 15 ]; then
-sudo ntpq -c peers || check=false 
+source admin-openrc.sh || check=false 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 15
 ((controllertwo=controllertwo+1))
 fi
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 16 ]; then
-echo ntpc -c asoc at Network Node
-#sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ntpq -c assoc" || check=false 
+glance image-create --name "cirros-0.3.3-x86_64" --file /tmp/images/cirros-0.3.3-x86_64-disk.img \
+  --disk-format qcow2 --container-format bare --is-public True --progress || check=false 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 16
 ((controllertwo=controllertwo+1))
 fi
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 17 ];
-#sudo rm -rf /etc/resolv.conf || check=false 
-pwd
+glance image-list || check=false 
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 17
 ((controllertwo=controllertwo+1))
@@ -299,180 +328,23 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 18 ]; then
-#sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || check=false 
+rm -r /tmp/images
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 18
-((controllertwo=controllertwo+1))
-fi
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 19 ]; then
-sudo apt-get install ubuntu-cloud-keyring || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 19
-((controllertwo=controllertwo+1))
-fi
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 20 ]; then
-sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
-  "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
-
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 20
-((controllertwo=controllertwo+1))
-fi
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 21 ]; then
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 21
-((controllertwo=controllertwo+1))
-fi
-
-
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 22 ]; then
-sudo apt-get install mariadb-server python-mysqldb -y || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 22
-((controllertwo=controllertwo+1))
-fi
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 23 ]; then
- if [ -s ~/pullstack/autostack/conf/controller/mariadb/my.cnf ]; then
-sudo rm -rf /etc/mysql/my.cnf || check=false 
-fi
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 23
-((controllertwo=controllertwo+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 24 ]; then
-if [ -s ~/pullstack/autostack/conf/controller/mariadb/my.cnf ]; then
-sudo cp ~/pullstack/autostack/conf/controller/mariadb/my.cnf /etc/mysql/ || check=false
-fi
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 24
-((controllertwo=controllertwo+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 25 ]; then
-#above copy is in controller in /freshcont/my.cnf
-
-sudo service mysql restart || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 25
-((controllertwo=controllertwo+1))
-fi
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 26 ]; then
-sudo apt-get install rabbitmq-server -y || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 26
-((controllertwo=controllertwo+1))
-fi
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 27 ]; then
-sudo rabbitmqctl change_password guest $RABBIT_PASS || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 27
-((controllertwo=controllertwo+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 28 ]; then
-# $ACCOUNT_PASSWORD is password
-
-echo ------------------------showing status of rabbit mysql------------------
-sudo rabbitmqctl status | grep rabbit || check=false
-
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 28
-((controllertwo=controllertwo+1))
-fi
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 29 ]; then
-if [ -s ~/pullstack/autostack/conf/controller/rabbitmq.config ]; then
-sudo cp ~/pullstack/autostack/conf/controller/rabbitmq.config /etc/rabbitmq/ || check=false
-fi
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 29
-((controllertwo=controllertwo+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 30 ]; then
-sudo service rabbitmq-server restart || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 30
-((controllertwo=controllertwo+1))
-fi
-
-
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 31 ]; then
-echo ==== CREATE DATABASE keystone ====
-echo ==== GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
-  IDENTIFIED BY 'KEYSTONE_DBPASS' ====
-echo ==== GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' \
-  IDENTIFIED BY 'KEYSTONE_DBPASS' ====
-echo ==== exit ====
-echo ====== Creating it automatically ========
-####################################################################################
-
-MYSQL=`which mysql`
- 
-Q1="CREATE DATABASE IF NOT EXISTS keystonerishi;"
-
-Q2="GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
-  IDENTIFIED BY '$KEYSTONE_DBPASS';"
-Q3="GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' \
-  IDENTIFIED BY '$KEYSTONE_DBPASS';"
-Q4="FLUSH PRIVILEGES;"
-SQL="${Q1}${Q2}${Q3}${Q4}"
- 
-
-$MYSQL -uroot -p$DATABASE_PASSWORD -e "$SQL" || check=false
-
-if [ "$check" = true ]; then
-echo ------- Keystone Database is Created -------
-fi
-
-############################## keystone database created ##################################
-
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 31
-((controllertwo=controllertwo+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 32 ]; then
-sudo apt-get install keystone python-keystoneclient -y || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 32
-((controllertwo=controllertwo+1))
-fi
-
-if [ "$check" = true ] && [ "$controllertwo" -eq 33 ]; then
-echo ----------- Copy Below Admin Token ----------------------
-ADMIN_TOKEN=$(openssl rand -hex 10) || check=false
-replace "ADMIN_TOKEN" $ADMIN_TOKEN -- ~/pullstack/autostack/conf/controller/keystone.conf || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 33
 ((controllertwo=controllertwo+1))
 
 
 sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
-
 echo   -----------------------------------------------
 echo \|  [ NOTE : This shell script executed Successfully . ] \|
 echo   -----------------------------------------------
 
-
 exit
+#line no 57
+((controllertwo=controllertwo+1))
 fi
+######################################################################################################
 
 
 ((controllertwo=controllertwo-1))

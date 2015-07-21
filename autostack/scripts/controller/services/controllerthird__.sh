@@ -9,6 +9,54 @@ exec 2> >(tee "Error_.$filename._.$today.err")
 exec > >(tee "Log_.$filename._.$today.log")
 
 
+
+
+
+#-------------------- Check if Internet is working if not working then updating Nameserver [STARTS]-----------------------------------
+internet_working=true
+is_resolv=true
+ping -c 3 www.google.com || internet_working=false
+if [ "$internet_working" = false ] ; then
+    
+    name_server=$(cat /etc/resolv.conf | grep $NAMESERVER_IP )
+        if [ -z "$name_server" ]
+        then
+             sudo echo nameserver $NAMESERVER_IP >> /etc/resolv.conf || is_resolv=false
+             if [ "$is_resolv" = false ] ; then
+                      if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
+                              
+                               sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/common/*
+                               updatednameserverip=$(cat ~/pullstack/autostack/conf/common/resolv.conf | grep $NAMESERVER_IP)
+                               if [ ! -z "$updatednameserverip" ]; then
+                               sudo rm -rf /etc/resolv.conf
+                               sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/
+                                                      else
+                                                      echo ---------------------------------------------------------
+                                                      echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
+                                                      echo ---------------------------------------------------------
+
+                               fi
+                       else
+echo ---------------------------------------------------------
+echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
+echo ---------------------------------------------------------
+
+
+                      fi
+
+             fi
+
+        fi
+else
+echo --------------------------------
+echo \|   Internet is working properly \|
+echo --------------------------------
+fi
+#-------------------- Check if Internet is working if not working then updating Nameserver [ENDS] -------------------------------------------
+
+
+
+
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 sudo rm -rf /etc/keystone/keystone.conf || check=false
@@ -51,7 +99,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sudo (crontab -l -u keystone 2>&1 | grep -q token_flush) || \
+(crontab -l -u keystone 2>&1 | grep -q token_flush) || \
   echo '@hourly /usr/bin/keystone-manage token_flush >/var/log/keystone/keystone-tokenflush.log 2>&1' \
   >> /var/spool/cron/crontabs/keystone || check=false
 
@@ -66,7 +114,7 @@ if [ "$check" = true ] ; then
 echo --- !!!!!  Enter previously copied ADMIN TOKEN  !!!!! -----
 read ADMIN_TOKEN
 export OS_SERVICE_TOKEN=$ADMIN_TOKEN || check=false
-export OS_SERVICE_ENDPOINT=http://controller10:35357/v2.0 || check=false
+export OS_SERVICE_ENDPOINT=http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 7
@@ -120,7 +168,7 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-keystone user-create --name demo --tenant demo --pass $ADMIN_PASS --email $EMAIL_ADDRESS || check=false
+keystone user-create --name demo --tenant demo --pass $DEMO_PASS --email $EMAIL_ADDRESS || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 13
 fi
@@ -147,13 +195,13 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 export OS_SERVICE_TOKEN=$ADMIN_TOKEN
-export OS_SERVICE_ENDPOINT=http://controller10:35357/v2.0
+export OS_SERVICE_ENDPOINT=http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0
 
 keystone endpoint-create \
   --service-id $(keystone service-list | awk '/ identity / {print $2}') \
-  --publicurl http://controller10:5000/v2.0 \
-  --internalurl http://controller10:5000/v2.0 \ source admin-openrc.sh
-  --adminurl http://controller10:35357/v2.0 \
+  --publicurl http://$CONTROLLER_NODE_HOSTNAME:5000/v2.0 \
+  --internalurl http://$CONTROLLER_NODE_HOSTNAME:5000/v2.0 \ source admin-openrc.sh
+  --adminurl http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 \
   --region regionOne || check=false
 echo -------------------$filename line no : $linenumber------------------------
 #line no 16
@@ -167,8 +215,8 @@ echo ------%%%%%%%%%%%%%%%%%%------  "Verifying Operation - IDENTITY SERVICE" --
 
 unset OS_SERVICE_TOKEN OS_SERVICE_ENDPOINT || check=false
 
-keystone --os-tenant-name admin --os-username admin --os-password $ACCOUNT_PASSWORD \
-  --os-auth-url http://controller10:35357/v2.0 token-get || check=false
+keystone --os-tenant-name admin --os-username admin --os-password welcome \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 token-get || check=false
 
 
 echo -------------------$filename line no : $linenumber------------------------
@@ -180,8 +228,8 @@ if [ "$check" = true ] ; then
 
 
 
-keystone --os-tenant-name admin --os-username admin --os-password $ACCOUNT_PASSWORD \
-  --os-auth-url http://controller10:35357/v2.0 tenant-list || check=false
+keystone --os-tenant-name admin --os-username admin --os-password welcome \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 tenant-list || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 18
@@ -191,7 +239,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 keystone --os-tenant-name admin --os-username admin --os-password $ADMIN_PASS \
-  --os-auth-url http://controller10:35357/v2.0 user-list || check=false
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 user-list || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 19
@@ -202,7 +250,7 @@ if [ "$check" = true ] ; then
 
 
 keystone --os-tenant-name admin --os-username admin --os-password $ADMIN_PASS \
-  --os-auth-url http://controller10:35357/v2.0 role-list || check=false
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 role-list || check=false
 
 
 echo -------------------$filename line no : $linenumber------------------------
@@ -213,8 +261,8 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-keystone --os-tenant-name demo --os-username demo --os-password $ACCOUNT_PASSWORD \
-  --os-auth-url http://controller10:35357/v2.0 token-get || check=false
+keystone --os-tenant-name demo --os-username demo --os-password welcome \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 token-get || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 21
@@ -225,8 +273,8 @@ if [ "$check" = true ] ; then
 
 echo ---- If output is [
 You are not authorized to perform the requested action, admin_required. (HTTP 403)]---- it is successful----
-keystone --os-tenant-name demo --os-username demo --os-password $ACCOUNT_PASSWORD \
-  --os-auth-url http://controller10:35357/v2.0 user-list || check=false
+keystone --os-tenant-name demo --os-username demo --os-password welcome \
+  --os-auth-url http://$CONTROLLER_NODE_HOSTNAME:35357/v2.0 user-list || check=false
 
 
 echo -------------------$filename line no : $linenumber------------------------
@@ -316,9 +364,9 @@ if [ "$check" = true ] ; then
 
 keystone endpoint-create \
   --service-id $(keystone service-list | awk '/ image / {print $2}') \
-  --publicurl http://controller10:9292 \
-  --internalurl http://controller10:9292 \
-  --adminurl http://controller10:9292 \
+  --publicurl http://$CONTROLLER_NODE_HOSTNAME:9292 \
+  --internalurl http://$CONTROLLER_NODE_HOSTNAME:9292 \
+  --adminurl http://$CONTROLLER_NODE_HOSTNAME:9292 \
   --region regionOne || check=false
 
 
@@ -544,9 +592,9 @@ if [ "$check" = true ] ; then
 
 keystone endpoint-create \
   --service-id $(keystone service-list | awk '/ compute / {print $2}') \
-  --publicurl http://controller10:8774/v2/%\(tenant_id\)s \
-  --internalurl http://controller10:8774/v2/%\(tenant_id\)s \
-  --adminurl http://controller10:8774/v2/%\(tenant_id\)s \
+  --publicurl http://$CONTROLLER_NODE_HOSTNAME:8774/v2/%\(tenant_id\)s \
+  --internalurl http://$CONTROLLER_NODE_HOSTNAME:8774/v2/%\(tenant_id\)s \
+  --adminurl http://$CONTROLLER_NODE_HOSTNAME:8774/v2/%\(tenant_id\)s \
   --region regionOne || check=false
 
 
@@ -631,7 +679,7 @@ if [ "$check" = true ] ; then
 echo -----------------Going to COMPUTE NODE-------------------
 
 
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/computenova.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/pullstack/autostack/compute/computenova.sh" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 59
@@ -684,7 +732,7 @@ echo ====== GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \ IDENTIF
 echo ====== GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \ IDENTIFIED BY 'NEUTRON_DBPASS' ======
 
 echo ====== exit ======
-mysql -u root -p || check=false
+#mysql -u root -p || check=false
 
 
 echo -------------------$filename line no : $linenumber------------------------
@@ -708,7 +756,7 @@ if [ "$check" = true ] ; then
 
 
 
-keystone user-create --name neutron --pass $ACCOUNT_PASSWORD || check=false
+keystone user-create --name neutron --pass welcome || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 65
@@ -742,9 +790,9 @@ if [ "$check" = true ] ; then
 
 keystone endpoint-create \
   --service-id $(keystone service-list | awk '/ network / {print $2}') \
-  --publicurl http://controller10:9696 \
-  --adminurl http://controller10:9696 \
-  --internalurl http://controller10:9696 \
+  --publicurl http://$CONTROLLER_NODE_HOSTNAME:9696 \
+  --adminurl http://$CONTROLLER_NODE_HOSTNAME:9696 \
+  --internalurl http://$CONTROLLER_NODE_HOSTNAME:9696 \
   --region regionOne || check=false
 
 
@@ -781,20 +829,19 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 keystone tenant-get service || check=false
+source admin-openrc.sh
+SERVICE_TENANT_ID=$(keystone tenant-get service|grep id| cut -d '|' -f 3) || check=false
+echo SERVICE_TENANT_ID = $SERVICE_TENANT_ID
+replace "SERVICE_TENANT_ID" $SERVICE_TENANT_ID -- ~/pullstack/autostack/conf/controller/neutron.conf || check=false
+
+if [ "$check" = true ]; then
+echo SERVICE_TENANT_ID is replaced -in -~/pullstack/autostack/conf/controller/neutron.conf
+fi
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 71
 fi
 
-
-echo --!!!!!!- Copy this Service ID and paste it into /etc/neutron/neutron.conf at [Default] -!!!!!!--
-echo --- nova_admin_tenant_id = SERVICE_TENANT_ID ---
-echo --- Open New Terminal and Execute abobe command---
-
-echo --- if- you PRESS n, then- execute ~/pullstack/autostack/controller/extra_sh/controllerrest.sh to execute rest of script ------
-echo --- Press[y/n] to continue- or n to skip------
-read next
-if [ "$next" = "y" ] ; then
 
 ######################   SERVICE ID END  #######################
 
@@ -862,9 +909,9 @@ fi
 if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
-
-
-sudo su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \ --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron || check=false
+#sudo is true, i have checked it
+sudo su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
+  --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 78
@@ -917,7 +964,7 @@ if [ "$check" = true ] ; then
 
 echo ---======---  Installing NETWORK Services - Network Node ---======---
 echo --- Going To Network Node ---
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/network/networknetwork.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/pullstack/autostack/network/networknetwork.sh" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 83
@@ -951,7 +998,7 @@ if [ "$check" = true ] ; then
 ((linenumber=linenumber+1))
 
 
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/network/networknetworksecond.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.202 "sudo -u root  ~/pullstack/autostack/network/networknetworksecond.sh" || check=false
 
 echo -------------------$filename line no : $linenumber------------------------
 #line no 87
@@ -975,7 +1022,7 @@ if [ "$check" = true ] ; then
 
 echo ---======---  Installing NETWORK Services - Compute Node ---======---
 echo --- Going To Compute Node ---
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/computenetwork.sh" || check=false
+sshpass -p welcome ssh -o StrictHostKeyChecking=no cliqr@192.168.4.204 "sudo -u root  ~/pullstack/autostack/compute/computenetwork.sh" || check=false
 
 
 

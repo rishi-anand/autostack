@@ -1,2 +1,0 @@
-name=new value
-age=18

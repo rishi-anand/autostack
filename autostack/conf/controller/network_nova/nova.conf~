@@ -34,7 +34,7 @@ firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 [database]
 
-connection = mysql://nova:welcome@CONTROLLER_NODE_HOSTNAME/nova
+connection = mysql://nova:NOVA_DBPASS@CONTROLLER_NODE_HOSTNAME/nova
 
 [keystone_authtoken]
 
@@ -56,7 +56,7 @@ url = http://CONTROLLER_NODE_HOSTNAME:9696
 auth_strategy = keystone
 admin_auth_url = http://CONTROLLER_NODE_HOSTNAME:35357/v2.0
 admin_tenant_name = service
-admin_username = NEUTRON_PASS
-admin_password = welcome
+admin_username = neutron
+admin_password = NEUTRON_PASS
 
 

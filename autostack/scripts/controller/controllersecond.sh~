@@ -466,6 +466,11 @@ echo -------------------$filename line no : "$controllertwo"--------------------
 sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
+echo   -----------------------------------------------
+echo \|  [ NOTE : This shell script executed Successfully . ] \|
+echo   -----------------------------------------------
+
+
 exit
 fi
 
