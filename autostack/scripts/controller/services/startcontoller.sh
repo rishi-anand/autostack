@@ -358,6 +358,31 @@ sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllerthird.sh || ec
 echo -------------------$filename line no : $controllerone------------------------
 #line no 9
 
+
+fi
+
+
+
+
+if [ "$check" = true ] && [ "$controllerone" -eq 10 ]; then
+ if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
+
+        echo -###################################### Check Network Configuration -######################################
+       cat ~/pullstack/autostack/conf/controller/interfaces
+
+       echo -###################################### Check Network Configuration -######################################
+
+    
+        else 
+        echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
+        fi
+
+
+echo -------------------$filename line no : "$controllerone"------------------------
+#line no 10
+((networkone=networkone+1))
+
+
 sudo chmod 755 controllerfirst.sh
 echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
@@ -366,25 +391,10 @@ sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/li
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
-if [ "$replacemsg" = true ]; then
-echo
-echo
-echo   ------------------------------------------------
-echo \|  [ NOTE : Do Not bother about ==  Errcode: 21 ] \|
-echo   ------------------------------------------------
-echo
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo
-echo
-fi
-
-
 
 exit
 
-fi
+
 
 ((controllerone=controllerone-1))
 sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
