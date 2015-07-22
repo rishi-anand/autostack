@@ -104,7 +104,7 @@ echo ----******--Welcome to $hostname--******----
 . ~/pullstack/autostack/linecounterfiles/network.properties
 . ~/pullstack/autostack/autostack.properties
 
-if [ "$networkone" -eq 9 ]
+if [ "$networkone" -eq 10 ]
 then
 
 echo -----------------------------------------------------
@@ -114,7 +114,7 @@ echo -----------------------------------------------------
 echo If you Want to execute it again Press [y/n] to Execute it.
 read userchoice
      if [ "$userchoice" = "y" ]; then
-     echo Enter Line Number you want to continue: [Valid 1 - 10] 
+     echo Enter Line Number you want to continue: [Valid 1 - 9] 
      echo And Execute it again.
      read againlinenumber
 
@@ -287,6 +287,12 @@ echo -------------------$filename line no : "$networkone"-----------------------
 ((networkone=networkone+1))
 fi
 
+
+
+
+
+
+
 if [ "$check" = true ] && [ "$networkone" -eq 8 ]; then
 chown root ~/pullstack/autostack/scripts/network/networkfirst.sh || echo "Unable to set Permission"
 chmod 700 ~/pullstack/autostack/scripts/network/networkfirst.sh || echo "Unable to set Permission"
@@ -303,6 +309,43 @@ chmod 755 ~/pullstack/autostack/scripts/network/replace.sh || echo "Unable to se
 echo -------------------$filename line no : "$networkone"------------------------
 #line no 8
 ((networkone=networkone+1))
+fi
+
+
+
+
+if [ "$check" = true ] && [ "$networkone" -eq 9 ]; then
+ if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
+
+        echo -###################################### Check Network Configuration -######################################
+       cat ~/pullstack/autostack/conf/controller/interfaces
+
+       echo -###################################### Check Network Configuration -######################################
+
+         echo ---  Press[y/n] to continue- or to skip -----
+       read choicenetwork
+                 if [ "$choicenetwork" = "y" ]; then
+                 sudo rm -rf  /etc/network/interfaces || check=false
+                 sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=false
+                 echo -###################################### REBOOTING CONTROLLER -######################################
+                 hostname=$(hostname)
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ Static IP is configured. New IP of $hostname = $NETWORK_NODE_PUBLIC_IP ] \|
+                 echo   ---------------------------------------------------------------------------
+                 
+                 fi
+    
+    
+        else 
+        echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
+        fi
+
+
+echo -------------------$filename line no : "$networkone"------------------------
+#line no 9
+((networkone=networkone+1))
+
+
 
 sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
