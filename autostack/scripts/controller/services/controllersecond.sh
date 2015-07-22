@@ -313,7 +313,7 @@ if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
 ((controllertwo=controllertwo+1))
 	fi
 
-	if [ "$check" = true ] && [ "$controllertwo" -eq 17 ];
+	if [ "$check" = true ] && [ "$controllertwo" -eq 17 ];then
 #sudo rm -rf /etc/resolv.conf || check=false 
 	pwd
 	echo -------------------$filename line no : "$controllertwo"------------------------

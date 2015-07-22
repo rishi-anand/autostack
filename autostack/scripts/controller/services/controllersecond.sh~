@@ -185,10 +185,8 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 2 ]; then
-
 if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
 sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || check=false
-
 fi
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 2
@@ -315,7 +313,7 @@ if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
 ((controllertwo=controllertwo+1))
 	fi
 
-	if [ "$check" = true ] && [ "$controllertwo" -eq 17 ];
+	if [ "$check" = true ] && [ "$controllertwo" -eq 17 ];then
 #sudo rm -rf /etc/resolv.conf || check=false 
 	pwd
 	echo -------------------$filename line no : "$controllertwo"------------------------

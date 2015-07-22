@@ -64,7 +64,6 @@ read userchoice
     mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties 
     controllerthree=$againlinenumber
 fi
-if
 
 #exit
 else
@@ -322,7 +321,7 @@ echo -------------------$filename line no : "$controllerthree"------------------
 ((controllerthree=controllerthree+1))
 fi
 
-if [ "$check" = true ] && [ "$controllerthree" -eq 17 ];
+if [ "$check" = true ] && [ "$controllerthree" -eq 17 ];then
 glance image-list || check=false 
 echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 17
