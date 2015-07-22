@@ -185,8 +185,10 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 2 ]; then
+
 if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
 sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || check=false
+
 fi
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 2

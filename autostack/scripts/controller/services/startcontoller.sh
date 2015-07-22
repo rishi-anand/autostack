@@ -347,7 +347,7 @@ sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllersecond.sh || e
 #chown root ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
 sudo chmod 700 ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
 
-sudo chmod u+x ~~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
+sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
 
 #chown root ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
 sudo chmod 700 ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
@@ -357,7 +357,7 @@ sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllerthird.sh || ec
 
 echo -------------------$filename line no : $controllerone------------------------
 #line no 9
-
+((controllerone=controllerone+1))
 
 fi
 
@@ -394,7 +394,7 @@ sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/li
 
 exit
 
-
+fi
 
 ((controllerone=controllerone-1))
 sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
