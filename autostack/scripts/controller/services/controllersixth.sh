@@ -46,7 +46,7 @@ fi
 
 
 #-------------- Check if PRESENT script is already executed [ START ] ---------------------------------
-if [ "$controllertwo" -eq 15 ]; then
+if [ "$controllersixth" -eq 15 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -59,7 +59,7 @@ read userchoice
      echo And Execute it again.
      read againlinenumber
 
-    sed "s/controllertwo=.*/controllertwo=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+    sed "s/controllersixth=.*/controllersixth=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
     mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties 
 fi
 
@@ -146,139 +146,139 @@ fi
 
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 1 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 1 ]; then
 source admin-openrc.sh || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 1
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 2 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 2 ]; then
 source admin-openrc.sh || check=false
 neutron net-create ext-net --router:external True \
   --provider:physical_network external --provider:network_type flat
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 2
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 3 ]; then
 neutron subnet-create ext-net --name ext-subnet \
   --allocation-pool start=$FLOATING_IP_START,end=$FLOATING_IP_END \
   --disable-dhcp --gateway $EXTERNAL_NETWORK_GATEWAY $EXTERNAL_NETWORK_CIDR || check=false 
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 3
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 4 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 4 ]; then
 neutron net-create admin-net
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 4
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 5 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 5 ]; then
 neutron subnet-create admin-net --name admin-subnet \
   --gateway $TENANT_NETWORK_GATEWAY $TENANT_NETWORK_CIDR
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 5
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 6 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 6 ]; then
 
 neutron router-create admin-router
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 6
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 7 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 7 ]; then
 neutron router-interface-add admin-router admin-subnet
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 7
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 8 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 8 ]; then
 neutron router-gateway-set admin-router ext-net
 echo --------------------------------------------
 echo It will show : Set gateway -- router admin-router
 echo --------------------------------------------
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 8
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 10 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 10 ]; then
 source demo-openrc.sh || check=false
 neutron net-create demo-net || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 10
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 11 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 11 ]; then
 neutron subnet-create demo-net --name demo-subnet \
   --gateway $TENANT_NETWORK_GATEWAY $TENANT_NETWORK_CIDR || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 11
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 12 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 12 ]; then
 neutron router-create demo-router || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 12
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 13 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 13 ]; then
 neutron router-interface-add demo-router demo-subnet || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 13
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 14 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 14 ]; then
 eutron router-gateway-set demo-router ext-net || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 14
-((controllertwo=controllertwo+1))
+((controllersixth=controllersixth+1))
 
 
-sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
+sed "s/controllersixth=.*/controllersixth="$controllersixth"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
 echo   -----------------------------------------------
 echo \|  [ NOTE : This shell script executed Successfully . ] \|
 echo   -----------------------------------------------
 
 exit
-#line no 15
-((controllertwo=controllertwo+1))
+#line no 14
+((controllersixth=controllersixth+1))
 fi
 ######################################################################################################
 
 
-((controllertwo=controllertwo-1))
+((controllersixth=controllersixth-1))
 
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controllertwo" , Verify this line and execute same shell script again and it will start there itself . ] \|
+echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controllersixth" , Verify this line and execute same shell script again and it will start there itself . ] \|
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
-sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
+sed "s/controllersixth=.*/controllersixth="$controllersixth"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
 
 

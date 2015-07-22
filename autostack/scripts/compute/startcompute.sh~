@@ -168,6 +168,14 @@ echo ----------------------------------------
 echo \|   Created a new super-user : autostack \|
 echo \|   Password of autostack  : autostack . \|
 echo ----------------------------------------
+source=~/pullstack
+destination=/home/autostack/
+
+if [ ! -d "$destination" ]; then
+    mkdir -p "$destination"
+fi
+sudo cp -R "$source" "$destination"
+fi
 fi
 fi
 #---------------------- Create User [ ENDS ] ---------------------------------------------

@@ -46,7 +46,7 @@ fi
 
 
 #-------------- Check if PRESENT script is already executed [ START ] ---------------------------------
-if [ "$controllertwo" -eq 15 ]; then
+if [ "$controllerfour" -eq 16 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -59,7 +59,7 @@ read userchoice
      echo And Execute it again.
      read againlinenumber
 
-    sed "s/controllertwo=.*/controllertwo=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+    sed "s/controllerfour=.*/controllerfour=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
     mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties 
 fi
 
@@ -149,7 +149,27 @@ fi
 
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 1 ]; then
+
+#-------------------------- Copying admin-openrc.sh & demo-openrc.sh [STARTS] ----------------------------------------
+if [ ! -s admin-openrc.sh ]; then
+pwdd=$(pwd)
+sudo cp ~/pullstack/autostack/conf/controller/admin-openrc.sh $pwdd
+sudo sed -i -e "s/ADMIN_PASS/$ADMIN_PASS/g" admin-openrc.sh
+sudo sed -i -e "s/CONTROLLER_NODE_HOSTNAME/$CONTROLLER_NODE_HOSTNAME/g" admin-openrc.sh
+fi
+
+if [ ! -s demo-openrc.sh ]; then
+pwdd=$(pwd)
+sudo cp ~/pullstack/autostack/conf/controller/demo-openrc.sh $pwdd
+sudo sed -i -e "s/DEMO_PASS/$DEMO_PASS/g" demo-openrc.sh
+sudo sed -i -e "s/CONTROLLER_NODE_HOSTNAME/$CONTROLLER_NODE_HOSTNAME/g" demo-openrc.sh
+fi
+#-------------------------- Copying admin-openrc.sh & demo-openrc.sh [ENDS] ----------------------------------------
+
+
+
+
+if [ "$check" = true ] && [ "$controllerfour" -eq 1 ]; then
 
 ####################################################################################
 
@@ -173,48 +193,48 @@ fi
 
 ############################## keystone database created ##################################
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 1
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 2 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 2 ]; then
 source admin-openrc.sh || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 2
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 3 ]; then
 keystone user-create --name nova --pass $NOVA_PASS || check=false 
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 3
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 4 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 4 ]; then
 keystone user-role-add --user nova --tenant service --role admin || check=false
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 4
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 5 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 5 ]; then
 keystone service-create --name nova --type compute \
   --description "OpenStack Compute" || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 5
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 6 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 6 ]; then
 
 keystone endpoint-create \
   --service-id $(keystone service-list | awk '/ compute / {print $2}') \
@@ -222,21 +242,21 @@ keystone endpoint-create \
   --internalurl http://$CONTROLLER_NODE_HOSTNAME:8774/v2/%\(tenant_id\)s \
   --adminurl http://$CONTROLLER_NODE_HOSTNAME:8774/v2/%\(tenant_id\)s \
   --region regionOne || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 6
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 7 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 7 ]; then
 sudo apt-get install nova-api nova-cert nova-conductor nova-consoleauth \
   nova-novncproxy nova-scheduler python-novaclient -y || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 7
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 8 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 8 ]; then
 if [ -s ~/pullstack/autostack/conf/controller/nova.conf ]; then
 sudo rm -rf /etc/nova/nova.conf || check=false
 sudo cp ~/pullstack/autostack/conf/controller/nova.conf /etc/nova/ || check=false
@@ -245,74 +265,74 @@ echo ---------------------------------------------------------------------------
 echo ----------- NOVA : /etc/nova/nova.conf  [ NOT EDITED ] -------------
 echo -----------------------------------------------------------------------------------
 fi
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 8
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 10 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 10 ]; then
 sudo su -s /bin/sh -c "nova-manage db sync" nova || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 10
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 11 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 11 ]; then
 sudo service nova-api restart || check=false
 sudo service nova-cert restart || check=false
 sudo service nova-consoleauth restart || check=false
 sudo service nova-scheduler restart || check=false
 sudo service nova-conductor restart || check=false
 sudo service nova-novncproxy restart || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 11
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 12 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 12 ]; then
 sudo rm -f /var/lib/nova/nova.sqlite || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 12
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 13 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 13 ]; then
 echo -------- NOVA ON COMPUTE [GOING TO COMPUTE NODE] -----------
 sshpass -p autostack ssh -o StrictHostKeyChecking=no autostack@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/./computenova.sh" || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 13
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 13 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 13 ]; then
 echo ----------- VERIFYING  NOVA ------------------------------
 source admin-openrc.sh || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 13
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 14 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 14 ]; then
 echo NOVA SERVICE_LIST
 echo [ It Should contain 4 controller services and 1 compute services ]
 nova service-list || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 14
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 15 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 15 ]; then
 echo NOVA IMAGE-LIST
 nova image-list || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerfour"------------------------
 
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 
 
-sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
+sed "s/controllerfour=.*/controllerfour="$controllerfour"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
 echo   -----------------------------------------------
 echo \|  [ NOTE : This shell script executed Successfully . ] \|
@@ -320,19 +340,19 @@ echo   -----------------------------------------------
 
 exit
 #line no 15
-((controllertwo=controllertwo+1))
+((controllerfour=controllerfour+1))
 fi
 ######################################################################################################
 
 
-((controllertwo=controllertwo-1))
+((controllerfour=controllerfour-1))
 
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controllertwo" , Verify this line and execute same shell script again and it will start there itself . ] \|
+echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controllerfour" , Verify this line and execute same shell script again and it will start there itself . ] \|
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
-sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
+sed "s/controllerfour=.*/controllerfour="$controllerfour"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
 
 

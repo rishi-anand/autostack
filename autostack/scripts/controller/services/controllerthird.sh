@@ -46,7 +46,7 @@ fi
 
 
 #-------------- Check if PRESENT script is already executed [ START ] ---------------------------------
-if [ "$controllertwo" -eq 19 ]; then
+if [ "$controllerthree" -eq 19 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -58,12 +58,15 @@ read userchoice
      echo Enter Line Number you want to continue: [Valid 1 - 19] 
      echo And Execute it again.
      read againlinenumber
-
-    sed "s/controllertwo=.*/controllertwo=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+     
+     againcheck=true
+    sed "s/controllerthree=.*/controllerthree=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
     mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties 
+    controllerthree=$againlinenumber
 fi
+if
 
-exit
+#exit
 else
 
 echo Starting $filename
@@ -149,7 +152,7 @@ fi
 
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 1 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 1 ]; then
 
 ####################################################################################
 
@@ -173,68 +176,68 @@ fi
 
 ############################## keystone database created ##################################
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 1
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 2 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 2 ]; then
 source admin-openrc.sh || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 2
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 3 ]; then
 keystone user-create --name glance --pass $GLANCE_PASS || check=false 
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 3
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 4 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 4 ]; then
 keystone user-role-add --user glance --tenant service --role admin || check=false
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 4
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 5 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 5 ]; then
 keystone service-create --name glance --type image \
   --description "OpenStack Image Service" || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 5
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 6 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 6 ]; then
 keystone endpoint-create \
   --service-id $(keystone service-list | awk '/ image / {print $2}') \
   --publicurl http://$CONTROLLER_NODE_HOSTNAME:9292 \
   --internalurl http://$CONTROLLER_NODE_HOSTNAME:9292 \
   --adminurl http://$CONTROLLER_NODE_HOSTNAME:9292 \
   --region regionOne || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 6
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 7 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 7 ]; then
 sudo apt-get install glance python-glanceclient -y || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 7
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 8 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 8 ]; then
 if [ -s ~/pullstack/autostack/conf/controller/glance-api.conf ]; then
 sudo rm -rf /etc/glance/glance-api.conf
 sudo cp ~/pullstack/autostack/conf/controller/glance-api.conf /etc/glance/ || check=false
@@ -243,13 +246,13 @@ echo ---------------------------------------------------------------------------
 echo ----------- GLANCE API : /etc/glance/glance-api.conf  [ NOT EDITED ] -------------
 echo -----------------------------------------------------------------------------------
 fi
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 8
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 9 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 9 ]; then
 
 if [ -s ~/pullstack/autostack/conf/controller/glance-registry.conf ]; then
 sudo rm -rf /etc/glance/glance-registry.conf || check=false
@@ -259,102 +262,102 @@ echo ---------------------------------------------------------------------------
 echo ----------- GLANCE REGISTRY : /etc/glance/glance-registry.conf  [ NOT EDITED ] -------------
 echo -----------------------------------------------------------------------------------
 fi 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 9
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 10 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 10 ]; then
 sudo su -s /bin/sh -c "glance-manage db_sync" glance || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 10
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 11 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 11 ]; then
 sudo service glance-registry restart || check=false
 sudo service glance-api restart || check=false
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 11
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 12 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 12 ]; then
 sudo rm -f /var/lib/glance/glance.sqlite || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 12
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 13 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 13 ]; then
 echo ----------- VERIFYING  GLANCE ------------------------------
 mkdir /tmp/images || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 13
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 14 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 14 ]; then
 wget -P /tmp/images http://download.cirros-cloud.net/0.3.3/cirros-0.3.3-x86_64-disk.img || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 14
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 15 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 15 ]; then
 source admin-openrc.sh || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 15
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 16 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 16 ]; then
 glance image-create --name "cirros-0.3.3-x86_64" --file /tmp/images/cirros-0.3.3-x86_64-disk.img \
   --disk-format qcow2 --container-format bare --is-public True --progress || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 16
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 17 ];
+if [ "$check" = true ] && [ "$controllerthree" -eq 17 ];
 glance image-list || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 17
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 18 ]; then
+if [ "$check" = true ] && [ "$controllerthree" -eq 18 ]; then
 rm -r /tmp/images
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 18
-((controllertwo=controllertwo+1))
+((controllerthree=controllerthree+1))
 
 
-sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+sed "s/controllerthree=.*/controllerthree="$controllerthree"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 echo   -----------------------------------------------
 echo \|  [ NOTE : This shell script executed Successfully . ] \|
 echo   -----------------------------------------------
 
 exit
-#line no 57
-((controllertwo=controllertwo+1))
+#line no 19
+((controllerthree=controllerthree+1))
 fi
 ######################################################################################################
 
 
-((controllertwo=controllertwo-1))
+((controllerthree=controllerthree-1))
 
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controllertwo" , Verify this line and execute same shell script again and it will start there itself . ] \|
+echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controllerthree" , Verify this line and execute same shell script again and it will start there itself . ] \|
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
-sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+sed "s/controllerthree=.*/controllerthree="$controllerthree"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 

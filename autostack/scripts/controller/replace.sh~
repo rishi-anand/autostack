@@ -38,6 +38,7 @@ echo NETWORK_GATEWAY_PRIVATE_INTERFACE = $NETWORK_GATEWAY_PRIVATE_INTERFACE
 
 echo NETWORK_EXTERNAL_INTERFACE_NAME = $NETWORK_EXTERNAL_INTERFACE_NAME
 
+echo METADATA_SECRET = $METADATA_SECRET 
 echo DATABASE_PASSWORD = $DATABASE_PASSWORD
 echo RABBIT_PASS = $RABBIT_PASS
 echo KEYSTONE_DBPASS = $KEYSTONE_DBPASS
@@ -74,7 +75,8 @@ read choice
 
 if [ "$choice" = "y" ]; then
 
-sudo replace "DATABASE_PASSWORD" $DATABASE_PASSWORD -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+
+sudo sed -i -e "s/DATABASE_PASSWORD/$DATABASE_PASSWORD/g" ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
 
 sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
 
@@ -123,6 +125,8 @@ sudo replace "NETWORK_BROADCAST_PRIVATE_INTERFACE" $NETWORK_BROADCAST_PRIVATE_IN
 sudo replace "NETWORK_GATEWAY_PRIVATE_INTERFACE" $NETWORK_GATEWAY_PRIVATE_INTERFACE -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
 
 sudo replace "NETWORK_EXTERNAL_INTERFACE_NAME" $NETWORK_EXTERNAL_INTERFACE_NAME -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+
+sudo replace "METADATA_SECRET" $METADATA_SECRET -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
 
 sudo replace "RABBIT_PASS" $RABBIT_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
 

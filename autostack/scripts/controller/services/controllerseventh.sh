@@ -46,7 +46,7 @@ fi
 
 
 #-------------- Check if PRESENT script is already executed [ START ] ---------------------------------
-if [ "$controllertwo" -eq 15 ]; then
+if [ "$controllerseventh" -eq 15 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -59,7 +59,7 @@ read userchoice
      echo And Execute it again.
      read againlinenumber
 
-    sed "s/controllertwo=.*/controllertwo=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+    sed "s/controllerseventh=.*/controllerseventh=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
     mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties 
 fi
 
@@ -146,15 +146,15 @@ fi
 
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 1 ]; then
+if [ "$check" = true ] && [ "$controllerseventh" -eq 1 ]; then
 sudo apt-get install openstack-dashboard apache2 libapache2-mod-wsgi memcached python-memcache -y || check=false 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerseventh"------------------------
 #line no 1
-((controllertwo=controllertwo+1))
+((controllerseventh=controllerseventh+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 2 ]; then
+if [ "$check" = true ] && [ "$controllerseventh" -eq 2 ]; then
 
 
 if [ -s ~/pullstack/autostack/conf/controller/local_settings.py ]; then
@@ -166,42 +166,42 @@ echo ----------- DASHBOARD [controller] : /etc/openstack-dashboard/local_setting
 echo -----------------------------------------------------------------------------------
 fi
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerseventh"------------------------
 #line no 2
-((controllertwo=controllertwo+1))
+((controllerseventh=controllerseventh+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
+if [ "$check" = true ] && [ "$controllerseventh" -eq 3 ]; then
 sudo service apache2 restart
 sudo service memcached restart
 
 echo ***************** DASHBOARD INSTALLED SUCCESSFULLY ******************
 
-echo -------------------$filename line no : "$controllertwo"------------------------
+echo -------------------$filename line no : "$controllerseventh"------------------------
 #line no 3
-((controllertwo=controllertwo+1))
+((controllerseventh=controllerseventh+1))
 
-sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
+sed "s/controllerseventh=.*/controllerseventh="$controllerseventh"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
 echo   -----------------------------------------------
 echo \|  [ NOTE : This shell script executed Successfully . ] \|
 echo   -----------------------------------------------
 
 exit
-((controllertwo=controllertwo+1))
+((controllerseventh=controllerseventh+1))
 fi
 ######################################################################################################
 
 
-((controllertwo=controllertwo-1))
+((controllerseventh=controllerseventh-1))
 
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controllertwo" , Verify this line and execute same shell script again and it will start there itself . ] \|
+echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controllerseventh" , Verify this line and execute same shell script again and it will start there itself . ] \|
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
-sed "s/controllertwo=.*/controllertwo="$controllertwo"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
+sed "s/controllerseventh=.*/controllerseventh="$controllerseventh"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
 
 

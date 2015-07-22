@@ -166,6 +166,14 @@ if [ "$choice" = "y" ] && [ "$check" = true ]; then
                echo \|   Created a new super-user : autostack \|
                echo \|   Password of autostack  : autostack . \|
                echo ----------------------------------------
+source=~/pullstack
+destination=/home/autostack/
+
+if [ ! -d "$destination" ]; then
+    mkdir -p "$destination"
+fi
+sudo cp -R "$source" "$destination"
+fi
            fi
       fi
 
@@ -314,12 +322,6 @@ fi
    ((networkone=networkone-1))
    sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
-
-if [ "$replacemsg" = true ]; then
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-fi
 
 
 fi
