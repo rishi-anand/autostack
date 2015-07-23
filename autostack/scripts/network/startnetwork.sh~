@@ -88,7 +88,7 @@ if [ ! -f ~/pullstack/autostack/autostack.properties ]; then
 fi
 
 
-. ~/pullstack/autostack/linecounterfiles/controller.properties
+. ~/pullstack/autostack/linecounterfiles/network.properties
 . ~/pullstack/autostack/autostack.properties
 
 
