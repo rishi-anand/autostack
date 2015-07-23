@@ -314,7 +314,7 @@ fi
 if [ "$check" = true ] && [ $controllerone -eq 7 ]; then
 
 sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
-sudo apt-get install mariadb-server python-mysqldb -y || check=false
+#sudo apt-get install mariadb-server python-mysqldb -y || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 7
 ((controllerone=controllerone+1))
