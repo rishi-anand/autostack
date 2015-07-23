@@ -375,7 +375,7 @@ fi
 if [ "$check" = true ] && [ "$controllerfifth" -eq 17 ]; then
 echo -------- NOVA ON COMPUTE [GOING TO COMPUTE NODE] -----------
 
-sshpass -p autostack ssh -o StrictHostKeyChecking=no autostack@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/network/./networknetworksecond.sh" || check=false
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/network/./networknetworksecond.sh" || check=false
 echo ------------------"$filename" line no : "$controllerfifth"------------------------
 #line no 17
 ((controllerfifth=controllerfifth+1))
@@ -398,7 +398,7 @@ fi
 if [ "$check" = true ] && [ "$controllerfifth" -eq 19 ]; then
 echo ---======---  Installing NETWORK Services - Compute Node ---======---
 echo --- Going To Compute Node ---
-sshpass -p autostack ssh -o StrictHostKeyChecking=no autostack@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/./computenetwork.sh" || check=false
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/./computenetwork.sh" || check=false
 echo ------------------"$filename" line no : "$controllerfifth"------------------------
 #line no 19
 ((controllerfifth=controllerfifth+1))

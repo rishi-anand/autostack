@@ -6,8 +6,8 @@
 
 
 
-ACCOUNT_USERNAME=autostack
-ACCOUNT_PASSWORD=autostack
+ACCOUNT_USERNAME=cliqr
+ACCOUNT_PASSWORD=welcome
 ADMIN_EMAIL_ADDRESS=rishi@cliqr.com
 DEMO_EMAIL_ADDRESS=soumil@cliqr.com
 
