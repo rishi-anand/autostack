@@ -266,7 +266,7 @@ if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
 	fi
 
 	if [ "$check" = true ] && [ "$controllertwo" -eq 11 ]; then
-#sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root ./networkntp.sh" || check=false 
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root ~/pullstack/autostack/scripts/network/./networkntp.sh" || check=false 
 
 	pwd
 	echo -------------------$filename line no : "$controllertwo"------------------------
@@ -275,7 +275,7 @@ if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
 	fi
 
 	if [ "$check" = true ] && [ "$controllertwo" -eq 12 ]; then
-#sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root ./computentp.sh" || check=false 
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root ~/pullstack/autostack/scripts/compute/./computentp.sh" || check=false 
 	echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 12
 ((controllertwo=controllertwo+1))
@@ -307,7 +307,7 @@ if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
 
 	if [ "$check" = true ] && [ "$controllertwo" -eq 16 ]; then
 	echo ntpc -c asoc at Network Node
-#sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ntpq -c assoc" || check=false 
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ntpq -c assoc" || check=false 
 	echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 16
 ((controllertwo=controllertwo+1))
@@ -406,8 +406,6 @@ if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
 
 
 	if [ "$check" = true ] && [ "$controllertwo" -eq 28 ]; then
-# $ACCOUNT_PASSWORD is password
-
 	echo ------------------------showing status of rabbit mysql------------------
 	sudo rabbitmqctl status | grep rabbit || check=false
 
@@ -481,8 +479,6 @@ if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
 	if [ "$check" = true ] && [ "$controllertwo" -eq 33 ]; then
 	echo ----------- Copy Below Admin Token ----------------------
 	ADMIN_TOKEN=$(openssl rand -hex 10) || check=false
-#replace "ADMIN_TOKEN" $ADMIN_TOKEN -- ~/pullstack/autostack/conf/controller/keystone.conf || check=false
-
 	sudo sed -i -e "s/ADMIN_TOKEN/$ADMIN_TOKEN/g" ~/pullstack/autostack/conf/controller/keystone.conf || check=false
 	echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 33

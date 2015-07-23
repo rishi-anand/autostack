@@ -299,7 +299,7 @@ fi
 
 if [ "$check" = true ] && [ "$controllerfour" -eq 13 ]; then
 echo -------- NOVA ON COMPUTE [GOING TO COMPUTE NODE] -----------
-#sshpass -p autostack ssh -o StrictHostKeyChecking=no autostack@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/./computenova.sh" || check=false 
+sshpass -p autostack ssh -o StrictHostKeyChecking=no autostack@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/./computenova.sh" || check=false 
 echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 13
 ((controllerfour=controllerfour+1))
