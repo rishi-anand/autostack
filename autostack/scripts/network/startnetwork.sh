@@ -257,7 +257,7 @@ echo -------------------$filename line no : "$networkone"-----------------------
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ ""$networkone"" -eq 2 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 2 ]; then
        if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
        #sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || (check=false && line_counter_increment 2 )
        pwd
@@ -351,7 +351,7 @@ fi
 
 
 
-if [ "$check" = true ] && [ ""$networkone"" -eq 10 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 10 ]; then
  if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
 
         echo -###################################### Check Network Configuration -######################################
