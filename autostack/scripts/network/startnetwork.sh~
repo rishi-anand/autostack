@@ -93,7 +93,7 @@ fi
 
 
 #-------------- Check if script is already executed [ START ] ---------------------------------
-if [ $networkone -eq 11 ]; then
+if [ "$networkone" -eq 11 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -136,7 +136,7 @@ line_counter_increment () {
    mv tmp ~/open/linecounterfiles/controller.properties
    
    
-   return $networkone
+   return "$networkone"
 }
 
 
@@ -166,7 +166,7 @@ echo NETWORK_BROADCAST_PRIVATE_INTERFACE = $NETWORK_BROADCAST_PRIVATE_INTERFACE
 echo NETWORK_GATEWAY_PRIVATE_INTERFACE = $NETWORK_GATEWAY_PRIVATE_INTERFACE
 echo NETWORK_EXTERNAL_INTERFACE_NAME = $NETWORK_EXTERNAL_INTERFACE_NAME
 
-echo ======= Counter Value is $networkone =============
+echo ======= Counter Value is "$networkone" =============
 
 echo ---- If above information is correct then- Press y to continue------
 echo ---- otherwise add configurations in- ~/pullstack/autostack/autostack.properties -----
@@ -247,102 +247,102 @@ fi
 
 
 
-if [ "$check" = true ] && [ $networkone -eq 1 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 1 ]; then
         if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
         #sudo rm -rf /etc/resolv.conf || (check=false && line_counter_increment 1 )
         pwd
         fi
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 1
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 2 ]; then
+if [ "$check" = true ] && [ ""$networkone"" -eq 2 ]; then
        if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
        #sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || (check=false && line_counter_increment 2 )
        pwd
        fi
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 2
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 3 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 3 ]; then
   sudo apt-get update || check=false
           # if [ "$check" = false ]; then
           # line_counter_increment 3
           # fi
 #(check=false && line_counter_increment 3 )
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 3
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 4 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 4 ]; then
 
 
 echo -------- installing openssh server ----------
 sudo apt-get install openssh-server -y || check=false
 echo -------- installing ssh-pass -----------
 sudo apt-get install sshpass -y || check=false
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 4
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 5 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 5 ]; then
 
 
 
 sudo apt-get install ubuntu-cloud-keyring || check=false
 
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 5
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 6 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 6 ]; then
 
 
 echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
   "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 6
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ $networkone -eq 7 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 7 ]; then
 
 sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
 
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 7
 ((networkone=networkone+1))
 fi
 
 
-if [ "$check" = true ] && [ $networkone -eq 8 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 8 ]; then
 
 echo -------------- REPLACING ALL PARAMETERS -----------------------------------------------------------------
 
 sudo chmod 755 ~/pullstack/autostack/scripts/network/replace.sh
 ( exec "~/pullstack/autostack/scripts/network/./replace.sh" ) || check=false
 replacemsg=true
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 8
 ((networkone=networkone+1))
 fi
 
 
 
-if [ "$check" = true ] && [ $networkone -eq 9 ]; then
+if [ "$check" = true ] && [ "$networkone" -eq 9 ]; then
 
 chmod 755 ~/pullstack/autostack/scripts/network/replace.sh || echo "Unable to set Permission"
 chmod 755 ~/pullstack/autostack/scripts/network/networkfirst.sh || echo "Unable to set Permission"
 chmod 755 ~/pullstack/autostack/scripts/network/networknetwork.sh || echo "Unable to set Permission"
 chmod 755 ~/pullstack/autostack/scripts/network/networknetworksecond.sh || echo "Unable to set Permission"
 chmod 755 ~/pullstack/autostack/scripts/network/networkntp.sh || echo "Unable to set Permission"
-echo -------------------$filename line no : $networkone------------------------
+echo -------------------$filename line no : "$networkone"------------------------
 #line no 9
 ((networkone=networkone+1))
 
@@ -351,7 +351,7 @@ fi
 
 
 
-if [ "$check" = true ] && [ "$networkone" -eq 10 ]; then
+if [ "$check" = true ] && [ ""$networkone"" -eq 10 ]; then
  if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
 
         echo -###################################### Check Network Configuration -######################################
@@ -374,7 +374,7 @@ sudo chmod 755 controllerfirst.sh
 echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
 ((networkone=networkone+1))
-sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+sed "s/networkone=.*/networkone="$networkone"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
@@ -384,7 +384,7 @@ exit
 fi
 
 ((networkone=networkone-1))
-sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+sed "s/networkone=.*/networkone="$networkone"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 

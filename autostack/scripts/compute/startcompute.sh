@@ -93,7 +93,7 @@ fi
 
 
 #-------------- Check if script is already executed [ START ] ---------------------------------
-if [ $computeone -eq 10 ]; then
+if [ "$computeone" -eq 10 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -136,7 +136,7 @@ line_counter_increment () {
    mv tmp ~/open/linecounterfiles/controller.properties
    
    
-   return $computeone
+   return "$computeone"
 }
 
 
@@ -166,7 +166,7 @@ echo NETWORK_BROADCAST_PRIVATE_INTERFACE = $NETWORK_BROADCAST_PRIVATE_INTERFACE
 echo NETWORK_GATEWAY_PRIVATE_INTERFACE = $NETWORK_GATEWAY_PRIVATE_INTERFACE
 echo NETWORK_EXTERNAL_INTERFACE_NAME = $NETWORK_EXTERNAL_INTERFACE_NAME
 
-echo ======= Counter Value is $computeone =============
+echo ======= Counter Value is "$computeone" =============
 
 echo ---- If above information is correct then- Press y to continue------
 echo ---- otherwise add configurations in- ~/pullstack/autostack/autostack.properties -----
@@ -247,95 +247,95 @@ fi
 
 
 
-if [ "$check" = true ] && [ $computeone -eq 1 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 1 ]; then
         if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
         #sudo rm -rf /etc/resolv.conf || (check=false && line_counter_increment 1 )
         pwd
         fi
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 1
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 2 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 2 ]; then
        if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
        #sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || (check=false && line_counter_increment 2 )
        pwd
        fi
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 2
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 3 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 3 ]; then
   sudo apt-get update || check=false
           # if [ "$check" = false ]; then
           # line_counter_increment 3
           # fi
 #(check=false && line_counter_increment 3 )
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 3
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 4 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 4 ]; then
 
 
 echo -------- installing openssh server ----------
 sudo apt-get install openssh-server -y || check=false
 echo -------- installing ssh-pass -----------
 sudo apt-get install sshpass -y || check=false
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 4
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 5 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 5 ]; then
 
 
 
 sudo apt-get install ubuntu-cloud-keyring || check=false
 
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 5
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 6 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 6 ]; then
 
 
 echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
   "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 6
 ((computeone=computeone+1))
 fi
 
-if [ "$check" = true ] && [ $computeone -eq 7 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 7 ]; then
 
 sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
 
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 7
 ((computeone=computeone+1))
 fi
 
 
-if [ "$check" = true ] && [ $computeone -eq 8 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 8 ]; then
 
 echo -------------- REPLACING ALL PARAMETERS -----------------------------------------------------------------
 
 sudo chmod 755 ~/pullstack/autostack/scripts/compute/replace.sh
 ( exec "~/pullstack/autostack/scripts/compute/./replace.sh" ) || check=false
 replacemsg=true
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 8
 ((computeone=computeone+1))
 fi
 
 
 
-if [ "$check" = true ] && [ $computeone -eq 9 ]; then
+if [ "$check" = true ] && [ "$computeone" -eq 9 ]; then
 
 sudo chmod 755 ~/pullstack/autostack/scripts/compute/computefirst.sh || echo "Unable to set Permission"
 sudo chmod 755 ~/pullstack/autostack/scripts/compute/computentp.sh || echo "Unable to set Permission"
@@ -343,7 +343,7 @@ sudo chmod 755 ~/pullstack/autostack/scripts/compute/computenetwork.sh || echo "
 sudo chmod 755 ~/pullstack/autostack/scripts/compute/computenova.sh || echo "Unable to set Permission"
 sudo chmod 755 ~/pullstack/autostack/scripts/compute/replace.sh || echo "Unable to set Permission"
 
-echo -------------------$filename line no : $computeone------------------------
+echo -------------------$filename line no : "$computeone"------------------------
 #line no 9
 ((computeone=computeone+1))
 
@@ -373,7 +373,7 @@ echo -------------------$filename line no : "$computeone"-----------------------
 echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
 ((computeone=computeone+1))
-sed "s/computeone=.*/computeone=$computeone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+sed "s/computeone=.*/computeone="$computeone"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
@@ -383,7 +383,7 @@ exit
 fi
 
 ((computeone=computeone-1))
-sed "s/computeone=.*/computeone=$computeone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+sed "s/computeone=.*/computeone="$computeone"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
