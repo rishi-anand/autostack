@@ -23,6 +23,12 @@ echo COMPUTE_NODE_HOSTNAME = $COMPUTE_NODE_HOSTNAME
 echo COMPUTE_NODE_PUBLIC_IP = $COMPUTE_NODE_PUBLIC_IP
 echo COMPUTE_NODE_PRIVATE_IP = $COMPUTE_NODE_PRIVATE_IP
 
+echo FLOATING_IP_START = $FLOATING_IP_START
+echo FLOATING_IP_END = $FLOATING_IP_END
+echo EXTERNAL_NETWORK_GATEWAY = $EXTERNAL_NETWORK_GATEWAY 
+echo EXTERNAL_NETWORK_CIDR = $EXTERNAL_NETWORK_CIDR
+echo TENANT_NETWORK_GATEWAY = $TENANT_NETWORK_GATEWAY
+echo TENANT_NETWORK_CIDR = $TENANT_NETWORK_CIDR
 
 echo NETWORK_PUBLIC_INTERFACE_NAME = $NETWORK_PUBLIC_INTERFACE_NAME
 echo NETWORK_NETMASK_PUBLIC_INTERFACE = $NETWORK_NETMASK_PUBLIC_INTERFACE
@@ -62,118 +68,252 @@ echo TROVE_PASS = $TROVE_PASS
 
 
 
-
-
-
-
 sudo echo ---- If above information is correct then- Press y to continue------
 sudo echo ---- otherwise add configurations in- ~/pullstack/autostack/autostack.properties -----
 
 echo --- Press[y/n] to continue- or to skip------
-
 read choice
 
 if [ "$choice" = "y" ]; then
 
 
-sudo sed -i -e "s/DATABASE_PASSWORD/$DATABASE_PASSWORD/g" ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+#---------------------- Create User [ START ] ---------------------------------------------
+user=$(cut -d: -f1 /etc/passwd | grep autostack)
 
-sudo replace "NAMESERVER_IP" $NAMESERVER_IP -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+if [ -z "$user" ]
+then
+sudo useradd -m -p autostack autostack
+echo -e 'autostack\nautostack\n' | sudo passwd autostack || usercreate=false
+if [ -s ~/pullstack/autostack/conf/common/autostack ]; then
+        sudo cp ~/pullstack/autostack/conf/common/autostack /etc/sudoers.d/     
+        fi
+if [ "$usercreate" = true ]; then
+echo ----------------------------------------
+echo \|   Created a new super-user : autostack \|
+echo \|   Password of autostack  : autostack . \|
+echo ----------------------------------------
+source=~/pullstack
+destination=/home/autostack/
 
-sudo replace "NETWORK_PRIVATE_INTERFACE_NAME" $NETWORK_PRIVATE_INTERFACE_NAME -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*  
+if [ ! -d "$destination" ]; then
+    mkdir -p "$destination"
+fi
+sudo cp -R "$source" "$destination"
+fi
+fi
+#---------------------- Create User [ ENDS ] ---------------------------------------------
 
-#sudo replace "ACCOUNT_USERNAME" $ACCOUNT_USERNAME -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
 
-#sudo replace "ACCOUNT_PASSWORD" $ACCOUNT_PASSWORD -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+presentdir=$(pwd)
 
-sudo replace "CONTROLLER_NODE_HOSTNAME" $CONTROLLER_NODE_HOSTNAME -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+cd /home/autostack/pullstack/autostack/conf/
 
-sudo replace "CONTROLLER_NODE_PUBLIC_IP" $CONTROLLER_NODE_PUBLIC_IP -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+echo -- Adding user configurations to files [ START ] --
+find . -type f -print0 | xargs -0 sed -i "s/ACCOUNT_USERNAME/$ACCOUNT_USERNAME/g"
 
-sudo replace "CONTROLLER_NODE_PRIVATE_IP" $CONTROLLER_NODE_PRIVATE_IP -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/ACCOUNT_PASSWORD/$ACCOUNT_PASSWORD/g"
 
-sudo replace "NETWORK_NODE_HOSTNAME" $NETWORK_NODE_HOSTNAME -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NAMESERVER_IP/$NAMESERVER_IP/g"
 
-sudo replace "NETWORK_NODE_PUBLIC_IP" $NETWORK_NODE_PUBLIC_IP -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/CONTROLLER_NODE_HOSTNAME/$CONTROLLER_NODE_HOSTNAME/g"
 
-sudo replace "NETWORK_NODE_PRIVATE_IP" $NETWORK_NODE_PRIVATE_IP -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/CONTROLLER_NODE_PUBLIC_IP/$CONTROLLER_NODE_PUBLIC_IP/g"
 
-sudo replace "COMPUTE_NODE_HOSTNAME" $COMPUTE_NODE_HOSTNAME -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/CONTROLLER_NODE_PRIVATE_IP/$CONTROLLER_NODE_PRIVATE_IP/g"
 
-sudo replace "COMPUTE_NODE_PUBLIC_IP" $COMPUTE_NODE_PUBLIC_IP -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NODE_HOSTNAME/$NETWORK_NODE_HOSTNAME/g"
 
-sudo replace "COMPUTE_NODE_PRIVATE_IP" $COMPUTE_NODE_PRIVATE_IP -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/* 
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NODE_PUBLIC_IP/$NETWORK_NODE_PUBLIC_IP/g"
 
-sudo replace "NETWORK_PUBLIC_INTERFACE_NAME" $NETWORK_PUBLIC_INTERFACE_NAME -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NODE_PRIVATE_IP/$NETWORK_NODE_PRIVATE_IP/g"
 
-sudo replace "NETWORK_NETMASK_PUBLIC_INTERFACE" $NETWORK_NETMASK_PUBLIC_INTERFACE -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/COMPUTE_NODE_HOSTNAME/$COMPUTE_NODE_HOSTNAME/g"
 
-sudo replace "NETWORK_NETWORK_PUBLIC_INTERFACE" $NETWORK_NETWORK_PUBLIC_INTERFACE -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/COMPUTE_NODE_PUBLIC_IP/$COMPUTE_NODE_PUBLIC_IP/g"
 
-sudo replace "NETWORK_BROADCAST_PUBLIC_INTERFACE" $NETWORK_BROADCAST_PUBLIC_INTERFACE -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/COMPUTE_NODE_PRIVATE_IP/$COMPUTE_NODE_PRIVATE_IP/g"
 
-sudo replace "NETWORK_GATEWAY_PUBLIC_INTERFACE" $NETWORK_GATEWAY_PUBLIC_INTERFACE -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/FLOATING_IP_START/$FLOATING_IP_START/g"
 
-sudo replace "NETWORK_PRIVATE_INTERFACE_NAME" $NETWORK_PRIVATE_INTERFACE_NAME -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/FLOATING_IP_END/$FLOATING_IP_END/g"
 
-sudo replace "NETWORK_NETMASK_PRIVATE_INTERFACE" $NETWORK_NETMASK_PRIVATE_INTERFACE -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/EXTERNAL_NETWORK_GATEWAY/$EXTERNAL_NETWORK_GATEWAY/g"
 
-sudo replace "NETWORK_NETWORK_PRIVATE_INTERFACE" $NETWORK_NETWORK_PRIVATE_INTERFACE -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/EXTERNAL_NETWORK_CIDR/$EXTERNAL_NETWORK_CIDR/g"
 
-sudo replace "NETWORK_BROADCAST_PRIVATE_INTERFACE" $NETWORK_BROADCAST_PRIVATE_INTERFACE -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/TENANT_NETWORK_GATEWAY/$TENANT_NETWORK_GATEWAY/g"
 
-sudo replace "NETWORK_GATEWAY_PRIVATE_INTERFACE" $NETWORK_GATEWAY_PRIVATE_INTERFACE -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/TENANT_NETWORK_CIDR/$TENANT_NETWORK_CIDR/g"
 
-sudo replace "NETWORK_EXTERNAL_INTERFACE_NAME" $NETWORK_EXTERNAL_INTERFACE_NAME -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_PUBLIC_INTERFACE_NAME/$NETWORK_PUBLIC_INTERFACE_NAME/g"
 
-sudo replace "METADATA_SECRET" $METADATA_SECRET -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NETMASK_PUBLIC_INTERFACE/$NETWORK_NETMASK_PUBLIC_INTERFACE/g"
 
-sudo replace "RABBIT_PASS" $RABBIT_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NETWORK_PUBLIC_INTERFACE/$NETWORK_NETWORK_PUBLIC_INTERFACE/g"
 
-sudo replace "KEYSTONE_DBPASS" $KEYSTONE_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_BROADCAST_PUBLIC_INTERFACE/$NETWORK_BROADCAST_PUBLIC_INTERFACE/g"
 
-sudo replace "DEMO_PASS" $DEMO_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_GATEWAY_PUBLIC_INTERFACE/$NETWORK_GATEWAY_PUBLIC_INTERFACE/g"
 
-sudo replace "ADMIN_PASS" $ADMIN_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_PRIVATE_INTERFACE_NAME/$NETWORK_PRIVATE_INTERFACE_NAME/g"
 
-sudo replace "GLANCE_DBPASS" $GLANCE_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NETMASK_PRIVATE_INTERFACE/$NETWORK_NETMASK_PRIVATE_INTERFACE/g"
 
-sudo replace "GLANCE_PASS" $GLANCE_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NETWORK_PRIVATE_INTERFACE/$NETWORK_NETWORK_PRIVATE_INTERFACE/g"
 
-sudo replace "NOVA_DBPASS" $NOVA_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_BROADCAST_PRIVATE_INTERFACE/$NETWORK_BROADCAST_PRIVATE_INTERFACE/g"
 
-sudo replace "NOVA_PASS" $NOVA_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_GATEWAY_PRIVATE_INTERFACE/$NETWORK_GATEWAY_PRIVATE_INTERFACE/g"
 
-sudo replace "DASH_DBPASS" $DASH_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_EXTERNAL_INTERFACE_NAME/$NETWORK_EXTERNAL_INTERFACE_NAME/g"
 
-sudo replace "CINDER_DBPASS" $CINDER_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/DATABASE_PASSWORD/$DATABASE_PASSWORD/g"
 
-sudo replace "CINDER_PASS" $CINDER_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/RABBIT_PASS/$RABBIT_PASS/g"
 
-sudo replace "NEUTRON_DBPASS" $EUTRON_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/KEYSTONE_DBPASS/$KEYSTONE_DBPASS/g"
 
-sudo replace "NEUTRON_PASS" $NEUTRON_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/DEMO_PASS/$DEMO_PASS/g"
 
-sudo replace "HEAT_DBPASS" $HEAT_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/ADMIN_PASS/$ADMIN_PASS/g"
 
-sudo replace "HEAT_PASS" $HEAT_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/GLANCE_DBPASS/$GLANCE_DBPASS/g"
 
-sudo replace "CEILOMETER_DBPASS" $CEILOMETER_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/GLANCE_PASS/$GLANCE_PASS/g"
 
-sudo replace "CEILOMETER_PASS" $CEILOMETER_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NOVA_DBPASS/$NOVA_DBPASS/g"
 
-sudo replace "TROVE_DBPASS" $TROVE_DBPASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/NOVA_PASS/$NOVA_PASS/g"
 
-sudo replace "TROVE_PASS" $TROVE_PASS -- ~/pullstack/autostack/conf/* ~/pullstack/autostack/conf/controller/* ~/pullstack/autostack/conf/controller/mariadb/* ~/pullstack/autostack/conf/controller/network_nova/* ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/* ~/pullstack/autostack/conf/compute/* ~/pullstack/autostack/conf/compute/computenetwork/* ~/pullstack/autostack/conf/network/* ~/pullstack/autostack/conf/common/*
+find . -type f -print0 | xargs -0 sed -i "s/DASH_DBPASS/$DASH_DBPASS/g"
 
-sudo chmod 755 controllerfirst.sh
-echo
-echo
-echo   ------------------------------------------------
-echo \|  [ NOTE : Do Not bother about ==  Errcode: 21 ] \|
-echo   ------------------------------------------------
-echo
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+find . -type f -print0 | xargs -0 sed -i "s/CINDER_DBPASS/$CINDER_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CINDER_PASS/$CINDER_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NEUTRON_DBPASS/$NEUTRON_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NEUTRON_PASS/$NEUTRON_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/HEAT_DBPASS/$HEAT_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/HEAT_PASS/$HEAT_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CEILOMETER_DBPASS/$CEILOMETER_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CEILOMETER_PASS/$CEILOMETER_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/TROVE_DBPASS/$TROVE_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/TROVE_PASS/$TROVE_PASS/g"
+
+cd "$presentdir"
+
+cd ~/pullstack/autostack/conf/
+
+find . -type f -print0 | xargs -0 sed -i "s/ACCOUNT_USERNAME/$ACCOUNT_USERNAME/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/ACCOUNT_PASSWORD/$ACCOUNT_PASSWORD/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NAMESERVER_IP/$NAMESERVER_IP/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CONTROLLER_NODE_HOSTNAME/$CONTROLLER_NODE_HOSTNAME/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CONTROLLER_NODE_PUBLIC_IP/$CONTROLLER_NODE_PUBLIC_IP/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CONTROLLER_NODE_PRIVATE_IP/$CONTROLLER_NODE_PRIVATE_IP/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NODE_HOSTNAME/$NETWORK_NODE_HOSTNAME/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NODE_PUBLIC_IP/$NETWORK_NODE_PUBLIC_IP/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NODE_PRIVATE_IP/$NETWORK_NODE_PRIVATE_IP/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/COMPUTE_NODE_HOSTNAME/$COMPUTE_NODE_HOSTNAME/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/COMPUTE_NODE_PUBLIC_IP/$COMPUTE_NODE_PUBLIC_IP/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/COMPUTE_NODE_PRIVATE_IP/$COMPUTE_NODE_PRIVATE_IP/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/FLOATING_IP_START/$FLOATING_IP_START/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/FLOATING_IP_END/$FLOATING_IP_END/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/EXTERNAL_NETWORK_GATEWAY/$EXTERNAL_NETWORK_GATEWAY/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/EXTERNAL_NETWORK_CIDR/$EXTERNAL_NETWORK_CIDR/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/TENANT_NETWORK_GATEWAY/$TENANT_NETWORK_GATEWAY/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/TENANT_NETWORK_CIDR/$TENANT_NETWORK_CIDR/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_PUBLIC_INTERFACE_NAME/$NETWORK_PUBLIC_INTERFACE_NAME/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NETMASK_PUBLIC_INTERFACE/$NETWORK_NETMASK_PUBLIC_INTERFACE/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NETWORK_PUBLIC_INTERFACE/$NETWORK_NETWORK_PUBLIC_INTERFACE/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_BROADCAST_PUBLIC_INTERFACE/$NETWORK_BROADCAST_PUBLIC_INTERFACE/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_GATEWAY_PUBLIC_INTERFACE/$NETWORK_GATEWAY_PUBLIC_INTERFACE/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_PRIVATE_INTERFACE_NAME/$NETWORK_PRIVATE_INTERFACE_NAME/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NETMASK_PRIVATE_INTERFACE/$NETWORK_NETMASK_PRIVATE_INTERFACE/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_NETWORK_PRIVATE_INTERFACE/$NETWORK_NETWORK_PRIVATE_INTERFACE/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_BROADCAST_PRIVATE_INTERFACE/$NETWORK_BROADCAST_PRIVATE_INTERFACE/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_GATEWAY_PRIVATE_INTERFACE/$NETWORK_GATEWAY_PRIVATE_INTERFACE/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NETWORK_EXTERNAL_INTERFACE_NAME/$NETWORK_EXTERNAL_INTERFACE_NAME/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/DATABASE_PASSWORD/$DATABASE_PASSWORD/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/RABBIT_PASS/$RABBIT_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/KEYSTONE_DBPASS/$KEYSTONE_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/DEMO_PASS/$DEMO_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/ADMIN_PASS/$ADMIN_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/GLANCE_DBPASS/$GLANCE_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/GLANCE_PASS/$GLANCE_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NOVA_DBPASS/$NOVA_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NOVA_PASS/$NOVA_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/DASH_DBPASS/$DASH_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CINDER_DBPASS/$CINDER_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CINDER_PASS/$CINDER_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NEUTRON_DBPASS/$NEUTRON_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/NEUTRON_PASS/$NEUTRON_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/HEAT_DBPASS/$HEAT_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/HEAT_PASS/$HEAT_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CEILOMETER_DBPASS/$CEILOMETER_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/CEILOMETER_PASS/$CEILOMETER_PASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/TROVE_DBPASS/$TROVE_DBPASS/g"
+
+find . -type f -print0 | xargs -0 sed -i "s/TROVE_PASS/$TROVE_PASS/g"
+
+echo -- Adding user configurations to files [ ENDS ] --
+
+cd "$presentdir"
+
+echo  ---------------------------------------------------------------------------------------------------------------------------------------------
 echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 echo

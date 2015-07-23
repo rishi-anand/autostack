@@ -2,8 +2,8 @@
 
 
 
-source=~/pullstack
-destination=/home/autostack/
+source=~/log_file/
+destination=/home/one/
 
 if [ ! -d "$destination" ]; then
     mkdir -p "$destination"

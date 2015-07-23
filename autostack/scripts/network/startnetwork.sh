@@ -1,14 +1,5 @@
 #!/bin/bash
 
-check=true
-filename=`basename "$0"`
-today=`date +%Y-%m-%d.%H:%M:%S`
-replacemsg=false
-
-exec 2> >(tee "Error_.$filename._.$today.err")
-exec > >(tee "Log_.$filename._.$today.log")
-
-
 
 if [ ! -d ~/pullstack/autostack/linecounterfiles/ ]; then
   # Control will enter here if $DIRECTORY doesn't exist.
@@ -18,20 +9,20 @@ if [ ! -d ~/pullstack/autostack/linecounterfiles/ ]; then
   
    touch controller.properties
    sudo chmod 765 controller.properties
-   touch network.properties
-   sudo chmod 765 network.properties
+   touch compute.properties
+   sudo chmod 765 compute.properties
    touch network.properties
    sudo chmod 765 network.properties
 
-   echo controllerone=1 >> controller.properties
+   echo networkone=1 >> controller.properties
    echo controllertwo=1 >> controller.properties
    echo controllerthree=1 >> controller.properties
    echo controllerfour=1 >> controller.properties
    
-   echo networkone=1 >> network.properties
-   echo networktwo=1 >> network.properties
-   echo networkthree=1 >> network.properties
-   echo networkfour=1 >> network.properties
+   echo computeone=1 >> compute.properties
+   echo computetwo=1 >> compute.properties
+   echo computethree=1 >> compute.properties
+   echo computefour=1 >> compute.properties
    
    echo networkone=1 >> network.properties
    echo networktwo=1 >> network.properties
@@ -46,23 +37,23 @@ else
    touch controller.properties
    sudo chmod 765 controller.properties
 
-   echo controllerone=1 >> controller.properties
+   echo networkone=1 >> controller.properties
    echo controllertwo=1 >> controller.properties
    echo controllerthree=1 >> controller.properties
    echo controllerfour=1 >> controller.properties
    
    fi
 
-   if [ ! -f ~/pullstack/autostack/linecounterfiles/network.properties ]; then
+   if [ ! -f ~/pullstack/autostack/linecounterfiles/compute.properties ]; then
 
    cd ~/pullstack/autostack/linecounterfiles/
-   touch network.properties
-   sudo chmod 765 network.properties
+   touch compute.properties
+   sudo chmod 765 compute.properties
 
-   echo networkone=1 >> network.properties
-   echo networktwo=1 >> network.properties
-   echo networkthree=1 >> network.properties
-   echo networkfour=1 >> network.properties
+   echo computeone=1 >> compute.properties
+   echo computetwo=1 >> compute.properties
+   echo computethree=1 >> compute.properties
+   echo computefour=1 >> compute.properties
    
    fi
 
@@ -97,15 +88,12 @@ if [ ! -f ~/pullstack/autostack/autostack.properties ]; then
 fi
 
 
-
-hostname=$(hostname)
-echo ----******--Welcome to $hostname--******----
-
-. ~/pullstack/autostack/linecounterfiles/network.properties
+. ~/pullstack/autostack/linecounterfiles/controller.properties
 . ~/pullstack/autostack/autostack.properties
 
-if [ "$networkone" -eq 10 ]
-then
+
+#-------------- Check if script is already executed [ START ] ---------------------------------
+if [ $networkone -eq 11 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -114,38 +102,73 @@ echo -----------------------------------------------------
 echo If you Want to execute it again Press [y/n] to Execute it.
 read userchoice
      if [ "$userchoice" = "y" ]; then
-     echo Enter Line Number you want to continue: [Valid 1 - 9] 
+     echo Enter Line Number you want to continue: [Valid 1 - 10] 
      echo And Execute it again.
      read againlinenumber
 
-    sed "s/networkone=.*/networkone=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
-    mv tmp ~/pullstack/autostack/linecounterfiles/network.properties 
+    sed "s/computeone=.*/computeone=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties 
 fi
 
 exit
 else
 
-echo Starting $filename
+echo Starting "$filename"
 fi
+
+
+#-------------- Check if script is already executed [ ENDS ] ---------------------------------
+
+check=true
+usercreate=true
+filename=`basename "$0"`
+today=`date +%Y-%m-%d.%H:%M:%S`
+
+
+exec 2> >(tee "Error_.$filename._.$today.err")
+exec > >(tee "Log_.$filename._.$today.log")
+
 
 
 # Define your function here
 line_counter_increment () {
-   sed "s/networkone=.*/networkone=$count/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
-   return "$networkone"
+   sed "s/networkone=.*/networkone=$count/g" ~/open/linecounterfiles/controller.properties > tmp
+   mv tmp ~/open/linecounterfiles/controller.properties
+   
+   
+   return $networkone
 }
 
 
+echo CONTROLLER_NODE_HOSTNAME = $CONTROLLER_NODE_HOSTNAME
+echo CONTROLLER_NODE_PUBLIC_IP = $CONTROLLER_NODE_PUBLIC_IP
+echo CONTROLLER_NODE_PRIVATE_IP = $CONTROLLER_NODE_PRIVATE_IP
 
 echo NETWORK_NODE_HOSTNAME = $NETWORK_NODE_HOSTNAME
 echo NETWORK_NODE_PUBLIC_IP = $NETWORK_NODE_PUBLIC_IP
 echo NETWORK_NODE_PRIVATE_IP = $NETWORK_NODE_PRIVATE_IP
 
+echo COMPUTE_NODE_HOSTNAME = $COMPUTE_NODE_HOSTNAME
+echo COMPUTE_NODE_PUBLIC_IP = $COMPUTE_NODE_PUBLIC_IP
+echo COMPUTE_NODE_PRIVATE_IP = $COMPUTE_NODE_PRIVATE_IP
 
-echo ======= Counter Value is "$networkone" =============
 
-echo ---- If above information is correct then- Press y to continue- or n to exit------
+echo NETWORK_PUBLIC_INTERFACE_NAME = $NETWORK_PUBLIC_INTERFACE_NAME
+echo NETWORK_NETMASK_PUBLIC_INTERFACE = $NETWORK_NETMASK_PUBLIC_INTERFACE
+echo NETWORK_NETWORK_PUBLIC_INTERFACE = $NETWORK_NETWORK_PUBLIC_INTERFACE
+echo NETWORK_BROADCAST_PUBLIC_INTERFACE = $NETWORK_BROADCAST_PUBLIC_INTERFACE
+echo NETWORK_GATEWAY_PUBLIC_INTERFACE = $NETWORK_GATEWAY_PUBLIC_INTERFACE
+
+echo NETWORK_PRIVATE_INTERFACE_NAME = $NETWORK_PRIVATE_INTERFACE_NAME
+echo NETWORK_NETMASK_PRIVATE_INTERFACE = $NETWORK_NETMASK_PRIVATE_INTERFACE
+echo NETWORK_NETWORK_PRIVATE_INTERFACE = $NETWORK_NETWORK_PRIVATE_INTERFACE
+echo NETWORK_BROADCAST_PRIVATE_INTERFACE = $NETWORK_BROADCAST_PRIVATE_INTERFACE
+echo NETWORK_GATEWAY_PRIVATE_INTERFACE = $NETWORK_GATEWAY_PRIVATE_INTERFACE
+echo NETWORK_EXTERNAL_INTERFACE_NAME = $NETWORK_EXTERNAL_INTERFACE_NAME
+
+echo ======= Counter Value is $networkone =============
+
+echo ---- If above information is correct then- Press y to continue------
 echo ---- otherwise add configurations in- ~/pullstack/autostack/autostack.properties -----
 
 echo --- Press[y/n] to continue- or to skip------
@@ -153,19 +176,21 @@ echo --- Press[y/n] to continue- or to skip------
 read choice
 if [ "$choice" = "y" ] && [ "$check" = true ]; then
 
-    user=$(cut -d: -f1 /etc/passwd | grep autostack)
-     if [ -z "$user" ]
-     then
-     sudo useradd -m -p autostack autostack
-      echo -e 'autostack\nautostack\n' | sudo passwd autostack || usercreate=false
-          if [ -s ~/pullstack/autostack/conf/common/autostack ]; then
-               sudo cp ~/pullstack/autostack/conf/common/autostack /etc/sudoers.d/     
-           fi
-           if [ "$usercreate" = true ]; then
-               echo ----------------------------------------
-               echo \|   Created a new super-user : autostack \|
-               echo \|   Password of autostack  : autostack . \|
-               echo ----------------------------------------
+#---------------------- Create User [ START ] ---------------------------------------------
+user=$(cut -d: -f1 /etc/passwd | grep autostack)
+
+if [ -z "$user" ]
+then
+sudo useradd -m -p autostack autostack
+echo -e 'autostack\nautostack\n' | sudo passwd autostack || usercreate=false
+if [ -s ~/pullstack/autostack/conf/common/autostack ]; then
+        sudo cp ~/pullstack/autostack/conf/common/autostack /etc/sudoers.d/     
+        fi
+if [ "$usercreate" = true ]; then
+echo ----------------------------------------
+echo \|   Created a new super-user : autostack \|
+echo \|   Password of autostack  : autostack . \|
+echo ----------------------------------------
 source=~/pullstack
 destination=/home/autostack/
 
@@ -174,10 +199,8 @@ if [ ! -d "$destination" ]; then
 fi
 sudo cp -R "$source" "$destination"
 fi
-           fi
-      fi
-
-
+fi
+#---------------------- Create User [ ENDS ] ---------------------------------------------
 
 #-------------------- Check if Internet is working if not working then updating Nameserver [STARTS]-----------------------------------
 internet_working=true
@@ -204,9 +227,9 @@ if [ "$internet_working" = false ] ; then
 
                                fi
                        else
-                          echo ---------------------------------------------------------
-                          echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
-                          echo ---------------------------------------------------------
+echo ---------------------------------------------------------
+echo \|   Manually Add Nameserver IP in- /etc/resolv.conf file- \|
+echo ---------------------------------------------------------
 
 
                       fi
@@ -223,134 +246,155 @@ fi
 
 
 
-if [ "$check" = true ] && [ "$networkone" -eq 1 ]; then
-pwd || check=false
-echo -------------------$filename line no : "$networkone"------------------------
+
+if [ "$check" = true ] && [ $networkone -eq 1 ]; then
+        if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
+        #sudo rm -rf /etc/resolv.conf || (check=false && line_counter_increment 1 )
+        pwd
+        fi
+echo -------------------$filename line no : $networkone------------------------
 #line no 1
 ((networkone=networkone+1))
 fi
 
-
-if [ "$check" = true ] && [ "$networkone" -eq 2 ]; then
-
-sudo apt-get update || check=false
-echo -------------------$filename line no : "$networkone"------------------------
+if [ "$check" = true ] && [ $networkone -eq 2 ]; then
+       if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
+       #sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || (check=false && line_counter_increment 2 )
+       pwd
+       fi
+echo -------------------$filename line no : $networkone------------------------
 #line no 2
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ "$networkone" -eq 3 ]; then
+if [ "$check" = true ] && [ $networkone -eq 3 ]; then
+  sudo apt-get update || check=false
+          # if [ "$check" = false ]; then
+          # line_counter_increment 3
+          # fi
+#(check=false && line_counter_increment 3 )
+echo -------------------$filename line no : $networkone------------------------
+#line no 3
+((networkone=networkone+1))
+fi
+
+if [ "$check" = true ] && [ $networkone -eq 4 ]; then
+
 
 echo -------- installing openssh server ----------
 sudo apt-get install openssh-server -y || check=false
 echo -------- installing ssh-pass -----------
 sudo apt-get install sshpass -y || check=false
-echo -------------------$filename line no : "$networkone"------------------------
-#line no 3
-((networkone=networkone+1))
-fi
-
-if [ "$check" = true ] && [ "$networkone" -eq 4 ]; then
-sudo apt-get install ubuntu-cloud-keyring || check=false
-
-echo -------------------$filename line no : "$networkone"------------------------
+echo -------------------$filename line no : $networkone------------------------
 #line no 4
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ "$networkone" -eq 5 ]; then
-sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
-  "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
+if [ "$check" = true ] && [ $networkone -eq 5 ]; then
 
 
-echo -------------------$filename line no : "$networkone"------------------------
+
+sudo apt-get install ubuntu-cloud-keyring || check=false
+
+echo -------------------$filename line no : $networkone------------------------
 #line no 5
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ "$networkone" -eq 6 ]; then
+if [ "$check" = true ] && [ $networkone -eq 6 ]; then
 
-sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
-sudo apt-get install mariadb-server python-mysqldb -y || check=false
 
-echo -------------------$filename line no : "$networkone"------------------------
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
+  "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
+echo -------------------$filename line no : $networkone------------------------
 #line no 6
 ((networkone=networkone+1))
 fi
 
-if [ "$check" = true ] && [ "$networkone" -eq 7 ]; then
-sudo chmod 755 replace.sh
-( exec "./replace.sh" ) || check=false
-replacemsg=true
-echo -------------------$filename line no : "$networkone"------------------------
+if [ "$check" = true ] && [ $networkone -eq 7 ]; then
+
+sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
+
+echo -------------------$filename line no : $networkone------------------------
 #line no 7
 ((networkone=networkone+1))
 fi
 
 
+if [ "$check" = true ] && [ $networkone -eq 8 ]; then
 
+echo -------------- REPLACING ALL PARAMETERS -----------------------------------------------------------------
 
-
-
-
-if [ "$check" = true ] && [ "$networkone" -eq 8 ]; then
-chown root ~/pullstack/autostack/scripts/network/networkfirst.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/scripts/network/networkfirst.sh || echo "Unable to set Permission"
-chown root ~/pullstack/autostack/scripts/network/networknetwork.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/scripts/network/networknetwork.sh || echo "Unable to set Permission"
-chown root ~/pullstack/autostack/scripts/network/networknetworksecond.sh || echo "Unable to set Permission"
-chmod 700 ~/pullstack/autostack/scripts/network/networknetworksecond.sh || echo "Unable to set Permission"
-chmod u+x ~/pullstack/autostack/scripts/network/networkntp.sh || echo "Unable to set Permission"
-chmod u+x ~/pullstack/autostack/scripts/network/networknova.sh || echo "Unable to set Permission"
-chmod u+x ~/pullstack/autostack/scripts/network/networknetwork.sh || echo "Unable to set Permission"
-chmod u+x ~/pullstack/autostack/scripts/network/networknetworksecond.sh || echo "Unable to set Permission"
-chmod 755 ~/pullstack/autostack/scripts/network/replace.sh || echo "Unable to set Permission"
-
-echo -------------------$filename line no : "$networkone"------------------------
+sudo chmod 755 ~/pullstack/autostack/scripts/network/replace.sh
+( exec "~/pullstack/autostack/scripts/network/./replace.sh" ) || check=false
+replacemsg=true
+echo -------------------$filename line no : $networkone------------------------
 #line no 8
 ((networkone=networkone+1))
 fi
 
 
 
+if [ "$check" = true ] && [ $networkone -eq 9 ]; then
 
-if [ "$check" = true ] && [ "$networkone" -eq 9 ]; then
+chmod 755 ~/pullstack/autostack/scripts/network/replace.sh || echo "Unable to set Permission"
+chmod 755 ~/pullstack/autostack/scripts/network/networkfirst.sh || echo "Unable to set Permission"
+chmod 755 ~/pullstack/autostack/scripts/network/networknetwork.sh || echo "Unable to set Permission"
+chmod 755 ~/pullstack/autostack/scripts/network/networknetworksecond.sh || echo "Unable to set Permission"
+chmod 755 ~/pullstack/autostack/scripts/network/networkntp.sh || echo "Unable to set Permission"
+echo -------------------$filename line no : $networkone------------------------
+#line no 9
+((networkone=networkone+1))
+
+fi
+
+
+
+
+if [ "$check" = true ] && [ "$networkone" -eq 10 ]; then
  if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
 
         echo -###################################### Check Network Configuration -######################################
-       cat ~/pullstack/autostack/conf/network/interfaces
+       cat ~/pullstack/autostack/conf/controller/interfaces
 
        echo -###################################### Check Network Configuration -######################################
 
+    
         else 
         echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
         fi
 
 
 echo -------------------$filename line no : "$networkone"------------------------
-#line no 9
+#line no 10
 ((networkone=networkone+1))
 
 
+sudo chmod 755 controllerfirst.sh
+echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
-sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
+((networkone=networkone+1))
+sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
-if [ "$replacemsg" = true ]; then
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-fi
 
 
 exit
 
 fi
 
+((networkone=networkone-1))
+sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
-   ((networkone=networkone-1))
-   sed "s/networkone=.*/networkone=$networkone/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
+
+if [ "$replacemsg" = true ]; then
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
+echo   ---------------------------------------------------------------------------------------------------------------------------------------------
+echo
+fi
+
 
 
 fi

@@ -113,7 +113,7 @@ fi
 exit
 else
 
-echo Starting $filename
+echo Starting "$filename"
 fi
 
 
@@ -304,7 +304,7 @@ fi
 if [ "$check" = true ] && [ $controllerone -eq 6 ]; then
 
 
-sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
   "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 6
@@ -402,16 +402,9 @@ sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/li
 
 
 if [ "$replacemsg" = true ]; then
-echo
-echo
-echo   ------------------------------------------------
-echo \|  [ NOTE : Do Not bother about ==  Errcode: 21 ] \|
-echo   ------------------------------------------------
-echo
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo
 echo
 fi
 
