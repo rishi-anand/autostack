@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-. ~/pullstack/autostack/conf/linecounterfiles/controller.properties
-. ~/pullstack/autostack/conf/autostack.properties
+. ~/pullstack/autostack/linecounterfiles/controller.properties
+. ~/pullstack/autostack/autostack.properties
 
 echo ------------------ EXTERNAL & TENANT NETWORK CREATION ---------------------------------------------
 
@@ -220,41 +220,41 @@ echo -------------------$filename line no : "$controllersixth"------------------
 fi
 
 
-if [ "$check" = true ] && [ "$controllersixth" -eq 10 ]; then
+if [ "$check" = true ] && [ "$controllersixth" -eq 9 ]; then
 source demo-openrc.sh || check=false
 neutron net-create demo-net || check=false
+echo -------------------$filename line no : "$controllersixth"------------------------
+#line no 9
+((controllersixth=controllersixth+1))
+fi
+
+if [ "$check" = true ] && [ "$controllersixth" -eq 10 ]; then
+neutron subnet-create demo-net --name demo-subnet \
+  --gateway $TENANT_NETWORK_GATEWAY $TENANT_NETWORK_CIDR || check=false
 echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 10
 ((controllersixth=controllersixth+1))
 fi
 
 if [ "$check" = true ] && [ "$controllersixth" -eq 11 ]; then
-neutron subnet-create demo-net --name demo-subnet \
-  --gateway $TENANT_NETWORK_GATEWAY $TENANT_NETWORK_CIDR || check=false
+neutron router-create demo-router || check=false 
 echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 11
 ((controllersixth=controllersixth+1))
 fi
 
 if [ "$check" = true ] && [ "$controllersixth" -eq 12 ]; then
-neutron router-create demo-router || check=false 
+neutron router-interface-add demo-router demo-subnet || check=false
 echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 12
 ((controllersixth=controllersixth+1))
 fi
 
+
 if [ "$check" = true ] && [ "$controllersixth" -eq 13 ]; then
-neutron router-interface-add demo-router demo-subnet || check=false
+neutron router-gateway-set demo-router ext-net || check=false
 echo -------------------$filename line no : "$controllersixth"------------------------
 #line no 13
-((controllersixth=controllersixth+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllersixth" -eq 14 ]; then
-eutron router-gateway-set demo-router ext-net || check=false
-echo -------------------$filename line no : "$controllersixth"------------------------
-#line no 14
 ((controllersixth=controllersixth+1))
 
 
@@ -265,7 +265,7 @@ echo \|  [ NOTE : This shell script executed Successfully . ] \|
 echo   -----------------------------------------------
 
 exit
-#line no 14
+#line no 13
 ((controllersixth=controllersixth+1))
 fi
 ######################################################################################################

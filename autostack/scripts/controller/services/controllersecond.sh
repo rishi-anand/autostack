@@ -489,7 +489,7 @@ sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$
 ###########################################################################################################33
 
 	if [ "$check" = true ] && [ "$controllertwo" -eq 34 ]; then
-	if [ -s ~/pullstack/autostack/controller/keystone.conf ]; then
+	if [ -s ~/pullstack/autostack/conf/controller/keystone.conf ]; then
 	sudo rm -rf /etc/keystone/keystone.conf || check=false
 	sudo cp ~/pullstack/autostack/controller/keystone.conf /etc/keystone/ || check=false
 	fi

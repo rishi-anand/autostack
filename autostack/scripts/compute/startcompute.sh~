@@ -106,8 +106,8 @@ read userchoice
      echo And Execute it again.
      read againlinenumber
 
-    sed "s/computeone=.*/computeone=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
-    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties 
+    sed "s/computeone=.*/computeone=$againlinenumber/g" ~/pullstack/autostack/linecounterfiles/compute.properties > tmp
+    mv tmp ~/pullstack/autostack/linecounterfiles/compute.properties 
 fi
 
 exit
@@ -127,17 +127,6 @@ today=`date +%Y-%m-%d.%H:%M:%S`
 
 exec 2> >(tee "Error_.$filename._.$today.err")
 exec > >(tee "Log_.$filename._.$today.log")
-
-
-
-# Define your function here
-line_counter_increment () {
-   sed "s/computeone=.*/computeone=$count/g" ~/open/linecounterfiles/controller.properties > tmp
-   mv tmp ~/open/linecounterfiles/controller.properties
-   
-   
-   return "$computeone"
-}
 
 
 echo CONTROLLER_NODE_HOSTNAME = $CONTROLLER_NODE_HOSTNAME
@@ -353,19 +342,58 @@ fi
 
 
 if [ "$check" = true ] && [ "$computeone" -eq 10 ]; then
- if [ -s ~/pullstack/autostack/conf/compute/interfaces ]; then
+
+       if [ -s ~/pullstack/autostack/conf/compute/interfaces ]; then
 
         echo -###################################### Check Network Configuration -######################################
        cat ~/pullstack/autostack/conf/compute/interfaces
 
        echo -###################################### Check Network Configuration -######################################
 
-    
+         echo ---  Press[y/n] to continue- or to skip -----
+       read choicenetwork
+                 if [ "$choicenetwork" = "y" ]; then
+                 sudo rm -rf  /etc/network/interfaces || check=false
+                 sudo cp ~/pullstack/autostack/conf/compute/interfaces /etc/network/ || check=false
+                 echo -############################################################################
+                 hostname=$(hostname)
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ Static IP is configured. New IP of $COMPUTE_NODE_HOSTNAME = $COMPUTE_NODE_PUBLIC_IP ] \|
+                 echo   ---------------------------------------------------------------------------
+                 sudo chmod 755 controllersecond.sh
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ NOTE : Execute autostack.sh after booting up to proceed further] \|
+                 echo   ---------------------------------------------------------------------------
+                sudo reboot
+                 fi
+
+  
         else 
         echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
         fi
 
 
+
+if [ -s ~/pullstack/autostack/conf/compute/hostname ]; then
+sudo rm -rf /etc/hostname || check=false
+sudo cp ~/pullstack/autostack/conf/compute/hostname /etc/hostname || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- NOVA : /etc/hostname  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
+fi
+    
+
+if [ -s ~/pullstack/autostack/conf/common/hosts ]; then
+sudo rm -rf /etc/hosts || check=false
+sudo cp ~/pullstack/autostack/conf/common/hosts /etc/hosts || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- NOVA : /etc/hosts  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
+fi
+    
+sudo cp ~/pullstack/autostack/scripts/compute/* /home/"$ACCOUNT_USERNAME"/
 echo -------------------$filename line no : "$computeone"------------------------
 #line no 10
 ((computeone=computeone+1))
@@ -373,8 +401,8 @@ echo -------------------$filename line no : "$computeone"-----------------------
 echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
 ((computeone=computeone+1))
-sed "s/computeone=.*/computeone="$computeone"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
+sed "s/computeone=.*/computeone="$computeone"/g" ~/pullstack/autostack/linecounterfiles/compute.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/compute.properties
 
 
 
@@ -383,8 +411,8 @@ exit
 fi
 
 ((computeone=computeone-1))
-sed "s/computeone=.*/computeone="$computeone"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
+sed "s/computeone=.*/computeone="$computeone"/g" ~/pullstack/autostack/linecounterfiles/compute.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/compute.properties
 
 
 if [ "$replacemsg" = true ]; then

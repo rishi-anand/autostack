@@ -104,7 +104,7 @@ echo ----******--Welcome to $hostname--******----
 . ~/pullstack/autostack/linecounterfiles/network.properties
 . ~/pullstack/autostack/autostack.properties
 
-if [ "$networkthree" -eq 7 ]; then
+if [ "$networkthree" -eq 14 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -113,7 +113,7 @@ echo -----------------------------------------------------
 echo If you Want to execute it again Press [y/n] to Execute it.
 read userchoice
      if [ "$userchoice" = "y" ]; then
-     echo Enter Line Number you want to continue: [Valid 1 - 6] 
+     echo Enter Line Number you want to continue: [Valid 1 - 13] 
      echo And Execute it again.
      read againlinenumber
 
@@ -285,7 +285,7 @@ echo -------------------$filename line no : "$networkthree"---------------------
 fi
 
 
-if [ "$check" = true ] && [ "$networkthree" -eq 5 ]; then
+if [ "$check" = true ] && [ "$networkthree" -eq 7 ]; then
 
 if [ -s ~/pullstack/autostack/conf/network/neutron.conf ]; then
 sudo rm -rf /etc/neutron/neutron.conf || check=false
@@ -296,12 +296,12 @@ echo ----------- NEUTRON [network] : /etc/neutron/neutron.conf  [ NOT EDITED ] -
 echo -----------------------------------------------------------------------------------
 fi
 echo -------------------$filename line no : "$networkthree"------------------------
-#line no 5
+#line no 7
 ((networkthree=networkthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$networkthree" -eq 5 ]; then
+if [ "$check" = true ] && [ "$networkthree" -eq 8 ]; then
 if [ -s ~/pullstack/autostack/conf/network/ml2_conf.ini ]; then
 sudo rm -rf /etc/neutron/plugins/ml2/ml2_conf.ini || check=false
 sudo cp ~/pullstack/autostack/conf/network/ml2_conf.ini /etc/neutron/plugins/ml2/ || check=false
@@ -312,12 +312,12 @@ echo ---------------------------------------------------------------------------
 fi
 
 echo -------------------$filename line no : "$networkthree"------------------------
-#line no 5
+#line no 8
 ((networkthree=networkthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$networkthree" -eq 5 ]; then
+if [ "$check" = true ] && [ "$networkthree" -eq 9 ]; then
 if [ -s ~/pullstack/autostack/conf/network/l3_agent.ini ]; then
 sudo rm -rf /etc/neutron/l3_agent.ini || check=false
 sudo cp ~/pullstack/autostack/conf/network/l3_agent.ini /etc/neutron/ || check=false
@@ -328,11 +328,11 @@ echo ---------------------------------------------------------------------------
 fi
 
 echo -------------------$filename line no : "$networkthree"------------------------
-#line no 5
+#line no 9
 ((networkthree=networkthree+1))
 fi
 
-if [ "$check" = true ] && [ "$networkthree" -eq 5 ]; then
+if [ "$check" = true ] && [ "$networkthree" -eq 10 ]; then
 if [ -s ~/pullstack/autostack/conf/network/dhcp_agent.ini ]; then
 sudo rm -rf /etc/neutron/dhcp_agent.ini || check=false
 sudo cp ~/pullstack/autostack/conf/network/dhcp_agent.ini /etc/neutron/ || check=false
@@ -343,12 +343,12 @@ echo ---------------------------------------------------------------------------
 fi
 
 echo -------------------$filename line no : "$networkthree"------------------------
-#line no 5
+#line no 10
 ((networkthree=networkthree+1))
 fi
 
 
-if [ "$check" = true ] && [ "$networkthree" -eq 5 ]; then
+if [ "$check" = true ] && [ "$networkthree" -eq 11 ]; then
 if [ -s ~/pullstack/autostack/conf/network/dnsmasq-neutron.conf ]; then
 sudo cp ~/pullstack/autostack/conf/network/dnsmasq-neutron.conf /etc/neutron/ || check=false
 else
@@ -358,16 +358,16 @@ echo ---------------------------------------------------------------------------
 fi
 
 echo -------------------$filename line no : "$networkthree"------------------------
-#line no 5
+#line no 11
 ((networkthree=networkthree+1))
 fi
-if [ "$check" = true ] && [ "$networkthree" -eq 5 ]; then
+if [ "$check" = true ] && [ "$networkthree" -eq 12 ]; then
 sudo pkill dnsmasq
 echo -------------------$filename line no : "$networkthree"------------------------
-#line no 5
+#line no 12
 ((networkthree=networkthree+1))
 fi
-if [ "$check" = true ] && [ "$networkthree" -eq 5 ]; then
+if [ "$check" = true ] && [ "$networkthree" -eq 13 ]; then
 if [ -s ~/pullstack/autostack/conf/network/metadata_agent.ini ]; then
 rm -rf /etc/neutron/metadata_agent.ini || check=false
 sudo cp ~/pullstack/autostack/conf/network/metadata_agent.ini /etc/neutron/ || check=false
@@ -378,7 +378,7 @@ echo ---------------------------------------------------------------------------
 fi
 
 echo -------------------$filename line no : "$networkthree"------------------------
-#line no 5
+#line no 13
 ((networkthree=networkthree+1))
 
 sed "s/networkthree=.*/networkthree=$networkthree/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp

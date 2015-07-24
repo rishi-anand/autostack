@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-. ~/pullstack/autostack/conf/linecounterfiles/controller.properties
-. ~/pullstack/autostack/conf/autostack.properties
+. ~/pullstack/autostack/linecounterfiles/controller.properties
+. ~/pullstack/autostack/autostack.properties
 
 echo ------------------ EXTERNAL & TENANT NETWORK CREATION ---------------------------------------------
 
@@ -159,7 +159,7 @@ if [ "$check" = true ] && [ "$controllerseventh" -eq 2 ]; then
 
 if [ -s ~/pullstack/autostack/conf/controller/local_settings.py ]; then
 sudo rm -rf /etc/openstack-dashboard/local_settings.py || check=false
-sudo cp ~/pullstack/autostack/controller/local_settings.py /etc/openstack-dashboard/ || check=false
+sudo cp ~/pullstack/autostack/conf/controller/local_settings.py /etc/openstack-dashboard/ || check=false
 else
 echo --------------------------------------------------------------------------------
 echo ----------- DASHBOARD [controller] : /etc/openstack-dashboard/local_settings.py  [ NOT EDITED ] -------------
@@ -182,8 +182,8 @@ echo -------------------$filename line no : "$controllerseventh"----------------
 #line no 3
 ((controllerseventh=controllerseventh+1))
 
-sed "s/controllerseventh=.*/controllerseventh="$controllerseventh"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
+sed "s/controllerseventh=.*/controllerseventh="$controllerseventh"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 echo   -----------------------------------------------
 echo \|  [ NOTE : This shell script executed Successfully . ] \|
 echo   -----------------------------------------------
@@ -201,8 +201,8 @@ echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controlle
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
-sed "s/controllerseventh=.*/controllerseventh="$controllerseventh"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
+sed "s/controllerseventh=.*/controllerseventh="$controllerseventh"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
 fi

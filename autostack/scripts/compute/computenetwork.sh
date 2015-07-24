@@ -323,7 +323,7 @@ fi
 
 if [ "$check" = true ] && [ "$computefour" -eq 9 ]; then
 
-if [ -s ~/pullstack/autostack/conf/compute/computnetwork/nova.conf ]; then
+if [ -s ~/pullstack/autostack/conf/compute/computenetwork/nova.conf ]; then
 sudo rm -rf /etc/nova/nova.conf || check=false
 sudo cp ~/pullstack/autostack/conf/compute/computnetwork/nova.conf /etc/nova/ || check=false
 else

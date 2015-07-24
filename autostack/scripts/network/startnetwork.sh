@@ -191,8 +191,8 @@ echo ----------------------------------------
 echo \|   Created a new super-user : autostack \|
 echo \|   Password of autostack  : autostack . \|
 echo ----------------------------------------
-source=~/pullstack
-destination=/home/autostack/
+source=$HOME/pullstack
+destination=/home/autostack/pullstack/
 
 if [ ! -d "$destination" ]; then
     mkdir -p "$destination"
@@ -352,18 +352,57 @@ fi
 
 
 if [ "$check" = true ] && [ "$networkone" -eq 10 ]; then
- if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
+       if [ -s ~/pullstack/autostack/conf/network/interfaces ]; then
 
         echo -###################################### Check Network Configuration -######################################
-       cat ~/pullstack/autostack/conf/controller/interfaces
+       cat ~/pullstack/autostack/conf/network/interfaces
 
        echo -###################################### Check Network Configuration -######################################
 
-    
+         echo ---  Press[y/n] to continue- or to skip -----
+       read choicenetwork
+                 if [ "$choicenetwork" = "y" ]; then
+                 sudo rm -rf  /etc/network/interfaces || check=false
+                 sudo cp ~/pullstack/autostack/conf/network/interfaces /etc/network/ || check=false
+                 echo -###################################### REBOOTING CONTROLLER -######################################
+                 hostname=$(hostname)
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ Static IP is configured. New IP of $NETWORK_NODE_HOSTNAME = $NETWORK_NODE_PUBLIC_IP ] \|
+                 echo   ---------------------------------------------------------------------------
+                 sudo chmod 755 controllersecond.sh
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ NOTE : Execute autostack.sh after booting up to proceed further] \|
+                 echo   ---------------------------------------------------------------------------
+                sudo reboot
+                 fi
+
+  
         else 
         echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
         fi
 
+
+
+if [ -s ~/pullstack/autostack/conf/network/hostname ]; then
+sudo rm -rf /etc/hostname || check=false
+sudo cp ~/pullstack/autostack/conf/network/hostname /etc/hostname || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- NOVA : /etc/hostname  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
+fi
+    
+
+if [ -s ~/pullstack/autostack/conf/common/hosts ]; then
+sudo rm -rf /etc/hosts || check=false
+sudo cp ~/pullstack/autostack/conf/common/hosts /etc/hosts || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- NOVA : /etc/hosts  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
+fi
+    
+sudo cp ~/pullstack/autostack/scripts/network/* /home/"$ACCOUNT_USERNAME"/
 
 echo -------------------$filename line no : "$networkone"------------------------
 #line no 10
@@ -374,8 +413,8 @@ sudo chmod 755 controllerfirst.sh
 echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
 ((networkone=networkone+1))
-sed "s/networkone=.*/networkone="$networkone"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
+sed "s/networkone=.*/networkone="$networkone"/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
 
 
 
@@ -384,8 +423,8 @@ exit
 fi
 
 ((networkone=networkone-1))
-sed "s/networkone=.*/networkone="$networkone"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
+sed "s/networkone=.*/networkone="$networkone"/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
 
 
 if [ "$replacemsg" = true ]; then

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-. ~/pullstack/autostack/conf/linecounterfiles/controller.properties
-. ~/pullstack/autostack/conf/autostack.properties
+. ~/pullstack/autostack/linecounterfiles/controller.properties
+. ~/pullstack/autostack/autostack.properties
 
 echo ------------------ NOVA INSTALLATION  ---------------------------------------------
 
@@ -271,14 +271,14 @@ echo -------------------$filename line no : "$controllerfour"-------------------
 fi
 
 
-if [ "$check" = true ] && [ "$controllerfour" -eq 10 ]; then
-sudo su -s /bin/sh -c "nova-manage db sync" nova || check=false
+if [ "$check" = true ] && [ "$controllerfour" -eq 9 ]; then
+su -s /bin/sh -c "nova-manage db sync" nova || check=false
 echo -------------------$filename line no : "$controllerfour"------------------------
-#line no 10
+#line no 9
 ((controllerfour=controllerfour+1))
 fi
 
-if [ "$check" = true ] && [ "$controllerfour" -eq 11 ]; then
+if [ "$check" = true ] && [ "$controllerfour" -eq 10 ]; then
 sudo service nova-api restart || check=false
 sudo service nova-cert restart || check=false
 sudo service nova-consoleauth restart || check=false
@@ -286,22 +286,22 @@ sudo service nova-scheduler restart || check=false
 sudo service nova-conductor restart || check=false
 sudo service nova-novncproxy restart || check=false
 echo -------------------$filename line no : "$controllerfour"------------------------
+#line no 10
+((controllerfour=controllerfour+1))
+fi
+
+if [ "$check" = true ] && [ "$controllerfour" -eq 11 ]; then
+sudo rm -f /var/lib/nova/nova.sqlite || check=false 
+echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 11
 ((controllerfour=controllerfour+1))
 fi
 
 if [ "$check" = true ] && [ "$controllerfour" -eq 12 ]; then
-sudo rm -f /var/lib/nova/nova.sqlite || check=false 
+echo -------- NOVA ON COMPUTE [GOING TO COMPUTE NODE] -----------
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root ./computenova.sh" || check=false 
 echo -------------------$filename line no : "$controllerfour"------------------------
 #line no 12
-((controllerfour=controllerfour+1))
-fi
-
-if [ "$check" = true ] && [ "$controllerfour" -eq 13 ]; then
-echo -------- NOVA ON COMPUTE [GOING TO COMPUTE NODE] -----------
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/./computenova.sh" || check=false 
-echo -------------------$filename line no : "$controllerfour"------------------------
-#line no 13
 ((controllerfour=controllerfour+1))
 fi
 
@@ -352,8 +352,8 @@ echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controlle
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
-sed "s/controllerfour=.*/controllerfour="$controllerfour"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
+sed "s/controllerfour=.*/controllerfour="$controllerfour"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
 fi

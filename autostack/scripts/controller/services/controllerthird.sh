@@ -149,8 +149,11 @@ echo --------------------------------
 fi
 #-------------------- Check if Internet is working if not working then updating Nameserver [ENDS] -------------------------------------------
 
-
-
+presentdir=$(pwd)
+if [ ! -s admin-openrc.sh ]; then
+cp ~/pullstack/autostack/conf/controller/demo-openrc.sh $presentdir
+cp ~/pullstack/autostack/conf/controller/admin-openrc.sh $presentdir
+fi
 if [ "$check" = true ] && [ "$controllerthree" -eq 1 ]; then
 
 ####################################################################################
@@ -268,7 +271,7 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllerthree" -eq 10 ]; then
-sudo su -s /bin/sh -c "glance-manage db_sync" glance || check=false
+su -s /bin/sh -c "glance-manage db_sync" glance || check=false
 echo -------------------$filename line no : "$controllerthree"------------------------
 #line no 10
 ((controllerthree=controllerthree+1))

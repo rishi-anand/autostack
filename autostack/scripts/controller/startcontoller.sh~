@@ -113,7 +113,7 @@ fi
 exit
 else
 
-echo Starting $filename
+echo Starting "$filename"
 fi
 
 
@@ -191,6 +191,13 @@ echo ----------------------------------------
 echo \|   Created a new super-user : autostack \|
 echo \|   Password of autostack  : autostack . \|
 echo ----------------------------------------
+source=~/pullstack
+destination=/home/autostack/
+
+if [ ! -d "$destination" ]; then
+    mkdir -p "$destination"
+fi
+sudo cp -R "$source" "$destination"
 fi
 fi
 #---------------------- Create User [ ENDS ] ---------------------------------------------
@@ -297,7 +304,7 @@ fi
 if [ "$check" = true ] && [ $controllerone -eq 6 ]; then
 
 
-sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
   "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
 echo -------------------$filename line no : $controllerone------------------------
 #line no 6
@@ -307,7 +314,7 @@ fi
 if [ "$check" = true ] && [ $controllerone -eq 7 ]; then
 
 sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
-sudo apt-get install mariadb-server python-mysqldb -y || check=false
+
 echo -------------------$filename line no : $controllerone------------------------
 #line no 7
 ((controllerone=controllerone+1))
@@ -340,7 +347,7 @@ sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllersecond.sh || e
 #chown root ~/pullstack/autostack/conf/controller/controllerthird.sh || echo "Unable to set Permission"
 sudo chmod 700 ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
 
-sudo chmod u+x ~~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
+sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllerthird.sh || echo "Unable to set Permission"
 
 #chown root ~/pullstack/autostack/conf/controller/controllersecond.sh || echo "Unable to set Permission"
 sudo chmod 700 ~/pullstack/autostack/scripts/controller/controllersecond.sh || echo "Unable to set Permission"
@@ -350,28 +357,74 @@ sudo chmod u+x ~/pullstack/autostack/scripts/controller/controllerthird.sh || ec
 
 echo -------------------$filename line no : $controllerone------------------------
 #line no 9
+((controllerone=controllerone+1))
 
-sudo chmod 755 controllerfirst.sh
-echo ------------------ Now Execute controllerfirst.sh -------------------------------------
+fi
+
+
+
+
+if [ "$check" = true ] && [ "$controllerone" -eq 10 ]; then
+
+       if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
+
+        echo -###################################### Check Network Configuration -######################################
+       cat ~/pullstack/autostack/conf/controller/interfaces
+
+       echo -###################################### Check Network Configuration -######################################
+
+         echo ---  Press[y/n] to continue- or to skip -----
+       read choicenetwork
+                 if [ "$choicenetwork" = "y" ]; then
+                 sudo rm -rf  /etc/network/interfaces || check=false
+                 sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=false
+                 echo -###################################### REBOOTING CONTROLLER -######################################
+                 hostname=$(hostname)
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ Static IP is configured. New IP of $CONTROLLER_NODE_HOSTNAME = $CONTROLLER_NODE_PUBLIC_IP ] \|
+                 echo   ---------------------------------------------------------------------------
+                 sudo chmod 755 controllersecond.sh
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ NOTE : Execute autostack.sh after booting up to proceed further] \|
+                 echo   ---------------------------------------------------------------------------
+                sudo reboot
+                 fi
+
+  
+        else 
+        echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
+        fi
+
+
+
+if [ -s ~/pullstack/autostack/conf/controller/hostname ]; then
+sudo rm -rf /etc/hostname || check=false
+sudo cp ~/pullstack/autostack/conf/controller/hostname /etc/hostname || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- NOVA : /etc/hostname  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
+fi
+    
+
+if [ -s ~/pullstack/autostack/conf/common/hosts ]; then
+sudo rm -rf /etc/hosts || check=false
+sudo cp ~/pullstack/autostack/conf/common/hosts /etc/hosts || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- NOVA : /etc/hosts  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
+fi
+    
+  
+echo -------------------$filename line no : "$controllerone"------------------------
+#line no 10
+((networkone=networkone+1))
+
 
 ((controllerone=controllerone+1))
 sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
-
-
-if [ "$replacemsg" = true ]; then
-echo
-echo
-echo   ------------------------------------------------
-echo \|  [ NOTE : Do Not bother about ==  Errcode: 21 ] \|
-echo   ------------------------------------------------
-echo
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
-echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo
-echo
-fi
 
 
 
@@ -385,16 +438,9 @@ sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/li
 
 
 if [ "$replacemsg" = true ]; then
-echo
-echo
-echo   ------------------------------------------------
-echo \|  [ NOTE : Do Not bother about ==  Errcode: 21 ] \|
-echo   ------------------------------------------------
-echo
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 echo \|  [ NOTE : Verify Your configuration at ~/pullstack/autostack/conf/check_autostack_configuration.txt and then- only move to next Step ] \|
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
-echo
 echo
 fi
 

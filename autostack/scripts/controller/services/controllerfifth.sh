@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-. ~/pullstack/autostack/conf/linecounterfiles/controller.properties
-. ~/pullstack/autostack/conf/autostack.properties
+. ~/pullstack/autostack/linecounterfiles/controller.properties
+. ~/pullstack/autostack/autostack.properties
 
 echo ------------------ NOVA INSTALLATION  ---------------------------------------------
 
@@ -46,7 +46,7 @@ fi
 
 
 #-------------- Check if PRESENT script is already executed [ START ] ---------------------------------
-if [ "$controllerfifth" -eq 15 ]; then
+if [ "$controllerfifth" -eq 20 ]; then
 
 echo -----------------------------------------------------
 echo \|   This Shell Script has been Executed Successfully. \|
@@ -55,7 +55,7 @@ echo -----------------------------------------------------
 echo If you Want to execute it again Press [y/n] to Execute it.
 read -r userchoice
      if [ "$userchoice" = "y" ]; then
-     echo Enter Line Number you want to continue: [Valid 1 - 15] 
+     echo Enter Line Number you want to continue: [Valid 1 - 19] 
      echo And Execute it again.
      read -r againlinenumber
 
@@ -246,7 +246,7 @@ echo ------------------"$filename" line no : "$controllerfifth"-----------------
 fi
 
 if [ "$check" = true ] && [ "$controllerfifth" -eq 7 ]; then
-sudo pt-get install neutron-server neutron-plugin-ml2 python-neutronclient -y || check=false
+sudo apt-get install neutron-server neutron-plugin-ml2 python-neutronclient -y || check=false
 echo ------------------"$filename" line no : "$controllerfifth"------------------------
 #line no 7
 ((controllerfifth=controllerfifth+1))
@@ -268,9 +268,6 @@ echo [ NOTE : SERVICE_TENANT_ID is NOT replaced -in ~/pullstack/autostack/conf/c
 echo Replace it manually.
 fi
 
-
-
-
 if [ -s ~/pullstack/autostack/conf/controller/neutron.conf ]; then
 sudo rm -rf /etc/neutron/neutron.conf || check=false
 sudo cp ~/pullstack/autostack/conf/controller/neutron.conf /etc/neutron/ || check=false
@@ -285,7 +282,7 @@ echo ------------------"$filename" line no : "$controllerfifth"-----------------
 fi
 
 
-if [ "$check" = true ] && [ "$controllerfifth" -eq 10 ]; then
+if [ "$check" = true ] && [ "$controllerfifth" -eq 9 ]; then
 
 if [ -s ~/pullstack/autostack/conf/controller/ml2_conf.ini ]; then
 sudo rm -rf /etc/neutron/plugins/ml2/ml2_conf.ini || check=false
@@ -296,12 +293,12 @@ echo ----------- NEUTRON : /etc/neutron/plugins/ml2/ml2_conf.ini  [ NOT EDITED ]
 echo -----------------------------------------------------------------------------------
 fi
 echo ------------------"$filename" line no : "$controllerfifth"------------------------
-#line no 10
+#line no 9
 ((controllerfifth=controllerfifth+1))
 fi
 
 
-if [ "$check" = true ] && [ "$controllerfifth" -eq 11 ]; then
+if [ "$check" = true ] && [ "$controllerfifth" -eq 10 ]; then
 
 if [ -s ~/pullstack/autostack/conf/controller/network_nova/nova.conf ]; then
 sudo rm -rf /etc/nova/nova.conf || check=false
@@ -312,20 +309,20 @@ echo ----------- NEUTRON-NOVA [controller] : /etc/nova/nova.conf  [ NOT EDITED ]
 echo -----------------------------------------------------------------------------------
 fi
 echo ------------------"$filename" line no : "$controllerfifth"------------------------
+#line no 10
+((controllerfifth=controllerfifth+1))
+fi
+
+if [ "$check" = true ] && [ "$controllerfifth" -eq 11 ]; then
+su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
+  --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron || check=false
+echo ------------------"$filename" line no : "$controllerfifth"------------------------
 #line no 11
 ((controllerfifth=controllerfifth+1))
 fi
 
+
 if [ "$check" = true ] && [ "$controllerfifth" -eq 12 ]; then
-su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
-  --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron || check=false
-echo ------------------"$filename" line no : "$controllerfifth"------------------------
-#line no 12
-((controllerfifth=controllerfifth+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllerfifth" -eq 13 ]; then
 sudo service nova-api restart || check=false
 sudo service nova-cert restart || check=false
 sudo service nova-consoleauth restart || check=false
@@ -334,29 +331,31 @@ sudo service nova-conductor restart || check=false
 sudo service nova-novncproxy restart || check=false
 sudo service neutron-server restart || check=false
 echo ------------------"$filename" line no : "$controllerfifth"------------------------
+#line no 12
+((controllerfifth=controllerfifth+1))
+fi
+
+if [ "$check" = true ] && [ "$controllerfifth" -eq 13 ]; then
+source admin-openrc.sh || check=false
+neutron ext-list || check=false
+echo ------------------"$filename" line no : "$controllerfifth"------------------------
 #line no 13
 ((controllerfifth=controllerfifth+1))
 fi
 
 if [ "$check" = true ] && [ "$controllerfifth" -eq 14 ]; then
-source admin-openrc.sh || check=false
-neutron ext-list || check=false
+echo ---======---  Installing NETWORK Services - Network Node ---======---
+echo --- Going To Network Node ---
+ACCOUNT_PASSWORD=welcome
+ACCOUNT_USERNAME=cliqr
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root ./networknetwork.sh" || check=false
 echo ------------------"$filename" line no : "$controllerfifth"------------------------
 #line no 14
 ((controllerfifth=controllerfifth+1))
 fi
 
+
 if [ "$check" = true ] && [ "$controllerfifth" -eq 15 ]; then
-echo ---======---  Installing NETWORK Services - Network Node ---======---
-echo --- Going To Network Node ---
-sshpass -p autostack ssh -o StrictHostKeyChecking=no autostack@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/network/./networknetwork.sh" || check=false
-echo ------------------"$filename" line no : "$controllerfifth"------------------------
-#line no 15
-((controllerfifth=controllerfifth+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllerfifth" -eq 16 ]; then
 
 if [ -s ~/pullstack/autostack/conf/controller/network_nova/netwotk_network_nova/nova.conf ]; then
 sudo rm -rf /etc/nova/nova.conf || check=false
@@ -368,21 +367,21 @@ echo ----------- NEUTRON-NOVA [network on controller] : /etc/nova/nova.conf  [ N
 echo -----------------------------------------------------------------------------------
 fi
 echo ------------------"$filename" line no : "$controllerfifth"------------------------
+#line no 15
+((controllerfifth=controllerfifth+1))
+fi
+
+if [ "$check" = true ] && [ "$controllerfifth" -eq 16 ]; then
+echo -------- NOVA ON COMPUTE [GOING TO COMPUTE NODE] -----------
+
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root ./networknetworksecond.sh" || check=false
+echo ------------------"$filename" line no : "$controllerfifth"------------------------
 #line no 16
 ((controllerfifth=controllerfifth+1))
 fi
 
+
 if [ "$check" = true ] && [ "$controllerfifth" -eq 17 ]; then
-echo -------- NOVA ON COMPUTE [GOING TO COMPUTE NODE] -----------
-
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/network/./networknetworksecond.sh" || check=false
-echo ------------------"$filename" line no : "$controllerfifth"------------------------
-#line no 17
-((controllerfifth=controllerfifth+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllerfifth" -eq 18 ]; then
 echo ----------  "Verifying Operation - NETWORK [Network] SERVICE" ----------
 source admin-openrc.sh || check=false
 neutron agent-list || check=false
@@ -391,21 +390,21 @@ echo \|  [ NOTE : It Should contain 4 Network Services. . ] \|
 echo   -----------------------------------------------
 
 echo ------------------"$filename" line no : "$controllerfifth"------------------------
+#line no 17
+((controllerfifth=controllerfifth+1))
+fi
+
+if [ "$check" = true ] && [ "$controllerfifth" -eq 18 ]; then
+echo ---======---  Installing NETWORK Services - Compute Node ---======---
+echo --- Going To Compute Node ---
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root ./computenetwork.sh" || check=false
+echo ------------------"$filename" line no : "$controllerfifth"------------------------
 #line no 18
 ((controllerfifth=controllerfifth+1))
 fi
 
+
 if [ "$check" = true ] && [ "$controllerfifth" -eq 19 ]; then
-echo ---======---  Installing NETWORK Services - Compute Node ---======---
-echo --- Going To Compute Node ---
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/./computenetwork.sh" || check=false
-echo ------------------"$filename" line no : "$controllerfifth"------------------------
-#line no 19
-((controllerfifth=controllerfifth+1))
-fi
-
-
-if [ "$check" = true ] && [ "$controllerfifth" -eq 20 ]; then
 echo ------------  "Verifying Operation - NETWORK [Compute] SERVICE" ------------
 source admin-openrc.sh || check=false
 neutron agent-list || check=false
@@ -418,8 +417,8 @@ echo ------------------"$filename" line no : "$controllerfifth"-----------------
 ((controllerfifth=controllerfifth+1))
 
 
-sed "s/controllerfifth=.*/controllerfifth="$controllerfifth"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
+sed "s/controllerfifth=.*/controllerfifth="$controllerfifth"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 echo   -----------------------------------------------
 echo \|  [ NOTE : This shell script executed Successfully . ] \|
 echo   -----------------------------------------------
@@ -438,8 +437,8 @@ echo \|  [ NOTE : Shell Script Execution Terminated at Line Number : "$controlle
 echo   ---------------------------------------------------------------------------------------------------------------------------------------------
 
 
-sed "s/controllerfifth=.*/controllerfifth="$controllerfifth"/g" ~/pullstack/autostack/conf/linecounterfiles/controller.properties > tmp
-   mv tmp ~/pullstack/autostack/conf/linecounterfiles/controller.properties
+sed "s/controllerfifth=.*/controllerfifth="$controllerfifth"/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
+   mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
 fi

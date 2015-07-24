@@ -314,7 +314,7 @@ fi
 if [ "$check" = true ] && [ $controllerone -eq 7 ]; then
 
 sudo apt-get update && sudo apt-get update --fix-missing && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y || check=false
-#sudo apt-get install mariadb-server python-mysqldb -y || check=false
+
 echo -------------------$filename line no : $controllerone------------------------
 #line no 7
 ((controllerone=controllerone+1))
@@ -365,26 +365,62 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllerone" -eq 10 ]; then
- if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
+
+       if [ -s ~/pullstack/autostack/conf/controller/interfaces ]; then
 
         echo -###################################### Check Network Configuration -######################################
        cat ~/pullstack/autostack/conf/controller/interfaces
 
        echo -###################################### Check Network Configuration -######################################
 
-    
+         echo ---  Press[y/n] to continue- or to skip -----
+       read choicenetwork
+                 if [ "$choicenetwork" = "y" ]; then
+                 sudo rm -rf  /etc/network/interfaces || check=false
+                 sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=false
+                 echo -###################################### REBOOTING CONTROLLER -######################################
+                 hostname=$(hostname)
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ Static IP is configured. New IP of $CONTROLLER_NODE_HOSTNAME = $CONTROLLER_NODE_PUBLIC_IP ] \|
+                 echo   ---------------------------------------------------------------------------
+                 sudo chmod 755 controllersecond.sh
+                 echo   ---------------------------------------------------------------------------
+                 echo \|  [ NOTE : Execute autostack.sh after booting up to proceed further] \|
+                 echo   ---------------------------------------------------------------------------
+                sudo reboot
+                 fi
+
+  
         else 
         echo --- Network Interfaces was not found at pullstack repository, Leaving it unchanged-----
         fi
 
 
+
+if [ -s ~/pullstack/autostack/conf/controller/hostname ]; then
+sudo rm -rf /etc/hostname || check=false
+sudo cp ~/pullstack/autostack/conf/controller/hostname /etc/hostname || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- NOVA : /etc/hostname  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
+fi
+    
+
+if [ -s ~/pullstack/autostack/conf/common/hosts ]; then
+sudo rm -rf /etc/hosts || check=false
+sudo cp ~/pullstack/autostack/conf/common/hosts /etc/hosts || check=false
+else
+echo --------------------------------------------------------------------------------
+echo ----------- NOVA : /etc/hosts  [ NOT EDITED ] -------------
+echo -----------------------------------------------------------------------------------
+fi
+    
+  
 echo -------------------$filename line no : "$controllerone"------------------------
 #line no 10
 ((networkone=networkone+1))
 
-
-sudo chmod 755 controllerfirst.sh
-echo ------------------ Now Execute controllerfirst.sh -------------------------------------
 
 ((controllerone=controllerone+1))
 sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
