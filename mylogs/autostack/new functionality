@@ -1,8 +1,0 @@
-1 before doing anything in controller second, i will ping all pc and ssh to all pc and ping google.com . if ping is possible then good otherwise i will copy resolv.conf again ping and yet if not able to ping then i will ask for nameserver ip and paste it in resolv.conf
-
-
-2 string length of output to be matched before procedding to next step and one sudo command to be included
-
-3 mysql commands in shell script
-
-4 
