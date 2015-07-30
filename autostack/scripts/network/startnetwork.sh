@@ -370,10 +370,9 @@ if [ "$check" = true ] && [ "$networkone" -eq 10 ]; then
                  echo \|  [ Static IP is configured. New IP of $NETWORK_NODE_HOSTNAME = $NETWORK_NODE_PUBLIC_IP ] \|
                  echo   ---------------------------------------------------------------------------
                  sudo chmod 755 controllersecond.sh
-                 echo   ---------------------------------------------------------------------------
+                 echo   ------------------------------------------------------------------
                  echo \|  [ NOTE : Execute autostack.sh after booting up to proceed further] \|
-                 echo   ---------------------------------------------------------------------------
-                sudo reboot
+                 echo   ------------------------------------------------------------------
                  fi
 
   
@@ -388,7 +387,7 @@ sudo rm -rf /etc/hostname || check=false
 sudo cp ~/pullstack/autostack/conf/network/hostname /etc/hostname || check=false
 else
 echo --------------------------------------------------------------------------------
-echo ----------- NOVA : /etc/hostname  [ NOT EDITED ] -------------
+echo ----------- BASIC : /etc/hostname  [ NOT EDITED ] -------------
 echo -----------------------------------------------------------------------------------
 fi
     
@@ -398,10 +397,17 @@ sudo rm -rf /etc/hosts || check=false
 sudo cp ~/pullstack/autostack/conf/common/hosts /etc/hosts || check=false
 else
 echo --------------------------------------------------------------------------------
-echo ----------- NOVA : /etc/hosts  [ NOT EDITED ] -------------
+echo ----------- BASIC : /etc/hosts  [ NOT EDITED ] -------------
 echo -----------------------------------------------------------------------------------
 fi
-    
+
+
+if [ -z "$ACCOUNT_USERNAME" ]
+then
+echo
+echo Enter account name on remote machine through \which remote connection is to be made.
+read ACCOUNT_USERNAME
+fi
 sudo cp ~/pullstack/autostack/scripts/network/* /home/"$ACCOUNT_USERNAME"/
 
 echo -------------------$filename line no : "$networkone"------------------------
@@ -415,8 +421,13 @@ echo ------------------ Now Execute controllerfirst.sh -------------------------
 ((networkone=networkone+1))
 sed "s/networkone=.*/networkone="$networkone"/g" ~/pullstack/autostack/linecounterfiles/network.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
+                 echo   -----------------------------------
+                 echo \|  [ This Script Executed Successfully ] \|
+                 echo   -----------------------------------
 
 
+
+sudo reboot
 
 exit
 

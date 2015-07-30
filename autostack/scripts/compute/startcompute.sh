@@ -364,7 +364,6 @@ if [ "$check" = true ] && [ "$computeone" -eq 10 ]; then
                  echo   ---------------------------------------------------------------------------
                  echo \|  [ NOTE : Execute autostack.sh after booting up to proceed further] \|
                  echo   ---------------------------------------------------------------------------
-                sudo reboot
                  fi
 
   
@@ -379,7 +378,7 @@ sudo rm -rf /etc/hostname || check=false
 sudo cp ~/pullstack/autostack/conf/compute/hostname /etc/hostname || check=false
 else
 echo --------------------------------------------------------------------------------
-echo ----------- NOVA : /etc/hostname  [ NOT EDITED ] -------------
+echo ----------- BASIC : /etc/hostname  [ NOT EDITED ] -------------
 echo -----------------------------------------------------------------------------------
 fi
     
@@ -389,10 +388,17 @@ sudo rm -rf /etc/hosts || check=false
 sudo cp ~/pullstack/autostack/conf/common/hosts /etc/hosts || check=false
 else
 echo --------------------------------------------------------------------------------
-echo ----------- NOVA : /etc/hosts  [ NOT EDITED ] -------------
+echo ----------- BASIC : /etc/hosts  [ NOT EDITED ] -------------
 echo -----------------------------------------------------------------------------------
 fi
-    
+
+
+if [ -z "$ACCOUNT_USERNAME" ]
+then
+echo
+echo Enter account name on remote machine through \which remote connection is to be made.
+read ACCOUNT_USERNAME
+fi  
 sudo cp ~/pullstack/autostack/scripts/compute/* /home/"$ACCOUNT_USERNAME"/
 echo -------------------$filename line no : "$computeone"------------------------
 #line no 10
@@ -404,8 +410,12 @@ echo ------------------ Now Execute controllerfirst.sh -------------------------
 sed "s/computeone=.*/computeone="$computeone"/g" ~/pullstack/autostack/linecounterfiles/compute.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/compute.properties
 
+                 echo   -----------------------------------
+                 echo \|  [ This Script Executed Successfully ] \|
+                 echo   -----------------------------------
 
 
+sudo reboot
 exit
 
 fi

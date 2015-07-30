@@ -2,7 +2,6 @@
 
 
 if [ ! -d ~/pullstack/autostack/linecounterfiles/ ]; then
-  # Control will enter here if $DIRECTORY doesn't exist.
    mkdir ~/pullstack/autostack/linecounterfiles/
    sudo chmod 775 /opt/lampp/htdocs
    cd ~/pullstack/autostack/linecounterfiles/
@@ -77,8 +76,8 @@ fi
 if [ ! -f ~/pullstack/autostack/autostack.properties ]; then
        
    cd ~/pullstack/autostack/
-   touch controller.properties
-   sudo chmod 765 controller.properties
+   touch autostack.properties
+   sudo chmod 765 autostack.properties
 
    #echo controllerone=1 >> controller.properties
    #echo controllertwo=1 >> controller.properties
@@ -249,7 +248,7 @@ fi
 
 if [ "$check" = true ] && [ $controllerone -eq 1 ]; then
         if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
-        #sudo rm -rf /etc/resolv.conf || (check=false && line_counter_increment 1 )
+       
         pwd
         fi
 echo -------------------$filename line no : $controllerone------------------------
@@ -259,8 +258,7 @@ fi
 
 if [ "$check" = true ] && [ $controllerone -eq 2 ]; then
        if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
-       #sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || (check=false && line_counter_increment 2 )
-       pwd
+            pwd
        fi
 echo -------------------$filename line no : $controllerone------------------------
 #line no 2
@@ -269,10 +267,7 @@ fi
 
 if [ "$check" = true ] && [ $controllerone -eq 3 ]; then
   sudo apt-get update || check=false
-          # if [ "$check" = false ]; then
-          # line_counter_increment 3
-          # fi
-#(check=false && line_counter_increment 3 )
+
 echo -------------------$filename line no : $controllerone------------------------
 #line no 3
 ((controllerone=controllerone+1))
@@ -378,16 +373,15 @@ if [ "$check" = true ] && [ "$controllerone" -eq 10 ]; then
                  if [ "$choicenetwork" = "y" ]; then
                  sudo rm -rf  /etc/network/interfaces || check=false
                  sudo cp ~/pullstack/autostack/conf/controller/interfaces /etc/network/ || check=false
-                 echo -###################################### REBOOTING CONTROLLER -######################################
+                 
                  hostname=$(hostname)
-                 echo   ---------------------------------------------------------------------------
+                 echo   -------------------------------------------------------------------------------------------
                  echo \|  [ Static IP is configured. New IP of $CONTROLLER_NODE_HOSTNAME = $CONTROLLER_NODE_PUBLIC_IP ] \|
-                 echo   ---------------------------------------------------------------------------
+                 echo   -------------------------------------------------------------------------------------------
                  sudo chmod 755 controllersecond.sh
-                 echo   ---------------------------------------------------------------------------
+                 echo   ------------------------------------------------------------------
                  echo \|  [ NOTE : Execute autostack.sh after booting up to proceed further] \|
-                 echo   ---------------------------------------------------------------------------
-                sudo reboot
+                 echo   ------------------------------------------------------------------
                  fi
 
   
@@ -402,7 +396,7 @@ sudo rm -rf /etc/hostname || check=false
 sudo cp ~/pullstack/autostack/conf/controller/hostname /etc/hostname || check=false
 else
 echo --------------------------------------------------------------------------------
-echo ----------- NOVA : /etc/hostname  [ NOT EDITED ] -------------
+echo ----------- BASIC : /etc/hostname  [ NOT EDITED ] -------------
 echo -----------------------------------------------------------------------------------
 fi
     
@@ -412,7 +406,7 @@ sudo rm -rf /etc/hosts || check=false
 sudo cp ~/pullstack/autostack/conf/common/hosts /etc/hosts || check=false
 else
 echo --------------------------------------------------------------------------------
-echo ----------- NOVA : /etc/hosts  [ NOT EDITED ] -------------
+echo ----------- BASIC : /etc/hosts  [ NOT EDITED ] -------------
 echo -----------------------------------------------------------------------------------
 fi
     
@@ -421,13 +415,17 @@ echo -------------------$filename line no : "$controllerone"--------------------
 #line no 10
 ((networkone=networkone+1))
 
+                 echo   -----------------------------------
+                 echo \|  [ This Script Executed Successfully ] \|
+                 echo   -----------------------------------
+
 
 ((controllerone=controllerone+1))
 sed "s/controllerone=.*/controllerone=$controllerone/g" ~/pullstack/autostack/linecounterfiles/controller.properties > tmp
    mv tmp ~/pullstack/autostack/linecounterfiles/controller.properties
 
 
-
+sudo reboot
 exit
 
 fi

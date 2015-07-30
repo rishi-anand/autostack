@@ -175,7 +175,7 @@ fi
 if [ "$check" = true ] && [ "$controllertwo" -eq 1 ]; then
 
 if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
-sudo rm -rf /etc/resolv.conf || check=false
+pwd
 fi
 
 echo -------------------$filename line no : "$controllertwo"------------------------
@@ -186,7 +186,7 @@ fi
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 2 ]; then
 if [ -s ~/pullstack/autostack/conf/common/resolv.conf ]; then
-sudo cp ~/pullstack/autostack/conf/common/resolv.conf /etc/ || check=false
+pwd
 fi
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 2
@@ -196,7 +196,7 @@ fi
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
 	if [ -s ~/pullstack/autostack/conf/common/hosts ]; then
-	sudo rm -rf  /etc/hosts || check=false 
+	pwd
 	fi
 
 	echo -------------------$filename line no : "$controllertwo"------------------------
@@ -207,7 +207,7 @@ if [ "$check" = true ] && [ "$controllertwo" -eq 3 ]; then
 
 	if [ "$check" = true ] && [ "$controllertwo" -eq 4 ]; then
 	if [ -s ~/pullstack/autostack/conf/common/hosts ]; then
-	sudo cp ~/pullstack/autostack/conf/common/hosts /etc/ || check=false 
+	pwd
 	fi
 	echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 4
@@ -337,8 +337,8 @@ sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$
 	fi
 
 	if [ "$check" = true ] && [ "$controllertwo" -eq 20 ]; then
-	sudo echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
-		"trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
+echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
+  "trusty-updates/juno main" > /etc/apt/sources.list.d/cloudarchive-juno.list || check=false
 
 		echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 20
@@ -481,8 +481,6 @@ sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$
 	if [ "$check" = true ] && [ "$controllertwo" -eq 33 ]; then
 	echo ----------- Copy Below Admin Token ----------------------
 	ADMIN_TOKEN=$(openssl rand -hex 10) || check=false
-#replace "ADMIN_TOKEN" $ADMIN_TOKEN -- ~/pullstack/autostack/conf/controller/keystone.conf || check=false
-
 	sed -i -e "s/ADMIN_TOKEN/$ADMIN_TOKEN/g" ~/pullstack/autostack/conf/controller/keystone.conf || check=false
 	echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 33
@@ -810,7 +808,7 @@ fi
 
 
 if [ "$check" = true ] && [ "$controllertwo" -eq 67 ]; then
-sudo su -s /bin/sh -c "glance-manage db_sync" glance || check=false
+su -s /bin/sh -c "glance-manage db_sync" glance || check=false
 echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 67
 ((controllertwo=controllertwo+1))
@@ -1237,7 +1235,7 @@ fi
 if [ "$check" = true ] && [ "$controllertwo" -eq 104 ]; then
 echo ---======---  Installing NETWORK Services - Network Node ---======---
 echo --- Going To Network Node ---
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/network/./networknetwork.sh" || check=false
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root ./networknetwork.sh" || check=false
 echo ------------------"$filename" line no : "$controllertwo"------------------------
 #line no 104
 ((controllertwo=controllertwo+1))
@@ -1263,7 +1261,7 @@ fi
 if [ "$check" = true ] && [ "$controllertwo" -eq 106 ]; then
 echo -------- NOVA ON COMPUTE [GOING TO COMPUTE NODE] -----------
 
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/network/./networknetworksecond.sh" || check=false
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$NETWORK_NODE_PUBLIC_IP "sudo -u root ./networknetworksecond.sh" || check=false
 echo ------------------"$filename" line no : "$controllertwo"------------------------
 #line no 106
 ((controllertwo=controllertwo+1))
@@ -1286,7 +1284,7 @@ fi
 if [ "$check" = true ] && [ "$controllertwo" -eq 108 ]; then
 echo ---======---  Installing NETWORK Services - Compute Node ---======---
 echo --- Going To Compute Node ---
-sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root  ~/pullstack/autostack/compute/./computenetwork.sh" || check=false
+sshpass -p $ACCOUNT_PASSWORD ssh -o StrictHostKeyChecking=no $ACCOUNT_USERNAME@$COMPUTE_NODE_PUBLIC_IP "sudo -u root ./computenetwork.sh" || check=false
 echo ------------------"$filename" line no : "$controllertwo"------------------------
 #line no 108
 ((controllertwo=controllertwo+1))

@@ -8,96 +8,6 @@ replacemsg=false
 exec 2> >(tee "Error_.$filename._.$today.err")
 exec > >(tee "Log_.$filename._.$today.log")
 
-
-
-if [ ! -d ~/pullstack/autostack/linecounterfiles/ ]; then
-  # Control will enter here if $DIRECTORY doesn't exist.
-   mkdir ~/pullstack/autostack/linecounterfiles/
-   sudo chmod 775 /opt/lampp/htdocs
-   cd ~/pullstack/autostack/linecounterfiles/
-  
-   touch controller.properties
-   sudo chmod 765 controller.properties
-   touch network.properties
-   sudo chmod 765 network.properties
-   touch network.properties
-   sudo chmod 765 network.properties
-
-   echo controllerone=1 >> controller.properties
-   echo controllertwo=1 >> controller.properties
-   echo controllerthree=1 >> controller.properties
-   echo controllerfour=1 >> controller.properties
-   
-   echo networkthree=1 >> compute.properties
-   echo networkthree=1 >> compute.properties
-   echo computethree=1 >> compute.properties
-   echo computefour=1 >> compute.properties
-   
-   echo networkone=1 >> network.properties
-   echo networkthree=1 >> network.properties
-   echo networkthree=1 >> network.properties
-   echo networkfour=1 >> network.properties
-  
-else
- 
-   if [ ! -f ~/pullstack/autostack/linecounterfiles/controller.properties ]; then
-       
-   cd ~/pullstack/autostack/linecounterfiles/
-   touch controller.properties
-   sudo chmod 765 controller.properties
-
-   echo controllerone=1 >> controller.properties
-   echo controllertwo=1 >> controller.properties
-   echo controllerthree=1 >> controller.properties
-   echo controllerfour=1 >> controller.properties
-   
-   fi
-
-   if [ ! -f ~/pullstack/autostack/linecounterfiles/network.properties ]; then
-
-   cd ~/pullstack/autostack/linecounterfiles/
-   touch network.properties
-   sudo chmod 765 network.properties
-
-   echo networkthree=1 >> network.properties
-   echo networkthree=1 >> network.properties
-   echo computethree=1 >> network.properties
-   echo computefour=1 >> network.properties
-   
-   fi
-
-   if [ ! -f ~/pullstack/autostack/linecounterfiles/network.properties ]; then
-
-   cd ~/pullstack/autostack/linecounterfiles/
-   touch network.properties
-   sudo chmod 765 network.properties
-
-   echo networkone=1 >> network.properties
-   echo networkthree=1 >> network.properties
-   echo networkthree=1 >> network.properties
-   echo networkfour=1 >> network.properties
-   
-   fi
-   
-
-fi
-
-
-if [ ! -f ~/pullstack/autostack/autostack.properties ]; then
-       
-   cd ~/pullstack/autostack/
-   touch controller.properties
-   sudo chmod 765 controller.properties
-
-   #echo networkthree=1 >> controller.properties
-   #echo controllertwo=1 >> controller.properties
-   #echo controllerthree=1 >> controller.properties
-   #echo controllerfour=1 >> controller.properties
-   pwd
-fi
-
-
-
 hostname=$(hostname)
 echo ----******--Welcome to $hostname--******----
 
@@ -136,22 +46,6 @@ line_counter_increment () {
 }
 
 
-
-
-echo NETWORK_NODE_HOSTNAME = $NETWORK_NODE_HOSTNAME
-echo NETWORK_NODE_PUBLIC_IP = $NETWORK_NODE_PUBLIC_IP
-echo NETWORK_NODE_PRIVATE_IP = $NETWORK_NODE_PRIVATE_IP
-
-
-echo ======= Counter Value is "$networkthree" =============
-
-echo ---- If above information is correct then- Press y to continue- or n to exit------
-echo ---- otherwise add configurations in- ~/pullstack/autostack/autostack.properties -----
-
-echo --- Press[y/n] to continue- or to skip------
-
-read choice
-if [ "$choice" = "y" ] && [ "$check" = true ]; then
 
 #---------------------- Create User [ START ] ---------------------------------------------
 user=$(cut -d: -f1 /etc/passwd | grep autostack)
@@ -402,9 +296,5 @@ fi
    mv tmp ~/pullstack/autostack/linecounterfiles/network.properties
 
 
-
-
-
-fi
 echo *************** RETURNING FROM NETWORK NODE ***************
 exit
