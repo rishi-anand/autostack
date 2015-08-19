@@ -1,7 +1,6 @@
 #!/bin/bash
 
 . ~/pullstack/autostack/linecounterfiles/network.properties
-
 . ~/pullstack/autostack/autostack.properties
 
 check=true

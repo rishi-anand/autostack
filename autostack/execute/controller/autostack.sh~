@@ -437,6 +437,11 @@ echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
 
 	if [ "$check" = true ] && [ "$controllertwo" -eq 31 ]; then
 	echo ==== CREATE DATABASE keystone ====
+	echo ==== GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
+	      IDENTIFIED BY 'KEYSTONE_DBPASS' ====
+	      echo ==== GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' \
+		    IDENTIFIED BY 'KEYSTONE_DBPASS' ====
+		    echo ==== exit ====
 		    echo ====== Creating it automatically ========
 ####################################################################################
 
@@ -623,14 +628,6 @@ echo "deb http://ubuntu-cloud.archive.canonical.com/ubuntu" \
 	echo ------------------------------------------  VERIFYING  IDENTITY  SERVICE  -----------------------------------------------------
 	echo -------------------------------------------------------------------------------------------------------------------------------
 	unset OS_SERVICE_TOKEN OS_SERVICE_ENDPOINT || check=false
-	echo -------------------$filename line no : "$controllertwo"------------------------
-#line no 50
-((controllertwo=controllertwo+1))
-	fi
-
-
-	if [ "$check" = true ] && [ "$controllertwo" -eq 51 ]; then
-         pwd	
 	echo -------------------$filename line no : "$controllertwo"------------------------
 #line no 51
 ((controllertwo=controllertwo+1))
@@ -906,7 +903,7 @@ SQL="${Q1}${Q2}${Q3}${Q4}"
 $MYSQL -uroot -p$DATABASE_PASSWORD -e "$SQL" || check=false
 
 if [ "$check" = true ]; then
-echo ------- Nova Database is Created -------
+echo ------- Glance Database is Created -------
 fi
 
 ############################## keystone database created ##################################
@@ -1079,7 +1076,7 @@ SQL="${Q1}${Q2}${Q3}${Q4}"
 $MYSQL -uroot -p$DATABASE_PASSWORD -e "$SQL" || check=false
 
 if [ "$check" = true ]; then
-echo ------- Neutron Database is Created -------
+echo ------- Glance Database is Created -------
 fi
 
 ############################## keystone database created ##################################

@@ -1,91 +1,61 @@
 #!/bin/bash
 
 
-if [ ! -d ~/pullstack/autostack/linecounterfiles/ ]; then
-  # Control will enter here if $DIRECTORY doesn't exist.
-   mkdir ~/pullstack/autostack/linecounterfiles/
-   sudo chmod 775 /opt/lampp/htdocs
-   cd ~/pullstack/autostack/linecounterfiles/
-  
-   touch controller.properties
-   sudo chmod 765 controller.properties
-   touch compute.properties
-   sudo chmod 765 compute.properties
-   touch network.properties
-   sudo chmod 765 network.properties
 
-   echo computeone=1 >> controller.properties
-   echo controllertwo=1 >> controller.properties
-   echo controllerthree=1 >> controller.properties
-   echo controllerfour=1 >> controller.properties
-   
-   echo computeone=1 >> compute.properties
-   echo computetwo=1 >> compute.properties
-   echo computethree=1 >> compute.properties
-   echo computefour=1 >> compute.properties
-   
-   echo networkone=1 >> network.properties
-   echo networktwo=1 >> network.properties
-   echo networkthree=1 >> network.properties
-   echo networkfour=1 >> network.properties
-  
-else
- 
-   if [ ! -f ~/pullstack/autostack/linecounterfiles/controller.properties ]; then
-       
-   cd ~/pullstack/autostack/linecounterfiles/
-   touch controller.properties
-   sudo chmod 765 controller.properties
-
-   echo computeone=1 >> controller.properties
-   echo controllertwo=1 >> controller.properties
-   echo controllerthree=1 >> controller.properties
-   echo controllerfour=1 >> controller.properties
-   
-   fi
-
-   if [ ! -f ~/pullstack/autostack/linecounterfiles/compute.properties ]; then
-
-   cd ~/pullstack/autostack/linecounterfiles/
-   touch compute.properties
-   sudo chmod 765 compute.properties
-
-   echo computeone=1 >> compute.properties
-   echo computetwo=1 >> compute.properties
-   echo computethree=1 >> compute.properties
-   echo computefour=1 >> compute.properties
-   
-   fi
-
-   if [ ! -f ~/pullstack/autostack/linecounterfiles/network.properties ]; then
-
-   cd ~/pullstack/autostack/linecounterfiles/
-   touch network.properties
-   sudo chmod 765 network.properties
-
-   echo networkone=1 >> network.properties
-   echo networktwo=1 >> network.properties
-   echo networkthree=1 >> network.properties
-   echo networkfour=1 >> network.properties
-   
-   fi
-   
-
-fi
+show_starting() {
 
 
-if [ ! -f ~/pullstack/autostack/autostack.properties ]; then
-       
-   cd ~/pullstack/autostack/
-   touch controller.properties
-   sudo chmod 765 controller.properties
+clear
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+	echo -e '\t''\t''\t''\t''\t''\t'-##------------------------------------------------------##
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t''\t'AutoStack'\t''\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t''\t''\t''\t''\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t''\t''\t''\t''\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t'OpenStack MultiNode Installer'\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t''\t''\t''\t''\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-##------------------------------------------------------##
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo -e '\t''\t''\t' This script will create Environment ready \for OpenStack Installation. This Node will be Compute Node.
+echo
+echo
+echo
+echo
 
-   #echo computeone=1 >> controller.properties
-   #echo controllertwo=1 >> controller.properties
-   #echo controllerthree=1 >> controller.properties
-   #echo controllerfour=1 >> controller.properties
-   pwd
-fi
+
+sleep 6
+}
+
+show_starting
+
 
 
 . ~/pullstack/autostack/linecounterfiles/compute.properties

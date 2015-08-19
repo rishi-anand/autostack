@@ -1,0 +1,52 @@
+#!/bin/bash
+
+
+clear
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+	echo -e '\t''\t''\t''\t''\t''\t'-##------------------------------------------------------##
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t''\t'AutoStack'\t''\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t''\t''\t''\t''\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t''\t''\t''\t''\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t'OpenStack MultiNode Installer'\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-# '\t''\t''\t''\t''\t''\t''\t' -#
+	echo -e '\t''\t''\t''\t''\t''\t'-##------------------------------------------------------##
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo
+echo -e '\t''\t''\t' This script will create Environment ready \for OpenStack Installation. This Node will be Controller Node.
+echo
+echo
+echo
+echo
+
+
+
+
+
